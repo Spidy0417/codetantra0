@@ -1,0 +1,2394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Ongoing UI</title>
+    <style>
+        :root {
+            --page-bg: #e7edf5;
+            --header-bg: #eef3f7;
+            --header-line: #d9e0ea;
+            --panel-bg: #f2f5f9;
+            --panel-border: #d2dbe8;
+            --panel-shell: #e9eff7;
+            --problem-header: #31465b;
+            --problem-header-dark: #2d4053;
+            --text: #151b23;
+            --text-soft: #27313d;
+            --text-muted: #5b6877;
+            --editor-top: #e1e8f1;
+            --editor-gutter: #e8edf4;
+            --splitter: 6px;
+            --left-pane: 46.8%;
+            --accent-blue: #24558c;
+            --green: #12a86a;
+            --green-dark: #0d955e;
+            --finish: #b23a2f;
+            --button-border: #8f9cad;
+            --footer-height: 54px;
+            --topbar-height: 88px;
+            --radius: 8px;
+            --ui-scale: 1;
+            --layout-min-width: 1280px;
+            --ui-font: Arial, Helvetica, sans-serif;
+            --code-font: Monaco, Menlo, "Ubuntu Mono", Consolas, "source-code-pro", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            background: #e7edf5;
+            color: var(--text);
+            font-family: var(--ui-font);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        ::-webkit-scrollbar {
+            width: 9px;
+            height: 9px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #eef3f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #9fa8b5;
+            border-radius: 999px;
+        }
+
+        .app {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--page-bg);
+        }
+
+        .ui-canvas {
+            width: max(var(--layout-min-width), calc(100% / var(--ui-scale)));
+            height: calc(100% / var(--ui-scale));
+            display: flex;
+            flex-direction: column;
+            background: var(--page-bg);
+            transform: scale(var(--ui-scale));
+            transform-origin: top left;
+            transition: transform 120ms ease-out, width 120ms ease-out, height 120ms ease-out;
+        }
+
+        .topbar {
+            height: var(--topbar-height);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 8px 12px 8px 22px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--header-line);
+            box-shadow: 0 1px 2px rgba(35, 50, 75, 0.04);
+        }
+
+        .header-left {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .college-logo {
+            width: 224px;
+            height: 49px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+            opacity: 0.94;
+        }
+
+        .exam-meta {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .exam-title {
+            color: #121820;
+            font-size: 16px;
+            line-height: 1.2;
+            font-weight: 650;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .exam-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            color: #151b22;
+            font-size: 13px;
+            line-height: 1.25;
+        }
+
+        .exam-link {
+            color: #151b22;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            font-weight: 500;
+        }
+
+        .exam-arrow {
+            color: #202833;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .student {
+            width: max-content;
+            min-width: 0;
+            text-align: left;
+            color: #151b22;
+        }
+
+        .student-name {
+            font-size: 16px;
+            font-weight: 650;
+            white-space: nowrap;
+        }
+
+        .student-id {
+            margin-top: 7px;
+            font-size: 13px;
+            font-weight: 400;
+            text-align: left;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: #6f922d;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .divider {
+            width: 1px;
+            height: 38px;
+            background: #c8d0dc;
+        }
+
+        .header-icon {
+            width: 30px;
+            height: 30px;
+            border: 0;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #253241;
+            cursor: pointer;
+        }
+
+        .header-icon svg,
+        .button-icon,
+        .tab-icon,
+        .expand-btn svg {
+            width: 18px;
+            height: 18px;
+            display: block;
+        }
+
+        .round-i {
+            width: 23px;
+            height: 23px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .program-search-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .program-search-popover {
+            position: absolute;
+            top: 36px;
+            right: -42px;
+            width: 330px;
+            padding: 12px;
+            border: 1px solid #d4dce7;
+            border-radius: 7px;
+            background: #f8fafc;
+            box-shadow: 0 8px 20px rgba(27, 42, 64, 0.16);
+            display: none;
+            z-index: 30;
+        }
+
+        .program-search-wrap.open .program-search-popover {
+            display: block;
+        }
+
+        .program-search-input {
+            width: 100%;
+            height: 34px;
+            border: 1px solid #b8c4d2;
+            border-radius: 5px;
+            padding: 0 10px;
+            background: #ffffff;
+            color: #172033;
+            font-size: 14px;
+            font-weight: 500;
+            outline: none;
+        }
+
+        .program-search-input:focus {
+            border-color: #4f9feb;
+            box-shadow: 0 0 0 2px rgba(79, 159, 235, 0.16);
+        }
+
+        .program-search-help {
+            margin-top: 8px;
+            color: #627084;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .program-results {
+            margin-top: 9px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 220px;
+            overflow: auto;
+        }
+
+        .program-result {
+            min-height: 38px;
+            border: 1px solid #dce4ee;
+            border-radius: 5px;
+            padding: 7px 9px;
+            background: #ffffff;
+            color: #14243a;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .program-result-image {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .program-result-text {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .program-result:hover,
+        .program-result:focus-visible {
+            border-color: #4f9feb;
+            outline: none;
+        }
+
+        .program-result-title {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .program-result-slug {
+            margin-top: 2px;
+            color: #66758a;
+            font-size: 11px;
+            line-height: 1.2;
+        }
+
+        .settings-wrap {
+            position: relative;
+        }
+
+        .settings-menu {
+            position: absolute;
+            top: 38px;
+            right: 0;
+            width: 320px;
+            padding: 14px 16px 16px;
+            border: 1px solid #d7dde6;
+            border-radius: 7px;
+            background: #f5f7fb;
+            box-shadow: 0 8px 18px rgba(28, 42, 65, 0.12);
+            display: none;
+            z-index: 20;
+        }
+
+        .settings-wrap.open .settings-menu {
+            display: block;
+        }
+
+        .settings-title {
+            display: flex;
+            justify-content: flex-end;
+            margin: 0 9px 6px 0;
+        }
+
+        .reset-zoom {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: #001a3b;
+            cursor: pointer;
+            font: inherit;
+            font-size: 16px;
+            font-weight: 650;
+            line-height: 1;
+            text-decoration: underline;
+        }
+
+        .zoom-row {
+            display: block;
+        }
+
+        .zoom-control {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .zoom-slider {
+            width: 100%;
+            height: 18px;
+            margin: 0;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .zoom-slider::-webkit-slider-runnable-track {
+            height: 18px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #355778 var(--zoom-progress, 33.333%), #e1e5ea var(--zoom-progress, 33.333%));
+        }
+
+        .zoom-slider::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            margin-top: -1px;
+            appearance: none;
+            border: 4px solid #f8fafc;
+            border-radius: 50%;
+            background: #536c88;
+            box-shadow: 0 0 0 1px rgba(38, 62, 88, 0.45);
+        }
+
+        .zoom-slider::-moz-range-track {
+            height: 18px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #355778 var(--zoom-progress, 33.333%), #e1e5ea var(--zoom-progress, 33.333%));
+        }
+
+        .zoom-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border: 4px solid #f8fafc;
+            border-radius: 50%;
+            background: #536c88;
+            box-shadow: 0 0 0 1px rgba(38, 62, 88, 0.45);
+        }
+
+        .zoom-ticks {
+            display: flex;
+            justify-content: space-between;
+            color: #001a3b;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1;
+            padding: 0 1px;
+        }
+
+        .workspace {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: minmax(0, var(--left-pane)) var(--splitter) minmax(0, 1fr);
+            padding: 8px 18px 0;
+        }
+
+        body.is-resizing,
+        body.is-resizing * {
+            cursor: col-resize !important;
+            user-select: none;
+        }
+
+        .panel {
+            min-height: 0;
+            overflow: hidden;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 2px rgba(30, 45, 70, 0.04);
+        }
+
+        .problem-panel {
+            display: flex;
+            flex-direction: column;
+            border-right: 0;
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+
+        .problem-header {
+            height: 50px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px 0 16px;
+            color: #ffffff;
+            background: var(--problem-header);
+            border-radius: 7px 7px 0 0;
+        }
+
+        .problem-title {
+            font-size: 15px;
+            font-weight: 620;
+        }
+
+        .minimize {
+            color: #ffffff;
+            font-size: 26px;
+            line-height: 1;
+            font-weight: 400;
+        }
+
+        .problem-body {
+            flex: 1;
+            min-height: 0;
+            overflow: auto;
+            padding: 19px 17px 28px;
+            color: var(--text-soft);
+            font-size: 17px;
+            line-height: 1.48;
+            background: #f2f5f9;
+        }
+
+        .problem-body p {
+            margin-bottom: 25px;
+        }
+
+        .problem-body strong {
+            color: #111820;
+            font-weight: 620;
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin: -20px 0 25px 43px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            margin: 2px 0;
+            padding-left: 14px;
+        }
+
+        .bullet-list li::before {
+            content: "\2022";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #111820;
+            font-size: 16px;
+        }
+
+        .note-list {
+            margin-top: -21px;
+            margin-bottom: 22px;
+        }
+
+        .sample-card {
+            height: 78px;
+            border: 1px solid #cfd7e3;
+            border-radius: 7px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 29px 0 24px;
+            color: #1c232d;
+            font-size: 17px;
+            font-weight: 400;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .format-card {
+            height: auto;
+            min-height: 0;
+            display: block;
+            align-items: normal;
+            justify-content: normal;
+            margin: -16px 0 25px;
+            padding: 13px 18px;
+            font-family: var(--code-font);
+            font-size: 15px;
+            line-height: 1.45;
+            white-space: pre-wrap;
+        }
+
+        .format-card span {
+            display: block;
+        }
+
+        .sample-card button {
+            width: 28px;
+            height: 28px;
+            border: 0;
+            background: transparent;
+            color: #18212c;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .splitter {
+            position: relative;
+            cursor: col-resize;
+            touch-action: none;
+            background: #e4ebf3;
+            border-top: 1px solid var(--panel-border);
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        .splitter::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            transform: translateX(-50%);
+            background: #cfd8e6;
+        }
+
+        .splitter::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -5px;
+            right: -5px;
+        }
+
+        .splitter:hover::before,
+        .splitter:active::before {
+            background: #cbd5e4;
+        }
+
+        .editor-panel {
+            display: flex;
+            flex-direction: column;
+            background: #f2f5f9;
+            border-left: 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .editor-top {
+            height: 47px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 9px;
+            background: var(--editor-top);
+            border-bottom: 1px solid #d6deea;
+        }
+
+        .editor-tab {
+            height: 47px;
+            min-width: 150px;
+            margin-left: 26px;
+            padding: 0 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #edf2f7;
+            border: 1px solid #d2dbe8;
+            border-bottom: 2px solid #235993;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            color: #1e2936;
+            font-size: 14px;
+            font-weight: 620;
+        }
+
+        .download-icon {
+            color: #587192;
+        }
+
+        .editor-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn {
+            height: 30px;
+            border: 0;
+            border-radius: 9px;
+            padding: 0 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green);
+            color: #062e20;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: none;
+        }
+
+        .submit-btn:hover {
+            background: var(--green-dark);
+        }
+
+        .submit-btn.is-submitting,
+        .submit-btn:disabled {
+            background: #c9d1df;
+            color: #8794a6;
+            cursor: default;
+            opacity: 0.78;
+        }
+
+        .expand-btn {
+            width: 28px;
+            height: 28px;
+            border: 0;
+            border-radius: 4px;
+            background: #f2f5f9;
+            color: #1c2939;
+            cursor: pointer;
+            box-shadow: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .editor-main {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: 35px 1fr;
+        }
+
+        .explorer-strip {
+            background: #f3f6fb;
+            border-right: 1px solid #d8e0eb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 8px;
+            gap: 8px;
+        }
+
+        .explorer-label {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            color: #15243a;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .explorer-file-icon,
+        .testcase-icon {
+            color: #244163;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .explorer-file-icon {
+            width: 18px;
+            height: 18px;
+            margin-top: 1px;
+        }
+
+        .editor-code {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            min-width: 0;
+        }
+
+        .code-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow: auto;
+            background: linear-gradient(90deg, var(--editor-gutter) 0 78px, #f5f7fa 78px 100%);
+            color: #161c24;
+            font-family: var(--code-font);
+            font-size: 16px;
+            line-height: 1.48;
+        }
+
+        .code-line {
+            display: grid;
+            grid-template-columns: 78px 1fr;
+            min-width: 710px;
+        }
+
+        .line-no {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 14px 0 4px;
+            border-right: 1px solid #d8e0eb;
+            color: #151b24;
+            user-select: none;
+        }
+
+        .fold {
+            position: absolute;
+            left: 7px;
+            color: #223958;
+            font-size: 12px;
+        }
+
+        .line-code {
+            padding-left: 8px;
+            white-space: pre;
+        }
+
+        .kw { color: #7e158e; }
+        .id { color: #001f98; }
+        .str { color: #9f180d; }
+        .comment { color: #4a4a4a; }
+        .num { color: #164a8b; }
+
+        .submission-stage {
+            height: 0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-top: 0 solid #d6deea;
+            background: #ffffff;
+            opacity: 0;
+            transition: height 180ms ease, opacity 160ms ease, border-top-width 180ms ease, padding 180ms ease;
+        }
+
+        .submission-stage.is-visible {
+            height: 112px;
+            border-top-width: 1px;
+            opacity: 1;
+        }
+
+        .submission-stage.has-result {
+            justify-content: center;
+            padding: 12px 24px;
+        }
+
+        .submission-loader {
+            width: 54px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .submission-loader span {
+            width: 9px;
+            height: 26px;
+            display: block;
+            border-radius: 1px;
+            background: #b8c1cb;
+            transform-origin: center bottom;
+            animation: loading-bars 680ms ease-in-out infinite;
+        }
+
+        .submission-loader span:first-child {
+            height: 36px;
+            background: #34445d;
+            animation-delay: -220ms;
+        }
+
+        .submission-loader span:nth-child(2) {
+            height: 24px;
+            animation-delay: -110ms;
+        }
+
+        .submission-loader span:nth-child(3) {
+            height: 28px;
+            animation-delay: 0ms;
+        }
+
+        @keyframes loading-bars {
+            0%,
+            100% {
+                transform: scaleY(0.58);
+                opacity: 0.62;
+            }
+
+            45% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        .submission-loader.is-hidden {
+            display: none;
+        }
+
+        .result-popup {
+            position: relative;
+            display: none;
+            align-items: center;
+            gap: 11px;
+            width: min(760px, calc(100% - 48px));
+            padding: 0;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(12px) scale(0.985);
+            transition: opacity 180ms ease, transform 210ms cubic-bezier(0.2, 0.85, 0.25, 1.2);
+        }
+
+        .result-popup.is-visible {
+            display: flex;
+            pointer-events: auto;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .runtime-card,
+        .passed-card {
+            border: 1px solid #d8e0eb;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(35, 50, 72, 0.12);
+        }
+
+        .runtime-card {
+            flex: 0 0 36%;
+            width: auto;
+            min-width: 0;
+            height: 82px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .runtime-cell {
+            position: relative;
+            padding: 9px 16px 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 3px;
+            color: #13253c;
+            font-size: 13px;
+            line-height: 1.15;
+        }
+
+        .runtime-cell + .runtime-cell {
+            border-left: 1px solid #e2e8f0;
+        }
+
+        .runtime-label {
+            color: #7a8493;
+        }
+
+        .runtime-value {
+            color: #173767;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .runtime-icon {
+            position: absolute;
+            right: 14px;
+            bottom: 21px;
+            width: 22px;
+            height: 22px;
+            color: #134d90;
+        }
+
+        .passed-card {
+            flex: 1 1 auto;
+            min-width: 0;
+            height: 82px;
+            padding: 7px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .passed-row {
+            height: 31px;
+            display: grid;
+            grid-template-columns: 20px 1fr;
+            align-items: center;
+            column-gap: 4px;
+            padding: 0 5px;
+            border-bottom: 4px solid #1ec58d;
+            color: #1d2938;
+            font-size: 15px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .passed-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #18bf82;
+            color: #ffffff;
+            font-size: 12px;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .result-close {
+            position: absolute;
+            top: -7px;
+            right: -8px;
+            width: 15px;
+            height: 15px;
+            border: 0;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #41536a;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .editor-bottom {
+            height: 27px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 49px;
+            background: var(--editor-top);
+            border-top: 1px solid #d6deea;
+            color: #172231;
+            font-size: 14px;
+        }
+
+        .testcase-icon {
+            width: 19px;
+            height: 19px;
+        }
+
+        .footer {
+            height: var(--footer-height);
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+            background: #f2f5f9;
+        }
+
+        .footer-left,
+        .footer-center {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .footer-center {
+            position: absolute;
+            left: 50.8%;
+            transform: translateX(-50%);
+        }
+
+        .footer-btn {
+            height: 38px;
+            border-radius: 999px;
+            padding: 0 19px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid var(--button-border);
+            background: #f4f6fa;
+            color: #18375b;
+            font-size: 14px;
+            font-weight: 620;
+            cursor: pointer;
+            box-shadow: none;
+        }
+
+        .footer-btn .button-icon {
+            width: 17px;
+            height: 17px;
+        }
+
+        .finish {
+            border-color: #963126;
+            background: var(--finish);
+            color: #ffffff;
+            box-shadow: none;
+        }
+
+        .chev {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+            color: #111827;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .login-screen.is-hidden {
+            display: none;
+        }
+
+        .login-panel {
+            width: 480px;
+            max-width: calc(100vw - 40px);
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-logo {
+            width: 421px;
+            max-width: 100%;
+            height: 92px;
+            object-fit: contain;
+            margin-bottom: 40px;
+        }
+
+        .login-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .login-input {
+            width: 100%;
+            height: 41px;
+            border: 1px solid #b9c2cc;
+            border-radius: 6px;
+            padding: 0 9px;
+            color: #1f2937;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .login-input::placeholder {
+            color: #9ba5af;
+            text-transform: uppercase;
+        }
+
+        .login-input:focus {
+            border-color: #8bb9ef;
+            box-shadow: 0 0 0 2px rgba(82, 160, 245, 0.16);
+        }
+
+        .login-submit {
+            width: 100%;
+            height: 38px;
+            border: 0;
+            border-radius: 4px;
+            background: #55a4f6;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .login-link {
+            margin-top: 24px;
+            color: #006dff;
+            font-size: 17px;
+            line-height: 1.35;
+            text-decoration: none;
+        }
+
+        .login-footer {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 26px;
+            color: #006dff;
+            font-size: 15px;
+        }
+
+        .course-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+            color: #172033;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .course-screen.is-hidden {
+            display: none;
+        }
+
+        .course-panel {
+            width: 760px;
+            max-width: calc(100vw - 48px);
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .course-logo {
+            width: 421px;
+            max-width: 100%;
+            height: 92px;
+            object-fit: contain;
+            margin-bottom: 56px;
+        }
+
+        .course-title {
+            margin-bottom: 24px;
+            color: #24354a;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .course-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 26px;
+        }
+
+        .course-card {
+            height: 214px;
+            border: 1px solid #ccd6e2;
+            border-radius: 8px;
+            background: #f8fbff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 17px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(31, 45, 65, 0.08);
+            transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+        }
+
+        .course-card:hover,
+        .course-card:focus-visible {
+            transform: translateY(-2px);
+            border-color: #55a4f6;
+            box-shadow: 0 8px 20px rgba(52, 112, 180, 0.16);
+            outline: none;
+        }
+
+        .course-image {
+            width: 98px;
+            height: 98px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .course-name {
+            color: #12243c;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .course-message {
+            min-height: 22px;
+            margin-top: 18px;
+            color: #006dff;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-card {
+                height: 178px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <section class="login-screen" id="loginScreen" aria-label="Login">
+        <div class="login-panel">
+            <img class="login-logo" src="./logo.jpeg" alt="R.M.K. Engineering College">
+            <form class="login-form" id="loginForm">
+                <input class="login-input" id="loginName" type="text" autocomplete="name" placeholder="EMAIL/USER ID" required>
+                <input class="login-input" id="loginRoll" type="password" autocomplete="current-password" placeholder="PASSWORD" required>
+                <button class="login-submit" type="submit">Login</button>
+            </form>
+            <a class="login-link" href="#" aria-label="Forgot your password">Forgot your password?</a>
+            <a class="login-link" href="#" aria-label="Not your institution">Not your institution?</a>
+        </div>
+        <div class="login-footer">
+            <span>&copy;2026 Copyright CodeTantra.com</span>
+            <span>Terms &amp; Privacy</span>
+        </div>
+    </section>
+    <section class="course-screen is-hidden" id="courseScreen" aria-label="Choose course" aria-hidden="true">
+        <div class="course-panel">
+            <img class="course-logo" src="./logo.jpeg" alt="R.M.K. Engineering College">
+            <div class="course-title">Choose Program</div>
+            <div class="course-grid">
+                <button class="course-card" type="button" data-course="dsa" data-status="coming-soon">
+                    <img class="course-image" src="./c++.png" alt="DSA">
+                    <span class="course-name">DSA</span>
+                </button>
+                <button class="course-card" type="button" data-course="java" data-program-slug="generate-electricity-bill">
+                    <img class="course-image" src="./java.jpg" alt="Java">
+                    <span class="course-name">Java</span>
+                </button>
+            </div>
+            <div class="course-message" id="courseMessage" aria-live="polite"></div>
+        </div>
+        <div class="login-footer">
+            <span>&copy;2026 Copyright CodeTantra.com</span>
+            <span>Terms &amp; Privacy</span>
+        </div>
+    </section>
+    <div class="app">
+        <div class="ui-canvas">
+        <header class="topbar">
+            <div class="header-left">
+                <img class="college-logo" src="./logo.jpeg" alt="R.M.K. Engineering College">
+                <div class="exam-meta">
+                    <div class="exam-title" id="examTitle">Java Programming - 24CS202 - SEMESTER_MAY 2026 (#<span id="examCode"></span>)</div>
+                    <div class="exam-row">
+                        <span class="exam-link">Section - 3</span>
+                        <span class="exam-link">( Section 3 of 3 )</span>
+                        <span class="exam-arrow">&rsaquo;</span>
+                        <span class="exam-link">Question 3 of 4</span>
+                        <span>(10 marks)</span>
+                        <span>Answer any 2 out of 4</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="student">
+                    <div class="student-name">MOHAMMED IRFAN S</div>
+                    <div class="student-id">111725104123</div>
+                </div>
+                <div class="avatar">MI</div>
+                <div class="divider"></div>
+                <div class="program-search-wrap" id="programSearchWrap">
+                    <button class="header-icon round-i" id="programSearchToggle" type="button" aria-label="Program search" aria-expanded="false">i</button>
+                    <div class="program-search-popover" id="programSearchPopover">
+                        <input class="program-search-input" id="programSearchInput" type="search" placeholder="Search program name" autocomplete="off">
+                        <div class="program-search-help">Triple-click i to open. Type at least 3 characters.</div>
+                        <div class="program-results" id="programResults"></div>
+                    </div>
+                </div>
+                <div class="settings-wrap" id="settingsWrap">
+                    <button class="header-icon" id="settingsToggle" type="button" aria-label="Settings" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.3a2 2 0 1 1-4 0V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.2.6.9 1 1.6 1h.3a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1Z"></path>
+                        </svg>
+                    </button>
+                    <div class="settings-menu" id="settingsMenu">
+                        <div class="settings-title">
+                            <button class="reset-zoom" id="resetZoom" type="button">Reset</button>
+                        </div>
+                        <div class="zoom-row">
+                            <div class="zoom-control">
+                                <input class="zoom-slider" id="zoomSlider" type="range" min="50" max="200" step="1" value="100" aria-label="Window size">
+                                <div class="zoom-ticks" aria-hidden="true">
+                                    <span>50</span>
+                                    <span>100</span>
+                                    <span>150</span>
+                                    <span>200</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <section class="panel problem-panel">
+                <header class="problem-header">
+                    <div class="problem-title">Generate Electricity Bill</div>
+                    <div class="minimize">&minus;</div>
+                </header>
+
+                <div class="problem-body">
+                    <p>Create a Java program with a class named <strong>ElectricityBill</strong> that takes user input for the following details: <em>consumer number</em>, <em>consumer name</em>, <em>previous month reading</em>, <em>current month reading</em>, and <em>EBconnectiontype</em> (either "domestic" or "commercial"). Implement a method called calculateBillAmount() to compute the bill based on units consumed using a slab-based tariff system.</p>
+
+                    <p>For domestic connections:</p>
+                    <ul class="bullet-list">
+                        <li>First 100 units: Rs. 1 per unit.</li>
+                        <li>101-200 units: Rs. 2.50 per unit.</li>
+                        <li>201-500 units: Rs. 4 per unit.</li>
+                        <li>Above 500 units: Rs. 6 per unit.</li>
+                    </ul>
+
+                    <p>For commercial connections:</p>
+                    <ul class="bullet-list">
+                        <li>First 100 units: Rs. 2 per unit.</li>
+                        <li>101-200 units: Rs. 4.50 per unit.</li>
+                        <li>201-500 units: Rs. 6 per unit.</li>
+                        <li>Above 500 units: Rs. 7 per unit.</li>
+                    </ul>
+
+                    <p><strong>Input Format:</strong></p>
+                    <ul class="bullet-list">
+                        <li>The program should accept the following inputs in order:</li>
+                    </ul>
+
+                    <div class="sample-card format-card">
+                        <span>Consumer Number (integer)<br>Consumer Name (String)<br>Previous Month Reading (integer)<br>Current Month Reading (integer)<br>EB Connection Type (String - "domestic" or "commercial")</span>
+                    </div>
+
+                    <p><strong>Output Format:</strong></p>
+                    <ul class="bullet-list">
+                        <li>The program should display the bill information in the following format:</li>
+                    </ul>
+
+                    <div class="sample-card format-card">
+                        <span>Electricity Bill Details:<br>Consumer Number: [consumerNo]<br>Consumer Name: [consumerName]<br>Previous Month Reading: [previousMonthReading]<br>Current Month Reading: [currentMonthReading]<br>EB Connection Type: [ebConnectionType]<br>Bill Amount: Rs. [calculatedBillAmount]</span>
+                    </div>
+
+                    <p><strong>Note:</strong></p>
+                    <ul class="bullet-list note-list">
+                        <li>Ensure the program validates that the current reading is not less than the previous reading.</li>
+                        <li>The connection type should be case-insensitive (accept "Domestic", "DOMESTIC", etc.)</li>
+                        <li>Display the bill amount with 2 decimal places for better readability.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Resize panels"></div>
+
+            <section class="panel editor-panel">
+                <header class="editor-top">
+                    <div class="editor-tab">
+                        <span class="download-icon">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 3v12"></path>
+                                <path d="m7 10 5 5 5-5"></path>
+                                <path d="M5 21h14"></path>
+                            </svg>
+                        </span>
+                        <span>Electricit...</span>
+                    </div>
+                    <div class="editor-actions">
+                        <button class="submit-btn" type="button">
+                            <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="8"></circle>
+                                <path d="m10 8 6 4-6 4V8Z" fill="currentColor" stroke="none"></path>
+                            </svg>
+                            Submit
+                        </button>
+                        <button class="expand-btn" type="button" aria-label="Fullscreen">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M8 3H3v5"></path>
+                                <path d="M16 3h5v5"></path>
+                                <path d="M21 16v5h-5"></path>
+                                <path d="M3 16v5h5"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </header>
+
+                <div class="editor-main">
+                    <aside class="explorer-strip">
+                        <div class="explorer-label">Explorer</div>
+                        <svg class="explorer-file-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H13l2.2 2.4H18A2.5 2.5 0 0 1 20.5 8v9.5A2.5 2.5 0 0 1 18 20H6.5A2.5 2.5 0 0 1 4 17.5v-12Zm2.5-.5a.5.5 0 0 0-.5.5v12a.5.5 0 0 0 .5.5H18a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5h-3.7L12.1 5H6.5Z"></path>
+                            <path d="M3 9h18v2H3z"></path>
+                        </svg>
+                    </aside>
+
+                    <div class="editor-code">
+                        <div class="code-scroll">
+                            <div class="code-line"><div class="line-no">1</div><div class="line-code">import java.util.Scanner;</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>2</div><div class="line-code">public class ElectricityBill {</div></div>
+                            <div class="code-line"><div class="line-no">3</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">4</div><div class="line-code">    private int consumerNo;</div></div>
+                            <div class="code-line"><div class="line-no">5</div><div class="line-code">    private String consumerName;</div></div>
+                            <div class="code-line"><div class="line-no">6</div><div class="line-code">    private int previousMonthReading;</div></div>
+                            <div class="code-line"><div class="line-no">7</div><div class="line-code">    private int currentMonthReading;</div></div>
+                            <div class="code-line"><div class="line-no">8</div><div class="line-code">    private String ebConnectionType;</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>9</div><div class="line-code">    public ElectricityBill(int consumerNo, String consumerName, int previousMonthReading, int currentMonthReading, String ebConnectionType) {</div></div>
+                            <div class="code-line"><div class="line-no">10</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">11</div><div class="line-code">        this.consumerNo = consumerNo;</div></div>
+                            <div class="code-line"><div class="line-no">12</div><div class="line-code">        this.consumerName = consumerName;</div></div>
+                            <div class="code-line"><div class="line-no">13</div><div class="line-code">        this.previousMonthReading = previousMonthReading;</div></div>
+                            <div class="code-line"><div class="line-no">14</div><div class="line-code">        this.currentMonthReading = currentMonthReading;</div></div>
+                            <div class="code-line"><div class="line-no">15</div><div class="line-code">        this.ebConnectionType = ebConnectionType;</div></div>
+                            <div class="code-line"><div class="line-no">16</div><div class="line-code">    }</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>17</div><div class="line-code">    public double calculateBillAmount() {</div></div>
+                            <div class="code-line"><div class="line-no">18</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">19</div><div class="line-code">        int unitsConsumed = currentMonthReading - previousMonthReading;</div></div>
+                            <div class="code-line"><div class="line-no">20</div><div class="line-code">        double billAmount = 0.0;</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>21</div><div class="line-code">        if (ebConnectionType.equalsIgnoreCase("Domestic")) {</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>22</div><div class="line-code">            if (unitsConsumed &lt;= 100) {</div></div>
+                            <div class="code-line"><div class="line-no">23</div><div class="line-code">                billAmount = unitsConsumed * 1.0;</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>24</div><div class="line-code">            } else if (unitsConsumed &lt;= 200) {</div></div>
+                            <div class="code-line"><div class="line-no">25</div><div class="line-code">                billAmount = (100 * 1.0) + ((unitsConsumed - 100) * 2.5);</div></div>
+                            <div class="code-line"><div class="line-no">26</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>27</div><div class="line-code">            } else if (unitsConsumed &lt;= 500) {</div></div>
+                            <div class="code-line"><div class="line-no">28</div><div class="line-code">                billAmount = (100 * 1.0) + (100 * 2.5) + ((unitsConsumed - 200) * 4.0);</div></div>
+                            <div class="code-line"><div class="line-no">29</div><div class="line-code">            } else {</div></div>
+                            <div class="code-line"><div class="line-no">30</div><div class="line-code">                billAmount = (100 * 1.0) + (100 * 2.5) + (300 * 4.0) + ((unitsConsumed - 500) * 6.0);</div></div>
+                            <div class="code-line"><div class="line-no">31</div><div class="line-code">            }</div></div>
+                            <div class="code-line"><div class="line-no">32</div><div class="line-code">        } else if</div></div>
+                            <div class="code-line"><div class="line-no">33</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>34</div><div class="line-code">(ebConnectionType.equalsIgnoreCase("Commercial")) {</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>35</div><div class="line-code">            if (unitsConsumed &lt;= 100) {</div></div>
+                            <div class="code-line"><div class="line-no">36</div><div class="line-code">                billAmount = unitsConsumed * 2.0;</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>37</div><div class="line-code">            } else if (unitsConsumed &lt;= 200) {</div></div>
+                            <div class="code-line"><div class="line-no">38</div><div class="line-code">                billAmount = (100 * 2.0) + ((unitsConsumed - 100) * 4.5);</div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>39</div><div class="line-code">            } else if (unitsConsumed &lt;= 500) {</div></div>
+                            <div class="code-line"><div class="line-no">40</div><div class="line-code">                billAmount = (100 * 2.0) + (100 * 4.5) + ((unitsConsumed - 200) * 6.0);</div></div>
+                            <div class="code-line"><div class="line-no">41</div><div class="line-code">            } else {</div></div>
+                            <div class="code-line"><div class="line-no">42</div><div class="line-code">                billAmount = (100 * 2.0) + (100 * 4.5) + (300 * 6.0) + ((unitsConsumed - 500) * 7.0);</div></div>
+                            <div class="code-line"><div class="line-no">43</div><div class="line-code">            }</div></div>
+                            <div class="code-line"><div class="line-no">44</div><div class="line-code">        }</div></div>
+                            <div class="code-line"><div class="line-no">45</div><div class="line-code">        return billAmount;</div></div>
+                            <div class="code-line"><div class="line-no">46</div><div class="line-code">    }</div></div>
+                            <div class="code-line"><div class="line-no">47</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">48</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">49</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no"><span class="fold">v</span>50</div><div class="line-code">    public static void main(String[] args) {</div></div>
+                            <div class="code-line"><div class="line-no">51</div><div class="line-code">        Scanner input = new Scanner(System.in);</div></div>
+                            <div class="code-line"><div class="line-no">52</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">53</div><div class="line-code">        System.out.print("Consumer Number: ");</div></div>
+                            <div class="code-line"><div class="line-no">54</div><div class="line-code">        int consumerNo = input.nextInt();</div></div>
+                            <div class="code-line"><div class="line-no">55</div><div class="line-code">        input.nextLine();</div></div>
+                            <div class="code-line"><div class="line-no">56</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">57</div><div class="line-code">        System.out.print("Consumer Name: ");</div></div>
+                            <div class="code-line"><div class="line-no">58</div><div class="line-code">        String consumerName = input.nextLine();</div></div>
+                            <div class="code-line"><div class="line-no">59</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">60</div><div class="line-code">        System.out.print("Previous Month Reading: ");</div></div>
+                            <div class="code-line"><div class="line-no">61</div><div class="line-code">        int previousMonthReading = input.nextInt();</div></div>
+                            <div class="code-line"><div class="line-no">62</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">63</div><div class="line-code">        System.out.print("Current Month Reading: ");</div></div>
+                            <div class="code-line"><div class="line-no">64</div><div class="line-code">        int currentMonthReading = input.nextInt();</div></div>
+                            <div class="code-line"><div class="line-no">65</div><div class="line-code">        input.nextLine();</div></div>
+                            <div class="code-line"><div class="line-no">66</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">67</div><div class="line-code">        System.out.print("Domestic/Commercial: ");</div></div>
+                            <div class="code-line"><div class="line-no">68</div><div class="line-code">        String ebConnectionType = input.nextLine();</div></div>
+                            <div class="code-line"><div class="line-no">69</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">70</div><div class="line-code">        // Creating ElectricityBill object with user-input data</div></div>
+                            <div class="code-line"><div class="line-no">71</div><div class="line-code">        ElectricityBill bill = new ElectricityBill(consumerNo, consumerName, previousMonthReading,</div></div>
+                            <div class="code-line"><div class="line-no">72</div><div class="line-code">currentMonthReading, ebConnectionType);</div></div>
+                            <div class="code-line"><div class="line-no">73</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">74</div><div class="line-code">        // Calculating and displaying the bill amount</div></div>
+                            <div class="code-line"><div class="line-no">75</div><div class="line-code">        double billAmount = bill.calculateBillAmount();</div></div>
+                            <div class="code-line"><div class="line-no">76</div><div class="line-code">        System.out.println("Electricity Bill Details:");</div></div>
+                            <div class="code-line"><div class="line-no">77</div><div class="line-code">        System.out.println("Consumer Number: " + consumerNo);</div></div>
+                            <div class="code-line"><div class="line-no">78</div><div class="line-code">        System.out.println("Consumer Name: " + consumerName);</div></div>
+                            <div class="code-line"><div class="line-no">79</div><div class="line-code">        System.out.println("Previous Month Reading: " + previousMonthReading);</div></div>
+                            <div class="code-line"><div class="line-no">80</div><div class="line-code">        System.out.println("Current Month Reading: " + currentMonthReading);</div></div>
+                            <div class="code-line"><div class="line-no">81</div><div class="line-code">        System.out.println("EB Connection Type: " + ebConnectionType);</div></div>
+                            <div class="code-line"><div class="line-no">82</div><div class="line-code">        System.out.println("Bill Amount: Rs. " + billAmount);</div></div>
+                            <div class="code-line"><div class="line-no">83</div><div class="line-code"></div></div>
+                            <div class="code-line"><div class="line-no">84</div><div class="line-code">        input.close();</div></div>
+                            <div class="code-line"><div class="line-no">85</div><div class="line-code">    }</div></div>
+                            <div class="code-line"><div class="line-no">86</div><div class="line-code">}</div></div>
+                        </div>
+
+                        <div class="submission-stage" id="submissionStage" aria-hidden="true">
+                            <div class="submission-loader" id="submissionLoader" aria-label="Submitting">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div class="result-popup" id="resultPopup" aria-live="polite" aria-hidden="true">
+                                <div class="runtime-card">
+                                    <div class="runtime-cell">
+                                        <span class="runtime-label">Average time</span>
+                                        <span class="runtime-value">0.134 s</span>
+                                        <span>134.30 ms</span>
+                                        <svg class="runtime-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M5 19V5"></path>
+                                            <path d="M8 19V9"></path>
+                                            <path d="M11 19v-6"></path>
+                                            <path d="M15 18c2.5 0 4-1.4 4-3.2 0-2.1-2.1-3.2-4.6-3.2"></path>
+                                            <path d="M18.5 11.7 20 9.5"></path>
+                                            <path d="M18.8 11.8 16.5 10"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="runtime-cell">
+                                        <span class="runtime-label">Maximum time</span>
+                                        <span class="runtime-value">0.142 s</span>
+                                        <span>142.00 ms</span>
+                                        <svg class="runtime-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M5 20h14"></path>
+                                            <path d="M7 20 11 6"></path>
+                                            <path d="M17 20 13 6"></path>
+                                            <path d="M10 9h4"></path>
+                                            <path d="M8 16h8"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="passed-card">
+                                    <div class="passed-row"><span class="passed-dot">&#10003;</span><span>2 out of 2 shown test case(s) passed</span></div>
+                                    <div class="passed-row"><span class="passed-dot">&#10003;</span><span>2 out of 2 hidden test case(s) passed</span></div>
+                                </div>
+                                <button class="result-close" id="resultClose" type="button" aria-label="Close results">&times;</button>
+                            </div>
+                        </div>
+
+                        <div class="editor-bottom">
+                            <svg class="testcase-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                <path d="M3 10h18"></path>
+                                <path d="M9 5v14"></path>
+                            </svg>
+                            <span>Test cases</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <button class="footer-btn finish" type="button">
+                    <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <path d="m16 17 5-5-5-5"></path>
+                        <path d="M21 12H9"></path>
+                    </svg>
+                    Finish
+                </button>
+                <button class="footer-btn" type="button">
+                    <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 6h18"></path>
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M19 6l-1 15H6L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                    </svg>
+                    Clear
+                </button>
+            </div>
+            <div class="footer-center">
+                <button class="footer-btn" id="prevProgramBtn" type="button"><span class="chev">&lsaquo;</span> Prev</button>
+                <button class="footer-btn" id="nextProgramBtn" type="button">Next <span class="chev">&rsaquo;</span></button>
+            </div>
+        </footer>
+
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const workspace = document.querySelector(".workspace");
+        const splitter = document.getElementById("splitter");
+        const settingsWrap = document.getElementById("settingsWrap");
+        const settingsToggle = document.getElementById("settingsToggle");
+        const zoomSlider = document.getElementById("zoomSlider");
+        const resetZoom = document.getElementById("resetZoom");
+        const submitBtn = document.querySelector(".submit-btn");
+        const submissionStage = document.getElementById("submissionStage");
+        const submissionLoader = document.getElementById("submissionLoader");
+        const resultPopup = document.getElementById("resultPopup");
+        const resultClose = document.getElementById("resultClose");
+        const loginScreen = document.getElementById("loginScreen");
+        const courseScreen = document.getElementById("courseScreen");
+        const loginForm = document.getElementById("loginForm");
+        const loginName = document.getElementById("loginName");
+        const loginRoll = document.getElementById("loginRoll");
+        const courseMessage = document.getElementById("courseMessage");
+        const programSearchWrap = document.getElementById("programSearchWrap");
+        const programSearchToggle = document.getElementById("programSearchToggle");
+        const programSearchInput = document.getElementById("programSearchInput");
+        const programResults = document.getElementById("programResults");
+        const prevProgramBtn = document.getElementById("prevProgramBtn");
+        const nextProgramBtn = document.getElementById("nextProgramBtn");
+        const studentName = document.querySelector(".student-name");
+        const studentId = document.querySelector(".student-id");
+        const avatar = document.querySelector(".avatar");
+        const supabaseConfig = window.CODETANTRA_SUPABASE || {};
+        const localPrograms = [
+            {
+                slug: "generate-electricity-bill",
+                title: "Generate Electricity Bill",
+                tab_label: "Electricit...",
+                language: "java",
+                image_path: "./java.jpg",
+                sort_order: 1,
+                problem_html: document.querySelector(".problem-body").innerHTML,
+                code_text: Array.from(document.querySelectorAll(".line-code")).map((line) => line.textContent).join("\n"),
+                average_time_label: "0.134 s",
+                average_time_ms: "134.30 ms",
+                maximum_time_label: "0.142 s",
+                maximum_time_ms: "142.00 ms",
+                shown_result: "2 out of 2 shown test case(s) passed",
+                hidden_result: "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                slug: "finding-kth-smallest-element-in-array",
+                title: "Finding kth Smallest Element in an Array",
+                tab_label: "KthSmall...",
+                language: "java",
+                image_path: "./java.jpg",
+                sort_order: 2,
+                problem_html: `<p>Write a Java program that takes an unsorted array of <em>n</em> integers and an integer <em>k</em> from the user and finds the <em>k<sup>th</sup></em> smallest element in the array. The array can not contain duplicate elements.</p>
+
+                    <p><strong>Input Format:</strong></p>
+                    <ul class="bullet-list">
+                        <li>The first line is an integer <em>n</em>, representing the number of elements in the array.</li>
+                        <li>The second line contains <em>n</em> integers separated by spaces, representing the elements of the array.</li>
+                        <li>The third line is an integer <em>k</em> representing the position (1-based index) of the element you need to find after sorting the array.</li>
+                    </ul>
+
+                    <p><strong>Output Format:</strong></p>
+                    <ul class="bullet-list">
+                        <li>The output is the integer that represents the <em>k<sup>th</sup></em> smallest element of the array.</li>
+                    </ul>
+
+                    <p><strong>Note:</strong></p>
+                    <ul class="bullet-list note-list">
+                        <li>The array elements must be unique.</li>
+                        <li>The value of <em>k</em> should be a valid index within the array bounds (i.e., 1 &le; <em>k</em> &le; array length). If <em>k</em> is out of bounds, print "Invalid input".</li>
+                    </ul>
+
+                    <div class="sample-card">
+                        <span>Sample Test Cases</span>
+                        <button type="button" aria-label="Expand sample test cases">+</button>
+                    </div>`,
+                code_text: `package q42211;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class KthSmallest {
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = scanner.nextInt();
+        }
+        int k = scanner.nextInt();
+        Arrays.sort(array);
+        if (k < 1 || k > n) {
+            System.out.println("Invalid input");
+        } else {
+            System.out.println(array[k - 1]);
+        }
+
+        scanner.close();
+    }
+}`,
+                average_time_label: "0.134 s",
+                average_time_ms: "134.30 ms",
+                maximum_time_label: "0.142 s",
+                maximum_time_ms: "142.00 ms",
+                shown_result: "2 out of 2 shown test case(s) passed",
+                hidden_result: "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                
+    "slug": "matrix-addition",
+    "title": "Matrix Addition",
+    "tab_label": "MatrixAd...",
+    "language": "java",
+    "image_path": "./java.jpg",
+    "sort_order": 3,
+    "problem_html": "<p>Write a Java program to add two matrices of size <em>n</em> &times; <em>n</em>. The program should print the resulting matrix after addition.</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The first line represents an integer <em>n</em>, which is the size of the square matrix.</li>\n    <li>The next <em>n</em> lines contain <em>n</em> space-separated integers, representing the elements of the first matrix.</li>\n    <li>The next <em>n</em> lines contain <em>n</em> space-separated integers, representing the elements of the second matrix.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>Print the resultant matrix after addition, with each row on a new line and elements separated by a space.</li>\n</ul>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+    "code_text": "package q42213;\nimport java.util.Scanner;\n\npublic class MatrixAddition {\n    public static void main(String[] args){\n        Scanner s=new Scanner(System.in);\n        int n=s.nextInt();\n        int a1[][]=new int[n][n];\n        int a2[][]=new int[n][n];\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                a1[i][j]=s.nextInt();\n            }\n        }\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                a2[i][j]=s.nextInt();\n            }\n        }\n        int[][] r=new int[n][n];\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                r[i][j]=a1[i][j]+a2[i][j];\n            }\n        }\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                System.out.print(r[i][j]+\" \");\n            }\n            System.out.println();\n        }\n    }\n}",
+    "average_time_label": "0.134 s",
+    "average_time_ms": "134.30 ms",
+    "maximum_time_label": "0.142 s",
+    "maximum_time_ms": "142.00 ms",
+    "shown_result": "2 out of 2 shown test case(s) passed",
+    "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                
+    "slug": "sub-array-with-given-sum",
+    "title": "Sub Array with Given Sum",
+    "tab_label": "Subarray...",
+    "language": "java",
+    "image_path": "./java.jpg",
+    "sort_order": 4,
+    "problem_html": "<p>Given an array of integers and a target sum, find a contiguous subarray whose elements add up to exactly the target sum. Print the start and end indices (0-based) of the subarray. If no such subarray exists, print \"No subarray\".</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The first line contains an integer <em>n</em> (1 &le; <em>n</em> &le; 10<sup>5</sup>), the size of the array.</li>\n    <li>The second line contains <em>n</em> space-separated integers representing the array elements (-10<sup>4</sup> &le; <em>arr[i]</em> &le; 10<sup>4</sup>).</li>\n    <li>The third line contains an integer <em>targetSum</em> (-10<sup>9</sup> &le; <em>targetSum</em> &le; 10<sup>9</sup>), the desired sum.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>If found, print two space-separated integers representing the start and end indices (inclusive) of the first occurring subarray.</li>\n    <li>If not found, print \"No subarray\" (without quotes).</li>\n</ul>\n\n<p><strong>Sample Input 1:</strong></p>\n<div class=\"sample-card format-card\">\n    <span>6<br>1 4 20 3 10 5<br>33</span>\n</div>\n\n<p><strong>Sample Output 1:</strong></p>\n<div class=\"sample-card format-card\">\n    <span>2 4</span>\n</div>\n\n<p><strong>Explanation:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The subarray [20, 3, 10] sums to 33 (indices 2 to 4).</li>\n</ul>\n\n<p><strong>Sample Input 2:</strong></p>\n<div class=\"sample-card format-card\">\n    <span>4<br>10 20 30 40<br>100</span>\n</div>\n\n<p><strong>Sample Output 2:</strong></p>\n<div class=\"sample-card format-card\">\n    <span>No subarray</span>\n</div>\n\n<p><strong>Explanation:</strong></p>\n<ul class=\"bullet-list\">\n    <li>No contiguous subarray sums to 100.</li>\n</ul>\n\n<p><strong>Constraints:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The solution must have <em>O(n)</em> time complexity.</li>\n    <li>The solution must use <em>O(1)</em> extra space (apart from the input array).</li>\n</ul>\n\n<p><strong>Note:</strong></p>\n<ul class=\"bullet-list note-list\">\n    <li>Only the first valid subarray should be returned if multiple exist.</li>\n</ul>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+    "code_text": "package q42212;\nimport java.util.Scanner;\n\npublic class SubarraywithSum {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        int[] array = new int[n];\n        for (int i = 0; i < n; i++) {\n            array[i] = scanner.nextInt();\n        }\n        int targetSum = scanner.nextInt();\n        int currentSum = 0;\n        int start = 0;\n        for (int end = 0; end < n; end++) {\n            currentSum += array[end];\n            while (currentSum > targetSum && start <= end) {\n                currentSum -= array[start];\n                start++;\n            }\n            if (currentSum == targetSum) {\n                System.out.println(start + \" \" + end);\n                scanner.close();\n                return;\n            }\n        }\n        System.out.println(\"No subarray\");\n        scanner.close();\n    }\n}",
+    "average_time_label": "0.134 s",
+    "average_time_ms": "134.30 ms",
+    "maximum_time_label": "0.142 s",
+    "maximum_time_ms": "142.00 ms",
+    "shown_result": "2 out of 2 shown test case(s) passed",
+    "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                
+    "slug": "matrix-subtraction",
+    "title": "Matrix Subtraction",
+    "tab_label": "Matrix Su...",
+    "language": "java",
+    "image_path": "./java.jpg",
+    "sort_order": 5,
+    "problem_html": "<p>Write a Java program to subtract two square matrices of size <em>n</em> &times; <em>n</em>. The program should print the resulting matrix after subtraction.</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The first integer represents the size <em>n</em> of the square matrices.</li>\n    <li>The next <em>n</em> &times; <em>n</em> integers represent the elements of the first matrix.</li>\n    <li>The next <em>n</em> &times; <em>n</em> integers represent the elements of the second matrix.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The resulting matrix after subtraction is printed in matrix form.</li>\n</ul>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+    "code_text": "package q42214;\nimport java.util.Scanner;\n\npublic class MatrixSubtraction {\n    public static void main(String[] args){\n        Scanner s=new Scanner(System.in);\n        int n=s.nextInt();\n        int[][] a1=new int[n][n];\n        int[][] a2=new int[n][n];\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                a1[i][j]=s.nextInt();\n            }\n        }\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                a2[i][j]=s.nextInt();\n            }\n        }\n        int[][] r=new int[n][n];\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                r[i][j]=a1[i][j]-a2[i][j];\n            }\n        }\n        for(int i=0;i<n;i++){\n            for(int j=0;j<n;j++){\n                System.out.print(r[i][j]+\" \");\n            }\n            System.out.println();\n        }\n    }\n}",
+    "average_time_label": "0.134 s",
+    "average_time_ms": "134.30 ms",
+    "maximum_time_label": "0.142 s",
+    "maximum_time_ms": "142.00 ms",
+    "shown_result": "2 out of 2 shown test case(s) passed",
+    "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                
+    "slug": "program-to-find-multiplication-of-two-matrices",
+    "title": "Program to find Multiplication of Two matrices",
+    "tab_label": "Multiplica...",
+    "language": "java",
+    "image_path": "./java.jpg",
+    "sort_order": 6,
+    "problem_html": "<p>Write a class <code>MultiplicationOfMatrix</code> with a public method <code>multiplication</code> which returns the multiplication result of its arguments. If the first argument column size is not equal to the row size of the second argument, then the method should return null.</p>\n\n<p>Consider the following example for your understanding</p>\n\n<div class=\"sample-card format-card\">\n    <span>Matrix 1:<br>Enter number of rows: 3<br>Enter number of columns: 2<br>Enter 2 numbers separated by space<br>Enter row 1: 1 2<br>Enter row 2: 4 5<br>Enter row 3: 7 8<br>Matrix 2:<br>Enter number of rows: 2<br>Enter number of columns: 3<br>Enter 3 numbers separated by space<br>Enter row 1: 1 2 3<br>Enter row 2: 4 5 6<br>Multiplication of the two given matrices is:<br>9 12 15<br>24 33 42<br>39 54 69</span>\n</div>\n\n<div class=\"sample-card format-card\">\n    <span>Matrix 1:<br>Enter number of rows: 2<br>Enter number of columns: 2<br>Enter 2 numbers separated by space<br>Enter row 1: 1 2<br>Enter row 2: 3 4<br>Matrix 2:<br>Enter number of rows: 3<br>Enter number of columns: 2<br>Enter 2 numbers separated by space<br>Enter row 1: 1 2<br>Enter row 2: 4 5<br>Enter row 3: 2 3<br>Multiplication of matrices is not possible</span>\n</div>\n\n<p><strong>Note:</strong> Please don't change the package name.</p>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+    "code_text": "package q11106;\npublic class MultiplicationOfMatrix{\n    public int[][] multiplication(int[][] matrix1, int[][] matrix2) {\n        if (matrix1[0].length != matrix2.length) {\n            return null;\n        }\n\n        int rows1 = matrix1.length;\n        int cols1 = matrix1[0].length;\n        int rows2 = matrix2.length;\n        int cols2 = matrix2[0].length;\n        int[][] result = new int[rows1][cols2];\n        for (int i = 0; i < rows1; i++) {\n            for (int j = 0; j < cols2; j++) {\n                result[i][j] = 0;\n                for (int k = 0; k < cols1; k++) {\n                    result[i][j] += matrix1[i][k] * matrix2[k][j];\n                }\n            }\n        }\n        return result;\n    }\n}",
+    "average_time_label": "0.134 s",
+    "average_time_ms": "134.30 ms",
+    "maximum_time_label": "0.142 s",
+    "maximum_time_ms": "142.00 ms",
+    "shown_result": "2 out of 2 shown test case(s) passed",
+    "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                
+    "slug": "duplicates-in-array",
+    "title": "Duplicates in Array",
+    "tab_label": "Duplicate...",
+    "language": "java",
+    "image_path": "./java.jpg",
+    "sort_order": 7,
+    "problem_html": "<p>Write a Java program that reads an array of integers from the user and removes any duplicate elements, keeping only the first occurrence of each element. The program should then print the array after duplicates have been removed.</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>First line reads an integer, <em>n</em> representing the number of elements in the array.</li>\n    <li>Second line reads <em>n</em> space separated integers as elements of the array.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>Print the resulting array with a print message:</li>\n</ul>\n\n<div class=\"sample-card format-card\">\n    <span>Array after removing duplicates:<br>&lt;intValue1&gt; &lt;intValue2&gt; &lt;intValue3&gt;...</span>\n</div>\n\n<p><strong>Note:</strong></p>\n<ul class=\"bullet-list note-list\">\n    <li>Refer to the visible test cases to strictly match the input/output format.</li>\n</ul>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+    "code_text": "package q42499;\nimport java.util.Scanner;\n\npublic class Duplicates {\n    public static void main(String[] args){\n        Scanner s=new Scanner(System.in);\n        int n=s.nextInt();\n        int[] a=new int[n];\n        for(int i=0;i<n;i++){\n            a[i]=s.nextInt();\n        }\n        for(int i=0;i<n;i++){\n            for(int j=i+1;j<n;j++){\n                if(a[i]==a[j]){\n                    for(int k=j;k<n-1;k++){\n                        a[k]=a[k+1];\n                    }\n                    n--;\n                    j--;\n                }\n            }\n        }\n\n        System.out.println(\"Array after removing duplicates:\");\n        for(int i=0;i<n;i++){\n            System.out.print(a[i]+\" \");\n        }\n        System.out.println();\n    }\n}",
+    "average_time_label": "0.134 s",
+    "average_time_ms": "134.30 ms",
+    "maximum_time_label": "0.142 s",
+    "maximum_time_ms": "142.00 ms",
+    "shown_result": "2 out of 2 shown test case(s) passed",
+    "hidden_result": "2 out of 2 hidden test case(s) passed"
+            }
+        ];
+        const javaProgramSlugs = localPrograms.map((program) => program.slug);
+        let supabaseClient = null;
+        let searchTimer = null;
+        let submitTimer = null;
+        let currentProgramSlug = "generate-electricity-bill";
+
+        settingsToggle.addEventListener("click", () => {
+            const isOpen = settingsWrap.classList.toggle("open");
+            settingsToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        let zoomFrame = null;
+        let currentZoom = Number(zoomSlider.value);
+
+        function showCourseScreen() {
+            loginScreen.classList.add("is-hidden");
+            loginScreen.setAttribute("aria-hidden", "true");
+            courseScreen.classList.remove("is-hidden");
+            courseScreen.setAttribute("aria-hidden", "false");
+            courseMessage.textContent = "";
+        }
+
+        function enterTestScreen() {
+            courseScreen.classList.add("is-hidden");
+            courseScreen.setAttribute("aria-hidden", "true");
+        }
+
+        function getSupabaseClient() {
+            const hasConfig = supabaseConfig.url
+                && supabaseConfig.anonKey
+                && !supabaseConfig.url.includes("PASTE_YOUR")
+                && !supabaseConfig.anonKey.includes("PASTE_YOUR");
+
+            if (!hasConfig || !window.supabase) return null;
+
+            if (!supabaseClient) {
+                supabaseClient = window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey);
+            }
+
+            return supabaseClient;
+        }
+
+        function setProgramUrl(slug) {
+            const params = new URLSearchParams(window.location.search);
+            params.set("program", slug);
+            window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+        }
+
+        function getLocalProgram(slug) {
+            return localPrograms.find((program) => program.slug === slug);
+        }
+
+        function getLocalProgramMatches(query) {
+            const cleanQuery = query.trim().toLowerCase();
+
+            if (cleanQuery.length < 3) return [];
+
+            return localPrograms.filter((program) => (
+                program.title.toLowerCase().includes(cleanQuery)
+                || program.slug.toLowerCase().includes(cleanQuery)
+            ));
+        }
+
+        function hideSubmitResult() {
+            window.clearTimeout(submitTimer);
+            resultPopup.classList.remove("is-visible");
+            resultPopup.setAttribute("aria-hidden", "true");
+            submissionStage.classList.remove("is-visible");
+            submissionStage.classList.remove("has-result");
+            submissionStage.setAttribute("aria-hidden", "true");
+            submissionLoader.classList.remove("is-hidden");
+            submitBtn.classList.remove("is-submitting");
+            submitBtn.disabled = false;
+        }
+
+        function openProgramSearch() {
+            programSearchWrap.classList.add("open");
+            programSearchToggle.setAttribute("aria-expanded", "true");
+            settingsWrap.classList.remove("open");
+            settingsToggle.setAttribute("aria-expanded", "false");
+            requestAnimationFrame(() => programSearchInput.focus());
+        }
+
+        function closeProgramSearch() {
+            programSearchWrap.classList.remove("open");
+            programSearchToggle.setAttribute("aria-expanded", "false");
+        }
+
+        function renderProgramResults(programs, message) {
+            if (message) {
+                programResults.innerHTML = `<div class="program-search-help">${escapeHtml(message)}</div>`;
+                return;
+            }
+
+            programResults.innerHTML = programs.map((program) => (
+                `<button class="program-result" type="button" data-slug="${escapeHtml(program.slug)}">
+                    <img class="program-result-image" src="${escapeHtml(program.image_path || "./java.jpg")}" alt="">
+                    <span class="program-result-text">
+                        <span class="program-result-title">${escapeHtml(program.title)}</span>
+                        <span class="program-result-slug">${escapeHtml(program.slug)}</span>
+                    </span>
+                </button>`
+            )).join("");
+        }
+
+        async function searchPrograms(query) {
+            const cleanQuery = query.trim();
+
+            if (cleanQuery.length < 3) {
+                renderProgramResults([], "Type at least 3 characters.");
+                return;
+            }
+
+            const localMatches = getLocalProgramMatches(cleanQuery);
+            const table = supabaseConfig.table || "programs";
+            const client = getSupabaseClient();
+
+            if (!client) {
+                renderProgramResults(localMatches, localMatches.length ? "" : "No programs found.");
+                return;
+            }
+
+            renderProgramResults([], "Searching...");
+
+            const safeQuery = cleanQuery.replace(/[%_,]/g, "");
+            const { data, error } = await client
+                .from(table)
+                .select("slug,title,image_path")
+                .eq("is_active", true)
+                .or(`title.ilike.%${safeQuery}%,slug.ilike.%${safeQuery}%`)
+                .order("sort_order", { ascending: true })
+                .limit(8);
+
+            if (error) {
+                renderProgramResults(localMatches, localMatches.length ? "" : "Search is unavailable right now.");
+                return;
+            }
+
+            const remoteMatches = data || [];
+            const merged = [...remoteMatches];
+            localMatches.forEach((program) => {
+                if (!merged.some((item) => item.slug === program.slug)) {
+                    merged.push({ slug: program.slug, title: program.title, image_path: program.image_path });
+                }
+            });
+
+            renderProgramResults(merged, merged.length ? "" : "No programs found.");
+        }
+
+        function getInitials(name) {
+            const parts = name.trim().split(/\s+/).filter(Boolean);
+
+            if (parts.length === 0) return "MI";
+            if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+
+            return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+        }
+
+        function applyStudentDetails(name, rollNo) {
+            const cleanName = name.trim();
+            const cleanRollNo = rollNo.trim();
+
+            if (cleanName) {
+                studentName.textContent = cleanName.toUpperCase();
+                avatar.textContent = getInitials(cleanName);
+            }
+
+            if (cleanRollNo) {
+                studentId.textContent = cleanRollNo;
+            }
+        }
+
+        function loadSavedLogin() {
+            const savedName = localStorage.getItem("codetantraStudentName");
+            const savedRollNo = localStorage.getItem("codetantraStudentRollNo");
+
+            if (!savedName || !savedRollNo) return;
+
+            applyStudentDetails(savedName, savedRollNo);
+            showCourseScreen();
+        }
+
+        loginForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const name = loginName.value.trim();
+            const rollNo = loginRoll.value.trim();
+
+            if (!name || !rollNo) return;
+
+            applyStudentDetails(name, rollNo);
+            localStorage.setItem("codetantraStudentName", name);
+            localStorage.setItem("codetantraStudentRollNo", rollNo);
+            showCourseScreen();
+        });
+
+        document.querySelectorAll(".course-card").forEach((card) => {
+            card.addEventListener("click", async () => {
+                const course = card.dataset.course;
+
+                if (course === "dsa") {
+                    courseMessage.textContent = "DSA will be available soon.";
+                    return;
+                }
+
+                if (course === "java") {
+                    const slug = card.dataset.programSlug || "generate-electricity-bill";
+                    setProgramUrl(slug);
+                    await loadProgram(slug);
+                    enterTestScreen();
+                }
+            });
+        });
+
+        programSearchToggle.addEventListener("click", (event) => {
+            if (event.detail === 3) {
+                openProgramSearch();
+                searchPrograms(programSearchInput.value);
+            }
+        });
+
+        programSearchInput.addEventListener("input", () => {
+            window.clearTimeout(searchTimer);
+            searchTimer = window.setTimeout(() => {
+                searchPrograms(programSearchInput.value);
+            }, 180);
+        });
+
+        programResults.addEventListener("click", async (event) => {
+            const result = event.target.closest(".program-result");
+            if (!result) return;
+
+            const slug = result.dataset.slug;
+            setProgramUrl(slug);
+            await loadProgram(slug);
+            enterTestScreen();
+            closeProgramSearch();
+        });
+
+        nextProgramBtn.addEventListener("click", async () => {
+            const currentIndex = javaProgramSlugs.indexOf(currentProgramSlug);
+            const nextSlug = javaProgramSlugs[Math.min(currentIndex + 1, javaProgramSlugs.length - 1)] || javaProgramSlugs[0];
+
+            setProgramUrl(nextSlug);
+            await loadProgram(nextSlug);
+        });
+
+        prevProgramBtn.addEventListener("click", async () => {
+            const currentIndex = javaProgramSlugs.indexOf(currentProgramSlug);
+            const prevSlug = javaProgramSlugs[Math.max(currentIndex - 1, 0)] || javaProgramSlugs[0];
+
+            setProgramUrl(prevSlug);
+            await loadProgram(prevSlug);
+        });
+
+        loadSavedLogin();
+
+        function escapeHtml(value) {
+            return value.replace(/[&<>"']/g, (char) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                "\"": "&quot;",
+                "'": "&#39;"
+            }[char]));
+        }
+
+        function highlightCodeLine(source) {
+            const keywords = new Set([
+                "abstract", "and", "as", "assert", "async", "await", "boolean", "break", "byte", "case", "catch",
+                "char", "class", "const", "continue", "def", "default", "delete", "do", "double", "elif", "else",
+                "enum", "except", "extends", "false", "final", "finally", "float", "for", "from", "function", "if",
+                "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "new", "null", "or",
+                "package", "private", "protected", "public", "return", "short", "static", "string", "String",
+                "struct", "super", "switch", "this", "throw", "throws", "true", "try", "var", "void", "while"
+            ]);
+            const tokenPattern = /(\/\/.*|#.*|\/\*.*?\*\/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_][A-Za-z0-9_]*\b)/g;
+
+            return source.replace(tokenPattern, (token) => {
+                const escaped = escapeHtml(token);
+
+                if (token.startsWith("//") || token.startsWith("#") || token.startsWith("/*")) {
+                    return `<span class="comment">${escaped}</span>`;
+                }
+
+                if (token.startsWith("\"") || token.startsWith("'")) {
+                    return `<span class="str">${escaped}</span>`;
+                }
+
+                if (/^\d/.test(token)) {
+                    return `<span class="num">${escaped}</span>`;
+                }
+
+                if (keywords.has(token)) {
+                    return `<span class="kw">${escaped}</span>`;
+                }
+
+                return `<span class="id">${escaped}</span>`;
+            });
+        }
+
+        function highlightCodeEditor() {
+            document.querySelectorAll(".line-code").forEach((line) => {
+                line.innerHTML = highlightCodeLine(line.textContent);
+            });
+        }
+
+        function getLineNumberMarkup(lineText, lineNumber) {
+            const trimmed = lineText.trim();
+            const showFold = trimmed.endsWith("{") || trimmed.endsWith(":");
+            return `${showFold ? '<span class="fold">v</span>' : ""}${lineNumber}`;
+        }
+
+        function renderCodeEditor(codeText) {
+            const codeScroll = document.querySelector(".code-scroll");
+            const lines = String(codeText || "").replace(/\r\n/g, "\n").split("\n");
+
+            codeScroll.innerHTML = lines.map((line, index) => {
+                const lineNumber = index + 1;
+                return `<div class="code-line"><div class="line-no">${getLineNumberMarkup(line, lineNumber)}</div><div class="line-code">${escapeHtml(line)}</div></div>`;
+            }).join("");
+
+            highlightCodeEditor();
+        }
+
+        function renderProgram(program) {
+            if (!program) return;
+            currentProgramSlug = program.slug || currentProgramSlug;
+            hideSubmitResult();
+
+            const problemTitle = document.querySelector(".problem-title");
+            const problemBody = document.querySelector(".problem-body");
+            const editorTabLabel = document.querySelector(".editor-tab span:last-child");
+            const editorTabImg = document.querySelector(".editor-tab img");
+            const runtimeValues = document.querySelectorAll(".runtime-value");
+            const runtimeLabels = document.querySelectorAll(".runtime-cell > span:not(.runtime-label):not(.runtime-value)");
+            const passedRows = document.querySelectorAll(".passed-row span:last-child");
+
+            if (problemTitle && program.title) {
+                problemTitle.textContent = program.title;
+            }
+
+            if (problemBody && program.problem_html) {
+                problemBody.innerHTML = program.problem_html;
+            }
+
+            if (editorTabLabel && program.tab_label) {
+                editorTabLabel.textContent = program.tab_label;
+            }
+
+            if (editorTabImg && program.image_path) {
+                editorTabImg.src = program.image_path;
+            }
+
+            if (program.code_text) {
+                renderCodeEditor(program.code_text);
+            }
+
+            if (runtimeValues[0] && program.average_time_label) {
+                runtimeValues[0].textContent = program.average_time_label;
+            }
+
+            if (runtimeLabels[0] && program.average_time_ms) {
+                runtimeLabels[0].textContent = program.average_time_ms;
+            }
+
+            if (runtimeValues[1] && program.maximum_time_label) {
+                runtimeValues[1].textContent = program.maximum_time_label;
+            }
+
+            if (runtimeLabels[1] && program.maximum_time_ms) {
+                runtimeLabels[1].textContent = program.maximum_time_ms;
+            }
+
+            if (passedRows[0] && program.shown_result) {
+                passedRows[0].textContent = program.shown_result;
+            }
+
+            if (passedRows[1] && program.hidden_result) {
+                passedRows[1].textContent = program.hidden_result;
+            }
+        }
+
+        async function loadProgram(slug) {
+            const remoteProgram = await loadProgramFromSupabase(slug);
+
+            if (remoteProgram) {
+                renderProgram(remoteProgram);
+                return remoteProgram;
+            }
+
+            const localProgram = getLocalProgram(slug);
+
+            if (localProgram) {
+                renderProgram(localProgram);
+                return localProgram;
+            }
+
+            return null;
+        }
+
+        async function loadProgramFromSupabase(programSlug) {
+            const client = getSupabaseClient();
+            if (!client) return null;
+
+            const params = new URLSearchParams(window.location.search);
+            const slug = programSlug || params.get("program") || supabaseConfig.defaultProgramSlug || "generate-electricity-bill";
+            const table = supabaseConfig.table || "programs";
+            const { data, error } = await client
+                .from(table)
+                .select("slug,title,tab_label,language,problem_html,code_text,average_time_label,average_time_ms,maximum_time_label,maximum_time_ms,shown_result,hidden_result")
+                .eq("slug", slug)
+                .eq("is_active", true)
+                .maybeSingle();
+
+            if (!error && data) {
+                return data;
+            }
+
+            return null;
+        }
+
+        highlightCodeEditor();
+        loadProgram(new URLSearchParams(window.location.search).get("program") || "generate-electricity-bill");
+
+        function applyZoom(zoom) {
+            const minLayoutWidth = 1280;
+            const fitScale = Math.min(1, window.innerWidth / minLayoutWidth);
+            const mappedZoom = 70 + zoom * 0.6;
+            const effectiveZoom = 45 + mappedZoom * 0.3;
+            const safeScale = Math.max(0.1, (effectiveZoom / 100) * fitScale);
+            const progress = ((zoom - Number(zoomSlider.min)) / (Number(zoomSlider.max) - Number(zoomSlider.min))) * 100;
+            zoomSlider.style.setProperty("--zoom-progress", `${progress}%`);
+
+            if (zoomFrame) {
+                cancelAnimationFrame(zoomFrame);
+            }
+
+            zoomFrame = requestAnimationFrame(() => {
+                document.documentElement.style.setProperty("--ui-scale", String(safeScale));
+                zoomFrame = null;
+            });
+        }
+
+        zoomSlider.addEventListener("input", () => {
+            const zoom = Number(zoomSlider.value);
+            currentZoom = zoom;
+            applyZoom(zoom);
+        });
+
+        resetZoom.addEventListener("click", () => {
+            currentZoom = 100;
+            zoomSlider.value = "100";
+            applyZoom(currentZoom);
+        });
+
+        submitBtn.addEventListener("click", () => {
+            if (submitBtn.disabled) return;
+
+            window.clearTimeout(submitTimer);
+            resultPopup.classList.remove("is-visible");
+            resultPopup.setAttribute("aria-hidden", "true");
+            submissionLoader.classList.remove("is-hidden");
+            submissionStage.classList.remove("has-result");
+            submissionStage.classList.add("is-visible");
+            submissionStage.setAttribute("aria-hidden", "false");
+            submitBtn.classList.add("is-submitting");
+            submitBtn.disabled = true;
+
+            submitTimer = window.setTimeout(() => {
+                submissionLoader.classList.add("is-hidden");
+                submissionStage.classList.add("has-result");
+                resultPopup.classList.add("is-visible");
+                resultPopup.setAttribute("aria-hidden", "false");
+                submitBtn.classList.remove("is-submitting");
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+
+        resultClose.addEventListener("click", () => {
+            resultPopup.classList.remove("is-visible");
+            resultPopup.setAttribute("aria-hidden", "true");
+            submissionStage.classList.remove("is-visible");
+            submissionStage.classList.remove("has-result");
+            submissionStage.setAttribute("aria-hidden", "true");
+            submissionLoader.classList.remove("is-hidden");
+        });
+
+        window.addEventListener("resize", () => applyZoom(currentZoom));
+        applyZoom(currentZoom);
+
+        document.addEventListener("click", (event) => {
+            if (settingsWrap.contains(event.target)) return;
+            settingsWrap.classList.remove("open");
+            settingsToggle.setAttribute("aria-expanded", "false");
+
+            if (programSearchWrap.contains(event.target)) return;
+            closeProgramSearch();
+        });
+
+        splitter.addEventListener("pointerdown", (event) => {
+            splitter.setPointerCapture(event.pointerId);
+            document.body.classList.add("is-resizing");
+            resizePanes(event.clientX);
+        });
+
+        splitter.addEventListener("pointermove", (event) => {
+            if (!splitter.hasPointerCapture(event.pointerId)) return;
+            resizePanes(event.clientX);
+        });
+
+        splitter.addEventListener("pointerup", stopResize);
+        splitter.addEventListener("pointercancel", stopResize);
+
+        function stopResize(event) {
+            if (splitter.hasPointerCapture(event.pointerId)) {
+                splitter.releasePointerCapture(event.pointerId);
+            }
+            document.body.classList.remove("is-resizing");
+        }
+
+        function resizePanes(clientX) {
+            const bounds = workspace.getBoundingClientRect();
+            const minLeft = Math.min(280, bounds.width * 0.35);
+            const minRight = Math.min(320, bounds.width * 0.35);
+            const splitterWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--splitter")) || 6;
+            const maxLeft = bounds.width - minRight - splitterWidth;
+            const nextLeft = Math.min(Math.max(clientX - bounds.left, minLeft), maxLeft);
+            workspace.style.setProperty("--left-pane", `${nextLeft}px`);
+        }
+        // Generate random 4-digit exam code once per session
+        (function () {
+            const stored = sessionStorage.getItem('examCode');
+            const code = stored || String(Math.floor(1000 + Math.random() * 9000));
+            if (!stored) sessionStorage.setItem('examCode', code);
+            const el = document.getElementById('examCode');
+            if (el) el.textContent = code;
+        })();
+    </script>
+
+</body>
+</html>

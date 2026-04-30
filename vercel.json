@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "Test Ongoing UI.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.{js,css,jpg,jpeg,png,svg}",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/$",
+      "dest": "/Test Ongoing UI.html"
+    },
+    {
+      "src": "/index",
+      "dest": "/Test Ongoing UI.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
