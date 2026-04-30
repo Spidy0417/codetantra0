@@ -1686,63 +1686,326 @@
         const supabaseConfig = window.CODETANTRA_SUPABASE || {};
         const localPrograms = [
             {
-                slug: "generate-electricity-bill",
-                title: "Generate Electricity Bill",
-                tab_label: "Electricit...",
-                language: "java",
-                image_path: "./java.jpg",
-                sort_order: 1,
-                problem_html: document.querySelector(".problem-body").innerHTML,
-                code_text: Array.from(document.querySelectorAll(".line-code")).map((line) => line.textContent).join("\n"),
-                average_time_label: "0.134 s",
-                average_time_ms: "134.30 ms",
-                maximum_time_label: "0.142 s",
-                maximum_time_ms: "142.00 ms",
-                shown_result: "2 out of 2 shown test case(s) passed",
-                hidden_result: "2 out of 2 hidden test case(s) passed"
+                "slug": "generate-electricity-bill",
+                "title": "Generate Electricity Bill",
+                "tab_label": "Electricit...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "sort_order": 1,
+                "problem_html": document.querySelector('.problem-body').innerHTML,
+                "code_text": Array.from(document.querySelectorAll(".line-code")).map((line) => line.textContent).join("\n"),
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
             },
             {
-                slug: "finding-kth-smallest-element-in-array",
-                title: "Finding kth Smallest Element in an Array",
-                tab_label: "KthSmall...",
-                language: "java",
-                image_path: "./java.jpg",
-                sort_order: 2,
-                problem_html: `<p>Write a Java program that takes an unsorted array of <em>n</em> integers and an integer <em>k</em> from the user and finds the <em>k<sup>th</sup></em> smallest element in the array. The array can not contain duplicate elements.</p>
-
-                    <p><strong>Input Format:</strong></p>
-                    <ul class="bullet-list">
-                        <li>The first line is an integer <em>n</em>, representing the number of elements in the array.</li>
-                        <li>The second line contains <em>n</em> integers separated by spaces, representing the elements of the array.</li>
-                        <li>The third line is an integer <em>k</em> representing the position (1-based index) of the element you need to find after sorting the array.</li>
-                    </ul>
-
-                    <p><strong>Output Format:</strong></p>
-                    <ul class="bullet-list">
-                        <li>The output is the integer that represents the <em>k<sup>th</sup></em> smallest element of the array.</li>
-                    </ul>
-
-                    <p><strong>Note:</strong></p>
-                    <ul class="bullet-list note-list">
-                        <li>The array elements must be unique.</li>
-                        <li>The value of <em>k</em> should be a valid index within the array bounds (i.e., 1 &le; <em>k</em> &le; array length). If <em>k</em> is out of bounds, print "Invalid input".</li>
-                    </ul>
-
-                    <div class="sample-card">
-                        <span>Sample Test Cases</span>
-                        <button type="button" aria-label="Expand sample test cases">+</button>
-                    </div>`,
-                code_text: `package q42211;
-import java.util.Arrays;
-import java.util.Scanner;
-
-public class KthSmallest {
-
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int[] array = new int[n];
+                "slug": "finding-kth-smallest-element-in-array",
+                "title": "Finding kth Smallest Element in an Array",
+                "tab_label": "KthSmall...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program that takes an unsorted array of <em>n</em> integers and an integer <em>k</em> from the user and finds the <em>k<sup>th</sup></em> smallest element in the array. The array can not contain duplicate elements.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The first line is an integer <em>n</em>, representing the number of elements in the array.</li>\r\n    <li>The second line contains <em>n</em> integers separated by spaces, representing the elements of the array.</li>\r\n    <li>The third line is an integer <em>k</em> representing the position (1-based index) of the element you need to find after sorting the array.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The output is the integer that represents the <em>k<sup>th</sup></em> smallest element of the array.</li>\r\n</ul>\r\n\r\n<p><strong>Note:</strong></p>\r\n<ul class=\"bullet-list note-list\">\r\n    <li>The array elements must be unique.</li>\r\n    <li>The value of <em>k</em> should be a valid index within the array bounds (i.e., 1 &le; <em>k</em> &le; array length). If <em>k</em> is out of bounds, print \"Invalid input\".</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42211;\r\nimport java.util.Arrays;\r\nimport java.util.Scanner;\r\n\r\npublic class KthSmallest {\r\n\r\n\r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        int n = scanner.nextInt();\r\n        int[] array = new int[n];\r\n        for (int i = 0; i < n; i++) {\r\n            array[i] = scanner.nextInt();\r\n        }\r\n        int k = scanner.nextInt();\r\n        Arrays.sort(array);\r\n        if (k < 1 || k > n) {\r\n            System.out.println(\"Invalid input\");\r\n        } else {\r\n            System.out.println(array[k - 1]);\r\n        }\r\n\r\n        scanner.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 2,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "matrix-addition",
+                "title": "Matrix Addition",
+                "tab_label": "MatrixAd...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program to add two matrices of size <em>n</em> &times; <em>n</em>. The program should print the resulting matrix after addition.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The first line represents an integer <em>n</em>, which is the size of the square matrix.</li>\r\n    <li>The next <em>n</em> lines contain <em>n</em> space-separated integers, representing the elements of the first matrix.</li>\r\n    <li>The next <em>n</em> lines contain <em>n</em> space-separated integers, representing the elements of the second matrix.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>Print the resultant matrix after addition, with each row on a new line and elements separated by a space.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42213;\r\nimport java.util.Scanner;\r\n\r\npublic class MatrixAddition {\r\n    public static void main(String[] args){\r\n        Scanner s=new Scanner(System.in);\r\n        int n=s.nextInt();\r\n        int a1[][]=new int[n][n];\r\n        int a2[][]=new int[n][n];\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                a1[i][j]=s.nextInt();\r\n            }\r\n        }\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                a2[i][j]=s.nextInt();\r\n            }\r\n        }\r\n        int[][] r=new int[n][n];\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                r[i][j]=a1[i][j]+a2[i][j];\r\n            }\r\n        }\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                System.out.print(r[i][j]+\" \");\r\n            }\r\n            System.out.println();\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 3,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "sub-array-with-given-sum",
+                "title": "Sub Array with Given Sum",
+                "tab_label": "Subarray...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Given an array of integers and a target sum, find a contiguous subarray whose elements add up to exactly the target sum. Print the start and end indices (0-based) of the subarray. If no such subarray exists, print \"No subarray\".</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The first line contains an integer <em>n</em> (1 &le; <em>n</em> &le; 10<sup>5</sup>), the size of the array.</li>\r\n    <li>The second line contains <em>n</em> space-separated integers representing the array elements (-10<sup>4</sup> &le; <em>arr[i]</em> &le; 10<sup>4</sup>).</li>\r\n    <li>The third line contains an integer <em>targetSum</em> (-10<sup>9</sup> &le; <em>targetSum</em> &le; 10<sup>9</sup>), the desired sum.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>If found, print two space-separated integers representing the start and end indices (inclusive) of the first occurring subarray.</li>\r\n    <li>If not found, print \"No subarray\" (without quotes).</li>\r\n</ul>\r\n\r\n<p><strong>Sample Input 1:</strong></p>\r\n<div class=\"sample-card format-card\">\r\n    <span>6<br>1 4 20 3 10 5<br>33</span>\r\n</div>\r\n\r\n<p><strong>Sample Output 1:</strong></p>\r\n<div class=\"sample-card format-card\">\r\n    <span>2 4</span>\r\n</div>\r\n\r\n<p><strong>Explanation:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The subarray [20, 3, 10] sums to 33 (indices 2 to 4).</li>\r\n</ul>\r\n\r\n<p><strong>Sample Input 2:</strong></p>\r\n<div class=\"sample-card format-card\">\r\n    <span>4<br>10 20 30 40<br>100</span>\r\n</div>\r\n\r\n<p><strong>Sample Output 2:</strong></p>\r\n<div class=\"sample-card format-card\">\r\n    <span>No subarray</span>\r\n</div>\r\n\r\n<p><strong>Explanation:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>No contiguous subarray sums to 100.</li>\r\n</ul>\r\n\r\n<p><strong>Constraints:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The solution must have <em>O(n)</em> time complexity.</li>\r\n    <li>The solution must use <em>O(1)</em> extra space (apart from the input array).</li>\r\n</ul>\r\n\r\n<p><strong>Note:</strong></p>\r\n<ul class=\"bullet-list note-list\">\r\n    <li>Only the first valid subarray should be returned if multiple exist.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42212;\r\nimport java.util.Scanner;\r\n\r\npublic class SubarraywithSum {\r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        int n = scanner.nextInt();\r\n        int[] array = new int[n];\r\n        for (int i = 0; i < n; i++) {\r\n            array[i] = scanner.nextInt();\r\n        }\r\n        int targetSum = scanner.nextInt();\r\n        int currentSum = 0;\r\n        int start = 0;\r\n        for (int end = 0; end < n; end++) {\r\n            currentSum += array[end];\r\n            while (currentSum > targetSum && start <= end) {\r\n                currentSum -= array[start];\r\n                start++;\r\n            }\r\n            if (currentSum == targetSum) {\r\n                System.out.println(start + \" \" + end);\r\n                scanner.close();\r\n                return;\r\n            }\r\n        }\r\n        System.out.println(\"No subarray\");\r\n        scanner.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 4,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "matrix-subtraction",
+                "title": "Matrix Subtraction",
+                "tab_label": "Matrix Su...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program to subtract two square matrices of size <em>n</em> &times; <em>n</em>. The program should print the resulting matrix after subtraction.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The first integer represents the size <em>n</em> of the square matrices.</li>\r\n    <li>The next <em>n</em> &times; <em>n</em> integers represent the elements of the first matrix.</li>\r\n    <li>The next <em>n</em> &times; <em>n</em> integers represent the elements of the second matrix.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The resulting matrix after subtraction is printed in matrix form.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42214;\r\nimport java.util.Scanner;\r\n\r\npublic class MatrixSubtraction {\r\n    public static void main(String[] args){\r\n        Scanner s=new Scanner(System.in);\r\n        int n=s.nextInt();\r\n        int[][] a1=new int[n][n];\r\n        int[][] a2=new int[n][n];\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                a1[i][j]=s.nextInt();\r\n            }\r\n        }\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                a2[i][j]=s.nextInt();\r\n            }\r\n        }\r\n        int[][] r=new int[n][n];\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                r[i][j]=a1[i][j]-a2[i][j];\r\n            }\r\n        }\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<n;j++){\r\n                System.out.print(r[i][j]+\" \");\r\n            }\r\n            System.out.println();\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 5,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "program-to-find-multiplication-of-two-matrices",
+                "title": "Program to find Multiplication of Two matrices",
+                "tab_label": "Multiplica...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a class <code>MultiplicationOfMatrix</code> with a public method <code>multiplication</code> which returns the multiplication result of its arguments. If the first argument column size is not equal to the row size of the second argument, then the method should return null.</p>\r\n\r\n<p>Consider the following example for your understanding</p>\r\n\r\n<div class=\"sample-card format-card\">\r\n    <span>Matrix 1:<br>Enter number of rows: 3<br>Enter number of columns: 2<br>Enter 2 numbers separated by space<br>Enter row 1: 1 2<br>Enter row 2: 4 5<br>Enter row 3: 7 8<br>Matrix 2:<br>Enter number of rows: 2<br>Enter number of columns: 3<br>Enter 3 numbers separated by space<br>Enter row 1: 1 2 3<br>Enter row 2: 4 5 6<br>Multiplication of the two given matrices is:<br>9 12 15<br>24 33 42<br>39 54 69</span>\r\n</div>\r\n\r\n<div class=\"sample-card format-card\">\r\n    <span>Matrix 1:<br>Enter number of rows: 2<br>Enter number of columns: 2<br>Enter 2 numbers separated by space<br>Enter row 1: 1 2<br>Enter row 2: 3 4<br>Matrix 2:<br>Enter number of rows: 3<br>Enter number of columns: 2<br>Enter 2 numbers separated by space<br>Enter row 1: 1 2<br>Enter row 2: 4 5<br>Enter row 3: 2 3<br>Multiplication of matrices is not possible</span>\r\n</div>\r\n\r\n<p><strong>Note:</strong> Please don't change the package name.</p>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q11106;\r\npublic class MultiplicationOfMatrix{\r\n    public int[][] multiplication(int[][] matrix1, int[][] matrix2) {\r\n        if (matrix1[0].length != matrix2.length) {\r\n            return null;\r\n        }\r\n\r\n        int rows1 = matrix1.length;\r\n        int cols1 = matrix1[0].length;\r\n        int rows2 = matrix2.length;\r\n        int cols2 = matrix2[0].length;\r\n        int[][] result = new int[rows1][cols2];\r\n        for (int i = 0; i < rows1; i++) {\r\n            for (int j = 0; j < cols2; j++) {\r\n                result[i][j] = 0;\r\n                for (int k = 0; k < cols1; k++) {\r\n                    result[i][j] += matrix1[i][k] * matrix2[k][j];\r\n                }\r\n            }\r\n        }\r\n        return result;\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 6,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "duplicates-in-array",
+                "title": "Duplicates in Array",
+                "tab_label": "Duplicate...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program that reads an array of integers from the user and removes any duplicate elements, keeping only the first occurrence of each element. The program should then print the array after duplicates have been removed.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>First line reads an integer, <em>n</em> representing the number of elements in the array.</li>\r\n    <li>Second line reads <em>n</em> space separated integers as elements of the array.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>Print the resulting array with a print message:</li>\r\n</ul>\r\n\r\n<div class=\"sample-card format-card\">\r\n    <span>Array after removing duplicates:<br>&lt;intValue1&gt; &lt;intValue2&gt; &lt;intValue3&gt;...</span>\r\n</div>\r\n\r\n<p><strong>Note:</strong></p>\r\n<ul class=\"bullet-list note-list\">\r\n    <li>Refer to the visible test cases to strictly match the input/output format.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42499;\r\nimport java.util.Scanner;\r\n\r\npublic class Duplicates {\r\n    public static void main(String[] args){\r\n        Scanner s=new Scanner(System.in);\r\n        int n=s.nextInt();\r\n        int[] a=new int[n];\r\n        for(int i=0;i<n;i++){\r\n            a[i]=s.nextInt();\r\n        }\r\n        for(int i=0;i<n;i++){\r\n            for(int j=i+1;j<n;j++){\r\n                if(a[i]==a[j]){\r\n                    for(int k=j;k<n-1;k++){\r\n                        a[k]=a[k+1];\r\n                    }\r\n                    n--;\r\n                    j--;\r\n                }\r\n            }\r\n        }\r\n\r\n        System.out.println(\"Array after removing duplicates:\");\r\n        for(int i=0;i<n;i++){\r\n            System.out.print(a[i]+\" \");\r\n        }\r\n        System.out.println();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 7,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "generic-adt-using-interface",
+                "title": "Generic ADT using Interface",
+                "tab_label": "StackADT...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Design Interface for ADT Stack. Implement this interface using array. Provide necessary exception handling in both implementation.</p>\r\n\r\n<p><strong>Note:</strong> The main function is provided to you in the editor.</p>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42111;\r\nimport java.io.*;\r\n\r\nclass Stack_array {\r\n    private int maxSize = 100;\r\n    private int[] stack;\r\n    private int top;\r\n    public Stack_array() {\r\n        stack = new int[maxSize];\r\n        top = -1;\r\n    }\r\n    public void push() throws IOException {\r\n        if (top == maxSize - 1) {\r\n            System.out.println(\"Stack Overflow\");\r\n            return;\r\n        }\r\n        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));\r\n        System.out.print(\"Enter the element\");\r\n        int element = Integer.parseInt(br.readLine());\r\n        stack[++top] = element;\r\n    }\r\n    public void pop() {\r\n        if (top == -1) {\r\n            System.out.println(\"Stack Underflow\");\r\n            return;\r\n        }\r\n        System.out.println(\"Popped element: \" + stack[top--]);\r\n    }\r\n    public void display() {\r\n        if (top == -1) {\r\n            System.out.println(\"Stack is empty\");\r\n            return;\r\n        }\r\n        System.out.print(\"Elements are:  \");\r\n        for (int i = 0; i <= top; i++) {\r\n            if (i == top) {\r\n                System.out.print(stack[i] + \" <---\"); // No space after the last arrow\r\n            } else {\r\n                System.out.print(stack[i] + \" <--- \");\r\n            }\r\n        }\r\n        System.out.println();\r\n    }\r\n}\r\n\r\nclass StackADT {\r\n    public static void main(String args[]) throws IOException {\r\n        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));\r\n        System.out.println(\"Implementation of Stack using Array\");\r\n        Stack_array stk = new Stack_array();\r\n        int ch = 0;\r\n        do {\r\n            System.out.println(\"1.Push 2.Pop 3.Display 4.Exit\");\r\n            System.out.print(\"Enter your choice: \");\r\n            ch = Integer.parseInt(br.readLine());\r\n            switch (ch) {\r\n                case 1:\r\n                    stk.push();\r\n                    break;\r\n                case 2:\r\n                    stk.pop();\r\n                    break;\r\n                case 3:\r\n                    stk.display();\r\n                    break;\r\n                case 4:\r\n                    System.exit(0);\r\n            }\r\n        } while (ch != 4);\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 8,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "area-of-shapes-using-abstract-classes",
+                "title": "Area of Shapes using Abstract classes",
+                "tab_label": "Main...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program that defines an abstract class <code>Shape</code> with two sub classes <code>Rectangle</code>, <code>Triangle</code>, <code>Circle</code>. Each subclass calculates and prints the area of the respective shape based on user-provided dimensions. Implement the program as described below:</p>\r\n\r\n<p>Define an abstract class <code>Shape</code> with the following attributes and methods:<br>Variables:<br>- <code>dimension1</code> (double)<br>- <code>dimension2</code> (double)<br>Methods:<br>- <code>public abstract void printArea()</code>: an abstract method to calculate and print the area of the shape.</p>\r\n\r\n<p>Implement three subclasses of <code>Shape</code>:<br>- <code>Rectangle</code>: Computes area using the formula <code>length * width</code>.<br>- <code>Triangle</code>: Computes area using the formula <code>0.5 * base * height</code>.<br>- <code>Circle</code>: Computes area using the formula <code>PI * Radius * Radius</code> (hint: Use Math.PI)</p>\r\n\r\n<p><strong>Input and Output Format:</strong><br>1. Rectangle:<br>- The program first prompts the user with:<br><code>length and width of Rectangle:</code><br>- The user enters two double values representing the length and width of the rectangle.<br>- Immediately after reading the input, the program prints:<br><code>Area of Rectangle: &lt;area formatted to two decimal places&gt;</code></p>\r\n\r\n<p>2. Triangle:<br>- Next, the program prompts the user with:<br><code>base and height of Triangle:</code><br>- The user enters two double values representing the base and height of the triangle.<br>- Immediately after reading the input, the program prints:<br><code>Area of Triangle: &lt;area formatted to two decimal places&gt;</code></p>\r\n\r\n<p>3. Circle:<br>- Finally, the program prompts the user with:<br><code>Radius of Circle:</code><br>- The user enters one double value representing the radius of the circle.<br>- Immediately after reading the input, the program prints:<br><code>Area of Circle: &lt;area formatted to two decimal places&gt;</code></p>\r\n\r\n<p><strong>Note:</strong><br>- Refer to the sample test cases for print statements to be ordered.</p>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q10803;\r\nimport java.util.Scanner;\r\n\r\nabstract class Shape{\r\n    public double dimension1;\r\n    public double dimension2;\r\n    \r\n    public Shape(double dimension1, double dimension2) {\r\n        this.dimension1 = dimension1;\r\n        this.dimension2 = dimension2;\r\n    }\r\n    \r\n    public abstract void printArea();\r\n}\r\n\r\nclass Rectangle extends Shape{\r\n    \r\n    public Rectangle(double length, double width) {\r\n        super(length, width);\r\n    }\r\n    \r\n    @Override\r\n    public void printArea() {\r\n        double area = dimension1 * dimension2;\r\n        System.out.printf(\"Area of Rectangle: %.2f\\n\", area);\r\n    }\r\n}\r\n\r\nclass Triangle extends Shape{\r\n    \r\n    \r\n    public Triangle(double base, double height) {\r\n        super(base, height);\r\n    }\r\n    \r\n    @Override\r\n    public void printArea() {\r\n        double area = 0.5 * dimension1 * dimension2;\r\n        System.out.printf(\"Area of Triangle: %.2f\\n\", area);\r\n    }\r\n// Type your content here\r\n}\r\n\r\n\r\nclass Circle extends Shape{\r\n    \r\n    \r\n    public Circle(double radius) {\r\n        super(radius, 0); // dimension2 is not needed for circle\r\n    }\r\n    \r\n    @Override\r\n    public void printArea() {\r\n        double area = Math.PI * dimension1 * dimension1;\r\n        System.out.printf(\"Area of Circle: %.2f\\n\", area);\r\n    }\r\n}\r\n\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        \r\n        System.out.println(\"length and width of Rectangle: \");\r\n        double length = scanner.nextDouble();\r\n        double width = scanner.nextDouble();\r\n        Rectangle rectangle = new Rectangle(length, width);\r\n        rectangle.printArea();\r\n        \r\n        System.out.println(\"base and height of Triangle: \");\r\n        double base = scanner.nextDouble();\r\n        double height = scanner.nextDouble();\r\n        Triangle triangle = new Triangle(base, height);\r\n        triangle.printArea();\r\n        \r\n        System.out.println(\"Radius of Circle: \");\r\n        double radius = scanner.nextDouble();\r\n        Circle circle = new Circle(radius);\r\n        circle.printArea();\r\n        \r\n        scanner.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 9,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "square-root-checker",
+                "title": "Square root Checker",
+                "tab_label": "UniqueCa...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Ram wants to create a unique calculator that prints the square root of the given number if the square root is an integer, otherwise, it will need to print <code>Square root is not an integer</code>. Ram wants to build this calculator by using user-defined exceptions in Java.</p>\r\n\r\n<p>What will be the code that helps Ram to achieve this?</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The input line reads an integer whose square root needs to be printed.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The output is an integer if the square root of the given number is an integer, otherwise, it will print <code>Square root is not an integer</code> by using an exception.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q28875;\r\n\r\nimport java.util.Scanner;\r\n\r\n// User-defined exception\r\nclass NonIntegerSquareRootException extends Exception {\r\n    public NonIntegerSquareRootException(String message) {\r\n        super(message);\r\n    }\r\n}\r\n\r\npublic class UniqueCalculator {\r\n    // write your code here\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        int number = scanner.nextInt();\r\n        \r\n        \r\n        \r\n        \r\n        \r\n        try {\r\n            // write your code here\r\n            \r\n            int sqrt = (int) Math.sqrt(number);\r\n            if (sqrt * sqrt == number) {\r\n                System.out.println(sqrt);\r\n            } else {\r\n                throw new NonIntegerSquareRootException(\"Square root is not an integer\");\r\n            }\r\n            \r\n        } catch (   NonIntegerSquareRootException e    ) {\r\n            // write your code here\r\n            \r\n            System.out.println(e.getMessage());\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 10,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "producer-consumer-concept",
+                "title": "Producer Consumer Concept",
+                "tab_label": "Producer...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program using synchronized threads, which demonstrates producer consumer concept.</p>\r\n\r\n<p>The Producer-Consumer problem is a classic synchronization problem in computer science. It involves two types of threads:</p>\r\n<ul class=\"bullet-list\">\r\n    <li>Producer: This thread generates data (e.g., items) and places it in a shared resource (like a buffer)</li>\r\n    <li>Consumer: This thread takes data (items) from the shared resource for processing or consumption.</li>\r\n</ul>\r\n\r\n<p>The problem revolves around coordinating these threads such that:</p>\r\n<ul class=\"bullet-list\">\r\n    <li>The producer does not produce when the buffer is full.</li>\r\n    <li>The consumer does not consume when the buffer is empty.</li>\r\n    <li>Both threads operate safely without corrupting the shared resource.</li>\r\n</ul>\r\n\r\n<p>To achieve synchronization in Java, we can use the synchronized keyword along with wait and notify methods to control the interaction between the threads.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>Prompt the user to enter an integer representing the number of items to produce along with a print statement \"Enter the number of items to produce: \"</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<p>Output should print the following:</p>\r\n<ul class=\"bullet-list\">\r\n    <li>Messages indicating the production of each item as &lt;Produced: {Produced item}&gt;</li>\r\n    <li>Messages indicating the consumption of each item as &lt;Consumed: {Consumed item}&gt;</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q28802;\r\nimport java.util.LinkedList;\r\nimport java.util.Scanner;\r\nclass Buffer {\r\n    private final LinkedList<Integer> list = new LinkedList<>();\r\n    private final int capacity = 1;\r\n\r\n    public synchronized void produce(int item) throws InterruptedException {\r\n        while (list.size() == capacity) {\r\n            wait();\r\n        }\r\n        list.add(item);\r\n        System.out.println(\"Produced: \" + item);\r\n        notify();\r\n    }\r\n    public synchronized int consume() throws InterruptedException {\r\n        while (list.isEmpty()) {\r\n            wait();\r\n        }\r\n        int item = list.removeFirst();\r\n        System.out.println(\"Consumed: \" + item);\r\n        notify();\r\n        return item;\r\n    }\r\n}\r\nclass Producer extends Thread {\r\n    private final Buffer buffer;\r\n    private final int itemsToProduce;\r\n\r\n    public Producer(Buffer buffer, int itemsToProduce) {\r\n        this.buffer = buffer;\r\n        this.itemsToProduce = itemsToProduce;\r\n    }\r\n    @Override\r\n    public void run() {\r\n        try {\r\n            for (int i = 1; i <= itemsToProduce; i++) {\r\n                buffer.produce(i);\r\n                Thread.sleep(100); // Simulate time taken to produce\r\n            }\r\n        } catch (InterruptedException e) {\r\n            Thread.currentThread().interrupt();\r\n        }\r\n    }\r\n}\r\nclass Consumer extends Thread {\r\n    private final Buffer buffer;\r\n    private final int itemsToConsume;\r\n\r\n    public Consumer(Buffer buffer, int itemsToConsume) {\r\n        this.buffer = buffer;\r\n        this.itemsToConsume = itemsToConsume;\r\n    }\r\n\r\n    @Override\r\n    public void run() {\r\n        try {\r\n            for (int i = 1; i <= itemsToConsume; i++) {\r\n                buffer.consume();\r\n                Thread.sleep(150); // Simulate time taken to consume\r\n            }\r\n        } catch (InterruptedException e) {\r\n            Thread.currentThread().interrupt();\r\n        }\r\n    }\r\n}\r\n\r\npublic class ProducerConsumerDemo {\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.print(\"Enter the number of items to produce: \");\r\n        int itemCount = scanner.nextInt();\r\n\r\n        Buffer buffer = new Buffer();\r\n        Producer producer = new Producer(buffer, itemCount);\r\n        Consumer consumer = new Consumer(buffer, itemCount);\r\n\r\n        producer.start();\r\n        consumer.start();\r\n\r\n        try {\r\n            producer.join();\r\n            consumer.join();\r\n        } catch (InterruptedException e) {\r\n            Thread.currentThread().interrupt();\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 11,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "reverse-the-words-and-count-the-letters-in-a-sentence",
+                "title": "Reverse the Words and Count the Letters in a Sentence",
+                "tab_label": "ReverseA...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program that takes a sentence as input and reverse the order of the words and count the frequency of each letter in the reversed string. The program should count the frequency of each letter (case-insensitive), ignoring non-alphabetic characters.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program should prompt the user to enter a string of words.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>Display the reversed words.</li>\r\n    <li>Display the frequency of each letter in the reversed string in lexicographical order.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42718;\r\nimport java.util.Scanner;\r\n\r\npublic class ReverseAndCount {\r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        String input = scanner.nextLine();\r\n        String reversed = reverseWords(input);\r\n        System.out.println(reversed);\r\n        countLetterFrequency(reversed);\r\n        scanner.close();\r\n    }\r\n\r\n    private static String reverseWords(String str) {\r\n        String[] words = str.split(\" \");\r\n        StringBuilder reversed = new StringBuilder();\r\n        for (int i = words.length - 1; i >= 0; i--) {\r\n            reversed.append(words[i]).append(\" \");\r\n        }\r\n        return reversed.toString().trim();\r\n    }\r\n\r\n    private static void countLetterFrequency(String str) {\r\n        int[] frequency = new int[26];\r\n        for (char c : str.toLowerCase().toCharArray()) {\r\n            if (Character.isLetter(c)) {\r\n                frequency[c - 'a']++;\r\n            }\r\n        }\r\n        for (char i = 'a'; i <= 'z'; i++) {\r\n            if (frequency[i - 'a'] > 0) {\r\n                System.out.println(i + \": \" + frequency[i - 'a']);\r\n            }\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 12,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "number-of-patterns",
+                "title": "Number of Patterns",
+                "tab_label": "PatternR...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Given a binary string, your task is to find the number of patterns of form 1[0]1, where [0] represents any number of consecutive zeroes (with at least one 0), and there should not be any other character except 0 in the [0] sequence. The pattern must start with a 1, followed by one or more zeroes, and end with a 1.</p>\r\n\r\n<p>Write a Java program that will take a binary string as input and display the number of such patterns found.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>A line containing a binary string, where each character is either 0 or 1.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>An integer representing the number of patterns of the form 1[0]1 found in the binary string.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42741;\r\nimport java.util.Scanner;\r\n\r\npublic class PatternRecognition {\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        String binaryString = scanner.nextLine();\r\n        int patternCount = countPatterns(binaryString);\r\n        System.out.println(patternCount);\r\n        scanner.close();\r\n    }\r\n    \r\n    private static int countPatterns(String str) {\r\n        int count = 0;\r\n        boolean foundOne = false;\r\n        int zeroCount = 0;\r\n        for (char c : str.toCharArray()) {\r\n            if (c == '1') {\r\n                if (foundOne && zeroCount > 0) {\r\n                    count++;\r\n                }\r\n                foundOne = true;\r\n                zeroCount = 0;\r\n            } else if (c == '0') {\r\n                if (foundOne) {\r\n                    zeroCount++;\r\n                }\r\n            }\r\n        }\r\n        return count;\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 13,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "remove-all-the-occurrences-of-the-substring-in-a-string",
+                "title": "Remove all the Occurrences of the Substring in a String",
+                "tab_label": "RemoveOc...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Given two strings <em>S1</em> and <em>S2</em>, your task is to remove all occurrences of string <em>S2</em> in <em>S1</em> and print the remaining part of <em>S1</em>. If <em>S2</em> is not found in <em>S1</em>, the original string <em>S1</em> should be printed unchanged.</p>\r\n\r\n<p>Write a Java program that will take two strings as input: <em>S1</em> (the main string) and <em>S2</em> (the substring to be removed). The program will output the modified string after removing all instances of <em>S2</em>.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The first line contains a string <em>S1</em>, where <em>S1</em> consists of any characters.</li>\r\n    <li>The second line contains a string <em>S2</em>, where <em>S2</em> consists of any characters.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>A single line containing the modified version of string <em>S1</em>, with all occurrences of <em>S2</em> removed. If <em>S2</em> is not found in <em>S1</em>, print <em>S1</em> unchanged.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42742;\r\nimport java.util.Scanner;\r\npublic class RemoveOccurrences {\r\n    \r\n    public static String rem(String str, String substr) {\r\n        return str.replace(substr, \"\");\r\n    }\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        String str = scanner.nextLine();\r\n        String substr = scanner.nextLine();\r\n        String result = rem(str, substr);\r\n        System.out.println(result);\r\n        scanner.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 14,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "longest-repeating-sequence",
+                "title": "Longest Repeating Sequence",
+                "tab_label": "LongestS...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Given a string <em>S</em>, your task is to find the longest repeating sequence of characters in the string. A repeating sequence is defined as a substring that appears more than once in the string. The program should return the longest such repeating sequence. If there are no repeating sequences, the program should display \"No repeating sequence\".</p>\r\n\r\n<p>Write a Java program that takes a string <em>S</em> as input and outputs the longest repeating sequence of characters. If there is no repeating sequence, print a specific message.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>A single line containing a string <em>S</em>, consisting of lowercase or uppercase letters.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>A single line containing the longest repeating sequence of characters in <em>S</em>.</li>\r\n    <li>If there is no repeating sequence, print \"No repeating sequence\".</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42743;\r\nimport java.util.Scanner;\r\n\r\npublic class LongestSequence {\r\n    \r\n    public static String longest(String str) {\r\n        String longseq = \"\";\r\n        int n = str.length();\r\n        for (int i = 0; i < n; i++) {\r\n            for (int j = i + 1; j < n; j++) {\r\n                String lr = getlong(str.substring(i), str.substring(j));\r\n                if (lr.length() > longseq.length()) {\r\n                    longseq = lr;\r\n                }\r\n            }\r\n        }\r\n        return longseq.isEmpty() ? \"No repeating sequence\" : longseq;\r\n    }\r\n    \r\n    private static String getlong(String s1, String s2) {\r\n        int i = 0;\r\n        while (i < s1.length() && i < s2.length() && s1.charAt(i) == s2.charAt(i)) {\r\n            i++;\r\n        }\r\n        return s1.substring(0, i);\r\n    }\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(longest(scanner.nextLine()));\r\n        scanner.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 15,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "unique-string-values",
+                "title": "Unique String Values",
+                "tab_label": "UniquePe...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Given a string <em>S</em> containing unique characters, your task is to calculate the number of distinct permutations that can be formed by rearranging the letters of the string.</p>\r\n\r\n<p>Write a Java program that takes a string <em>S</em> as input and outputs the number of distinct permutations that can be formed.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>A single line containing a string <em>S</em>, where each character is unique (all distinct letters).</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>A single integer represents the number of distinct permutations that can be formed from the string <em>S</em>.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42744;\r\nimport java.util.Scanner;\r\n\r\npublic class UniquePermutations {\r\n    private static int factorial(int n) {\r\n        int fact = 1;\r\n        for (int i = 2; i <= n; i++) {\r\n            fact *= i;\r\n        }\r\n        return fact;\r\n    }\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        String input = scanner.nextLine();\r\n        int length = input.length();\r\n        int permutations = factorial(length);\r\n        System.out.println(permutations);\r\n        scanner.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 16,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "string-operations-using-list",
+                "title": "String Operations using List",
+                "tab_label": "StringOp...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program that performs various string operations using an ArrayList. Implement the following functionalities:</p>\r\n<ol>\r\n    <li>Append: Add a string to the end of the list.</li>\r\n    <li>Insert String at Index: Insert a string at a specified index in the list.</li>\r\n    <li>Search String: Search for a string in the list and indicate whether it exists.</li>\r\n    <li>List strings starting with Letter: List all strings from the list that start with a specified letter.</li>\r\n    <li>Display Strings: Show all strings currently stored in the list.</li>\r\n</ol>\r\n\r\n<p>Menu:</p>\r\n<div class=\"sample-card format-card\">\r\n    <span>1. Append String<br>2. Insert String at Index<br>3. Search String<br>4. List strings starting with Letter<br>5. Display Strings<br>6. Exit</span>\r\n</div>\r\n\r\n<p><strong>Choice 1: Append String</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program prompts the user to enter a string by displaying:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>String to append: </span>\r\n</div>\r\n<ul class=\"bullet-list\">\r\n    <li>It then adds the entered string to the end of the list.</li>\r\n</ul>\r\n\r\n<p><strong>Choice 2: Insert String at Index</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program prompts the user to enter a string by displaying:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>String to insert: </span>\r\n</div>\r\n<ul class=\"bullet-list\">\r\n    <li>It then prompts the user to enter an index by displaying:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>Index to insert: </span>\r\n</div>\r\n<ul class=\"bullet-list\">\r\n    <li>If the index is valid (between 0 and the current list size), the string is inserted at the specified position.</li>\r\n    <li>If the index is invalid, it prints:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>Invalid Index</span>\r\n</div>\r\n\r\n<p><strong>Choice 3: Search String</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program prompts the user to enter a string by displaying:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>String to search: </span>\r\n</div>\r\n<ul class=\"bullet-list\">\r\n    <li>If the string exists in the list, it prints:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>'&lt;string&gt;' found.</span>\r\n</div>\r\n<ul class=\"bullet-list\">\r\n    <li>Otherwise, it prints:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>'&lt;string&gt;' not found.</span>\r\n</div>\r\n\r\n<p><strong>Choice 4: List strings starting with Letter</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program prompts the user to enter a letter by displaying:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>Letter: </span>\r\n</div>\r\n<ul class=\"bullet-list\">\r\n    <li>It then prints all strings in the list that start with the given letter.</li>\r\n    <li>If no such strings are found, it prints:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>No strings found</span>\r\n</div>\r\n\r\n<p><strong>Choice 5: Display Strings</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program displays all strings currently stored in the list.</li>\r\n    <li>If the list is empty, it prints:</li>\r\n</ul>\r\n<div class=\"sample-card format-card\">\r\n    <span>List is empty</span>\r\n</div>\r\n\r\n<p><strong>Choice 6: Exit</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program closes the scanner and terminates. No menu is displayed.</li>\r\n</ul>\r\n\r\n<p><strong>Note:</strong></p>\r\n<ul class=\"bullet-list note-list\">\r\n    <li>The main method has been provided to you in the editor; you are required to fill in the remaining function bodies.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42745;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\n\r\npublic class StringOperations {\r\n    \r\n    // ArrayList to store strings\r\n    private ArrayList<String> stringList;\r\n    \r\n    // Constructor to initialize the ArrayList\r\n    public StringOperations() {\r\n        stringList = new ArrayList<>();\r\n    }\r\n    \r\n    public void appendString(String str) {\r\n        stringList.add(str);\r\n    }\r\n    \r\n    public void insertString(int index, String str) {\r\n        if (index >= 0 && index <= stringList.size()) {\r\n            stringList.add(index, str);\r\n        } else {\r\n            System.out.println(\"Invalid index\");\r\n        }\r\n    }\r\n    \r\n    public void searchString(String str) {\r\n        if (stringList.contains(str)) {\r\n            System.out.println(\"'\" + str + \"' found.\");\r\n        } else {\r\n            System.out.println(\"'\" + str + \"' not found.\");\r\n        }\r\n    }\r\n    \r\n    public void listStringsStartingWith(char letter) {\r\n        boolean found = false;\r\n        for (String str : stringList) {\r\n            if (str.charAt(0) == letter) {\r\n                System.out.println(str);\r\n                found = true;\r\n            }\r\n        }\r\n        if (!found) {\r\n            System.out.println(\"No strings found.\");\r\n        }\r\n    }\r\n    \r\n    public void displayList() {\r\n        if (stringList.isEmpty()) {\r\n            System.out.println(\"List is empty\");\r\n        } else {\r\n            System.out.println(stringList);\r\n        }\r\n    }\r\n    \r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        StringOperations operations = new StringOperations();\r\n        \r\n        while (true) {\r\n            System.out.println(\"1. Append String\");\r\n            System.out.println(\"2. Insert String at Index\");\r\n            System.out.println(\"3. Search String\");\r\n            System.out.println(\"4. List strings starting with Letter\");\r\n            System.out.println(\"5. Display Strings\");\r\n            System.out.println(\"6. Exit\");\r\n            System.out.print(\"Enter choice: \");\r\n            \r\n            int choice = scanner.nextInt();\r\n            scanner.nextLine(); // Consume newline\r\n            \r\n            switch (choice) {\r\n                case 1:\r\n                    System.out.print(\"String to append: \");\r\n                    String strToAppend = scanner.nextLine();\r\n                    operations.appendString(strToAppend);\r\n                    break;\r\n                case 2:\r\n                    System.out.print(\"String to insert: \");\r\n                    String strToInsert = scanner.nextLine();\r\n                    System.out.print(\"Index to insert: \");\r\n                    int indexToInsert = scanner.nextInt();\r\n                    scanner.nextLine();\r\n                    operations.insertString(indexToInsert, strToInsert);\r\n                    break;\r\n                case 3:\r\n                    System.out.print(\"String to search: \");\r\n                    String strToSearch = scanner.nextLine();\r\n                    operations.searchString(strToSearch);\r\n                    break;\r\n                case 4:\r\n                    System.out.print(\"Letter: \");\r\n                    char letter = scanner.nextLine().charAt(0);\r\n                    operations.listStringsStartingWith(letter);\r\n                    break;\r\n                case 5:\r\n                    operations.displayList();\r\n                    break;\r\n                case 6:\r\n                    scanner.close();\r\n                    return;\r\n                default:\r\n                    System.out.println(\"Invalid choice\");\r\n            }\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 17,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "frequency-of-words-17",
+                "title": "Frequency of Words",
+                "tab_label": "WordFreq...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program that finds the frequency of words in a given text using an ArrayList. The program should read input text from the user, split the text into individual words, and then count the occurrences of each word.</p>\r\n\r\n<p>Requirements:<br>1. Split the text into words, treating punctuation and whitespace as delimiters.<br>2. Count the frequency of each word, making the count case-insensitive.<br>3. Display the word frequencies in the format: {word}: {frequency}.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program should prompt the user to enter a line of text.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program should print the frequency of each word in the text.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q42746;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\nimport java.util.Scanner;\r\n\r\npublic class WordFrequency {\r\n    \r\n    // Method to find the frequency of words in the given text\r\n    public static void findWordFrequency(String text) {\r\n        // Split the text into words\r\n        String[] words = text.split(\"\\\\W+\"); // Split by non-word characters\r\n        ArrayList<String> wordList = new ArrayList<>();\r\n        Map<String, Integer> wordFrequency = new HashMap<>();\r\n        for (String word : words) {\r\n            if (!word.isEmpty()) {\r\n                word = word.toLowerCase();\r\n                wordList.add(word);\r\n                wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);\r\n            }\r\n        }\r\n        for (String word : wordList) {\r\n            if (wordFrequency.containsKey(word)) {\r\n                System.out.println(word + \": \" + wordFrequency.get(word));\r\n                wordFrequency.remove(word);\r\n            }\r\n        }\r\n    }\r\n    \r\n    public static void main(String[] args){\r\n        Scanner s=new Scanner(System.in);\r\n        String text=s.nextLine();\r\n        findWordFrequency(text);\r\n        s.close();\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 18,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "frequency-of-words-13",
+                "title": "Frequency of Words",
+                "tab_label": "WordFreq...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>You are tasked with creating a program to analyze the frequency of words in a text file. Your program should read the contents of the file, process the text, and determine the most frequently occurring word. If there are multiple words with the highest frequency, output the first one that appears in the text.</p>\r\n\r\n<p><strong>Input Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The program will read the name of a text file from the standard input. The file will contain lines of text.</li>\r\n</ul>\r\n\r\n<p><strong>Processing:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>Read the entire content of the file.</li>\r\n    <li>Normalize the text by:</li>\r\n    <li>Removing all non-alphabetic characters (i.e., punctuation and numbers) using the regular expression [^a-zA-Z].</li>\r\n    <li>Converting all letters to lowercase.</li>\r\n    <li>Split the text into words based on whitespace.</li>\r\n    <li>Count the frequency of each word.</li>\r\n    <li>Identify the word with the highest frequency. In case of a tie, choose the first word that reaches the maximum frequency.</li>\r\n</ul>\r\n\r\n<p><strong>Output Format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>Print the most frequent word followed by its frequency in the format: \"&lt;word&gt; : &lt;frequency&gt;\".</li>\r\n</ul>\r\n\r\n<p><strong>Error Handling:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>If the file does not exist or cannot be read, print the message: \"File does not exist\".</li>\r\n</ul>\r\n\r\n<p><strong>Details:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>To ensure correct word counting, you need to remove all non-alphabetic characters from each word using the regular expression [^a-zA-Z] and then convert the result to lowercase.</li>\r\n    <li>This means any characters that are not letters (like punctuation or digits) should be excluded from the words considered in the frequency analysis.</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "/*package q28246;\r\nimport java.io.BufferedReader;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.Scanner;\r\n\r\n*/\r\npackage q28246;\r\nimport java.io.*;\r\nimport java.util.*;\r\n\r\npublic class WordFrequency {\r\n\r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n        String fileName = scanner.nextLine();\r\n        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {\r\n            Map<String, Integer> wordCount = new LinkedHashMap<>();\r\n            String line;\r\n\r\n            while ((line = reader.readLine()) != null) {\r\nline = line.replaceAll(\"[^a-zA-Z]\", \" \").toLowerCase();\r\n                String[] words = line.split(\"\\\\s+\");\r\n\r\n                // Count word frequency\r\n                for (String word : words) {\r\n                    if (!word.isEmpty()) {\r\n                        wordCount.put(word, wordCount.getOrDefault(word,0) + 1);\r\n                    }\r\n                }\r\n            }\r\n            String mostFrequentWord = null;\r\n            int maxFrequency = 0;\r\n\r\n            for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {\r\n                if (entry.getValue() > maxFrequency) {\r\n                    mostFrequentWord = entry.getKey();\r\n                    maxFrequency = entry.getValue();\r\n                }\r\n            }\r\n            if (mostFrequentWord != null) {\r\n                System.out.println(mostFrequentWord + \" : \" + maxFrequency);\r\n            }\r\n        } catch (IOException e) {\r\n            System.out.println(\"File does not exist\");\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 19,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "aanyas-calculator",
+                "title": "Aanya's Calculator",
+                "tab_label": "DivisionC...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Aanya, a school student, recently learned about division in math class. She wants to create a program to perform division operations like a calculator. Seeking help, she approached her teacher, who warned her to be cautious when dividing by zero. Can you assist Aanya in designing the program and handling the specific exception pointed out by her teacher?</p>\r\n\r\n<p><strong>Input format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The first two lines of the input are the integers which represent the numerator and denominator respectively.</li>\r\n</ul>\r\n\r\n<p><strong>Output format:</strong></p>\r\n<ul class=\"bullet-list\">\r\n    <li>The output is the double value that represents the result after performing the division operation. If the denominator is zero, the program should display \"Error: Division by zero is not possible\".</li>\r\n</ul>\r\n\r\n<div class=\"sample-card\">\r\n    <span>Sample Test Cases</span>\r\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\r\n</div>",
+                "code_text": "package q28182;\r\nimport java.util.Scanner;\r\npublic class DivisionCalc {\r\n    \r\n    \r\n    public static void main(String[] args) {\r\n        Scanner sc = new Scanner(System.in);\r\n        int numerator = sc.nextInt();\r\n        int denominator = sc.nextInt();\r\n        \r\n        try {\r\n            \r\n            \r\n            if (denominator == 0) {\r\n                throw new ArithmeticException(\"Division by zero\");\r\n            }double result = (double) numerator / denominator;\r\n            System.out.println(result);\r\n            \r\n        }catch (             ArithmeticException e          ) {\r\n            System.out.println(\"Error: Division by zero is not possible\");\r\n        }\r\n    }\r\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 20,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            }
+        ];
         for (int i = 0; i < n; i++) {
             array[i] = scanner.nextInt();
         }
