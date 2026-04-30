@@ -365,8 +365,24 @@
 
         .settings-title {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
             margin: 0 9px 6px 0;
+        }
+
+        .logout-btn {
+            border: 0;
+            padding: 4px 10px;
+            background: #e1e7f0;
+            color: #d32f2f;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #d0d7e3;
         }
 
         .reset-zoom {
@@ -1366,6 +1382,7 @@
                     </button>
                     <div class="settings-menu" id="settingsMenu">
                         <div class="settings-title">
+                            <button class="logout-btn" id="logoutBtn" type="button">Logout</button>
                             <button class="reset-zoom" id="resetZoom" type="button">Reset</button>
                         </div>
                         <div class="zoom-row">
@@ -1663,6 +1680,7 @@
         const settingsToggle = document.getElementById("settingsToggle");
         const zoomSlider = document.getElementById("zoomSlider");
         const resetZoom = document.getElementById("resetZoom");
+        const logoutBtn = document.getElementById("logoutBtn");
         const submitBtn = document.querySelector(".submit-btn");
         const submissionStage = document.getElementById("submissionStage");
         const submissionLoader = document.getElementById("submissionLoader");
@@ -2200,6 +2218,19 @@
             localStorage.setItem("codetantraStudentName", name);
             localStorage.setItem("codetantraStudentRollNo", rollNo);
             showCourseScreen();
+        });
+
+        logoutBtn.addEventListener("click", () => {
+            localStorage.removeItem("codetantraStudentName");
+            localStorage.removeItem("codetantraStudentRollNo");
+            loginName.value = "";
+            loginRoll.value = "";
+            courseScreen.classList.add("is-hidden");
+            courseScreen.setAttribute("aria-hidden", "true");
+            loginScreen.classList.remove("is-hidden");
+            loginScreen.setAttribute("aria-hidden", "false");
+            settingsWrap.classList.remove("open");
+            settingsToggle.setAttribute("aria-expanded", "false");
         });
 
         document.querySelectorAll(".course-card").forEach((card) => {
