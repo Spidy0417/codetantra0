@@ -22,12 +22,12 @@
             --editor-gutter: #e8edf4;
             --splitter: 6px;
             --questions-gap: 14px;
-            --questions-pane: 320px;
+            --questions-pane: 305px;
             --left-pane: calc((100% - var(--splitter) - var(--questions-gap) - var(--questions-pane)) / 2);
             --accent-blue: #24558c;
             --green: #12a86a;
             --green-dark: #0d955e;
-            --finish: #b23a2f;
+            --finish: #D93641;
             --button-border: #8f9cad;
             --footer-height: 54px;
             --topbar-height: 80px;
@@ -261,10 +261,11 @@
 
         .questions-panel .close-ui {
             position: absolute;
-            top: 9px;
-            right: 9px;
+            top: 3px;
+            right: 5px;
             z-index: 21;
-            font-size: 24px;
+            font-size: 19px;
+            font-weight: 800;
         }
 
         .program-search-wrap {
@@ -507,7 +508,7 @@
 
         .panel {
             min-height: 0;
-            overflow: hidden;
+            overflow: visible;
             background: var(--panel-bg);
             border: var(--hairline) solid var(--panel-border);
             border-radius: var(--radius);
@@ -672,6 +673,38 @@
             background: #cbd5e4;
         }
 
+        .right-splitter {
+            position: relative;
+            cursor: col-resize;
+            touch-action: none;
+            background: transparent;
+        }
+
+        .right-splitter::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            transform: translateX(-50%);
+            background: #d8e0eb;
+        }
+
+        .right-splitter::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -6px;
+            right: -6px;
+        }
+
+        .right-splitter:hover::before,
+        .right-splitter:active::before {
+            background: #9fb0c5;
+        }
+
         .editor-panel {
             display: flex;
             flex-direction: column;
@@ -813,6 +846,9 @@
         .code-scroll {
             flex: 1;
             min-height: 0;
+            display: grid;
+            grid-template-columns: 78px max-content;
+            align-content: start;
             overflow: auto;
             background: linear-gradient(90deg, var(--editor-gutter) 0 78px, #ffffff 78px 100%);
             color: #161c24;
@@ -821,18 +857,23 @@
             line-height: 1.48;
         }
 
+        .code-scroll::-webkit-scrollbar:horizontal {
+            height: 0;
+        }
+
         .code-line {
-            display: grid;
-            grid-template-columns: 78px 1fr;
-            min-width: 710px;
+            display: contents;
         }
 
         .line-no {
-            position: relative;
+            position: sticky;
+            left: 0;
+            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: flex-end;
             padding: 0 14px 0 4px;
+            background: var(--editor-gutter);
             border-right: var(--hairline) solid #d8e0eb;
             color: #151b24;
             user-select: none;
@@ -847,7 +888,9 @@
 
         .line-code {
             padding-left: 8px;
+            padding-right: 28px;
             white-space: pre;
+            min-width: max-content;
         }
 
         .kw { color: #7e158e; }
@@ -1208,7 +1251,7 @@
         }
 
         .finish {
-            border-color: #963126;
+            border-color: #D93641;
             background: var(--finish);
             color: #ffffff;
             box-shadow: none;
@@ -1430,20 +1473,21 @@
             flex-direction: column;
             height: calc(100% + var(--topbar-height) - 7px);
             transform: translateY(calc(-1 * var(--topbar-height) + 7px));
+            padding-top: 26px;
             background: #ffffff;
-            border: var(--hairline) solid #d8e1ec;
-            border-radius: 6px;
-            box-shadow: 0 1px 2px rgba(30, 45, 70, 0.04);
-            overflow: hidden;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
         }
         
         .qp-header-area {
-            padding: 8px 0 14px 17px;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            background: #f7f9fc;
-            border-bottom: var(--hairline) solid #e8edf4;
+            gap: 6px;
+            background: transparent;
+            border-bottom: 0;
         }
 
         .qp-time-title {
@@ -1451,6 +1495,10 @@
             align-items: center;
             justify-content: center;
             gap: 7px;
+            min-height: 35px;
+            border: var(--hairline) solid #d8e1ec;
+            border-radius: 6px;
+            background: #f7f9fc;
             font-size: 14px;
             font-weight: 700;
             color: #111827;
@@ -1466,6 +1514,11 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: nowrap;
+            min-height: 47px;
+            padding: 0 0 0 17px;
+            border: var(--hairline) solid #e1e7f0;
+            border-radius: 6px;
+            background: #ffffff;
         }
         
         .qp-test-label {
@@ -1486,7 +1539,7 @@
         }
 
         .qp-time-value {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: #111827;
             letter-spacing: 0;
@@ -1567,7 +1620,8 @@
             height: 28px;
             display: block;
             object-fit: contain;
-            transform: scale(2.35);
+            filter: saturate(0.9) contrast(0.95);
+            transform: scale(2.15);
             transform-origin: center;
         }
 
@@ -1576,6 +1630,10 @@
             overflow: auto;
             display: flex;
             flex-direction: column;
+            margin-top: 7px;
+            border: var(--hairline) solid #d8e1ec;
+            background: #ffffff;
+            border-radius: 6px;
         }
 
         .qp-section {
@@ -1672,12 +1730,21 @@
         }
         
         .qp-box.not-answered {
-            border: var(--hairline) solid #ff4d4f;
+            border: 1.5px solid #D93641;
             color: #111827;
+        }
+
+        .qp-box.not-answered::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-top: 15px solid #D93641;
+            border-left: 15px solid transparent;
         }
         
         .qp-box.answered {
-            border: var(--hairline) solid #cbd5e1;
+            border: 1.5px solid #20b85a;
             color: #1e2936;
         }
         
@@ -1686,8 +1753,8 @@
             position: absolute;
             top: 0;
             right: 0;
-            border-top: 13px solid #20b85a;
-            border-left: 13px solid transparent;
+            border-top: 15px solid #20b85a;
+            border-left: 15px solid transparent;
         }
         
         .qp-legend {
@@ -1855,14 +1922,14 @@
             <div class="header-left">
                 <img class="college-logo" src="./logo.jpeg" alt="R.M.K. Engineering College">
                 <div class="exam-meta">
-                    <div class="exam-title" id="examTitle">Java Programming - 24CS202 - SEMESTER_MAY 2026 (#<span id="examCode"></span>)</div>
+                    <div class="exam-title" id="examTitle">Java Programming - 24CS202 - END_SEMESTER 2026 (#<span id="examCode"></span>)</div>
                     <div class="exam-row">
                         <span class="exam-link">Section - 3</span>
                         <span class="exam-link">( Section 3 of 3 )</span>
                         <span class="exam-arrow">&rsaquo;</span>
-                        <span class="exam-link">Question 3 of 4</span>
-                        <span>(10 marks)</span>
-                        <span>Answer any 2 out of 4</span>
+                        <span class="exam-link">Question 3 of 5</span>
+                        <span>(20 marks)</span>
+                        <span>Answer any 3 out of 5</span>
                     </div>
                 </div>
             </div>
@@ -2144,7 +2211,7 @@
                 </div>
             </section>
 
-            <div aria-hidden="true"></div>
+            <div class="right-splitter" id="rightSplitter" role="separator" aria-orientation="vertical" aria-label="Resize question panel"></div>
 
             <section class="panel questions-panel">
                 <button class="close-ui" type="button" aria-label="Close">&times;</button>
@@ -2221,19 +2288,22 @@
                             <div class="qp-grid">
                                 <button class="qp-box not-answered" type="button" data-question-index="0">1</button>
                                 <button class="qp-box answered" type="button" data-question-index="1">2</button>
+                                <button class="qp-box answered" type="button" data-question-index="2">3</button>
+                                <button class="qp-box answered" type="button" data-question-index="3">4</button>
+                                <button class="qp-box not-answered" type="button" data-question-index="4">5</button>
                             </div>
                             <div class="qp-legend">
                                 <div class="qp-legend-item">
                                     <div class="qp-legend-color" style="background: #22c55e;"></div>
-                                    Answered 1
+                                    Answered 3
                                 </div>
                                 <div class="qp-legend-item">
                                     <div class="qp-legend-color" style="background: #94a3b8;"></div>
-                                    Not Visited 0
+                                    Not Visited 1
                                 </div>
                                 <div class="qp-legend-item">
-                                    <div class="qp-legend-color" style="background: #ef4444;"></div>
-                                    Not Answered 1
+                                    <div class="qp-legend-color" style="background: #D93641;"></div>
+                                    Not Answered 2
                                 </div>
                             </div>
                         </div>
@@ -2283,6 +2353,7 @@
     <script>
         const workspace = document.querySelector(".workspace");
         const splitter = document.getElementById("splitter");
+        const rightSplitter = document.getElementById("rightSplitter");
         const settingsWrap = document.getElementById("settingsWrap");
         const settingsToggle = document.getElementById("settingsToggle");
         const zoomSlider = document.getElementById("zoomSlider");
@@ -3232,10 +3303,6 @@
                 sectionBadge.textContent = `${Math.min(currentIndex + 1, questionButtons.length)}/${questionButtons.length}`;
             }
 
-            questionButtons.forEach((button, index) => {
-                button.classList.toggle("not-answered", index === currentIndex);
-                button.classList.toggle("answered", index !== currentIndex && index < questionButtons.length);
-            });
         }
 
         async function loadProgram(slug) {
@@ -3369,10 +3436,29 @@
         splitter.addEventListener("pointerup", stopResize);
         splitter.addEventListener("pointercancel", stopResize);
 
+        rightSplitter.addEventListener("pointerdown", (event) => {
+            rightSplitter.setPointerCapture(event.pointerId);
+            document.body.classList.add("is-resizing");
+            resizeQuestionPanel(event.clientX);
+        });
+
+        rightSplitter.addEventListener("pointermove", (event) => {
+            if (!rightSplitter.hasPointerCapture(event.pointerId)) return;
+            resizeQuestionPanel(event.clientX);
+        });
+
+        rightSplitter.addEventListener("pointerup", stopResize);
+        rightSplitter.addEventListener("pointercancel", stopResize);
+
         function stopResize(event) {
             if (splitter.hasPointerCapture(event.pointerId)) {
                 splitter.releasePointerCapture(event.pointerId);
             }
+
+            if (rightSplitter.hasPointerCapture(event.pointerId)) {
+                rightSplitter.releasePointerCapture(event.pointerId);
+            }
+
             document.body.classList.remove("is-resizing");
         }
 
@@ -3388,6 +3474,15 @@
             const maxLeft = resizableWidth - minRight - splitterWidth;
             const nextLeft = Math.min(Math.max(clientX - bounds.left, minLeft), maxLeft);
             workspace.style.setProperty("--left-pane", `${nextLeft}px`);
+        }
+
+        function resizeQuestionPanel(clientX) {
+            const bounds = workspace.getBoundingClientRect();
+            const nextWidth = bounds.right - clientX;
+            const minWidth = 255;
+            const maxWidth = 430;
+            const safeWidth = Math.min(Math.max(nextWidth, minWidth), maxWidth);
+            workspace.style.setProperty("--questions-pane", `${safeWidth}px`);
         }
         // Generate random 4-digit exam code once per session
         (function () {
