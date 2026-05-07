@@ -10,8 +10,9 @@
             --header-bg: #eef3f7;
             --header-line: #d9e0ea;
             --panel-bg: #f2f5f9;
-            --panel-border: #d2dbe8;
+            --panel-border: #d6deea;
             --panel-shell: #e9eff7;
+            --hairline: 0.75px;
             --problem-header: #31465b;
             --problem-header-dark: #2d4053;
             --text: #151b23;
@@ -95,13 +96,14 @@
         .topbar {
             height: var(--topbar-height);
             flex-shrink: 0;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 20px;
             padding: 8px 20px 8px 29px;
             background: #ffffff;
-            border-bottom: 1px solid #dbe3ee;
+            border-bottom: var(--hairline) solid #dbe3ee;
             box-shadow: none;
         }
 
@@ -163,10 +165,14 @@
         }
 
         .header-right {
+            position: absolute;
+            top: 12px;
+            right: calc(var(--questions-pane) + var(--questions-gap) + 24px);
             display: flex;
             align-items: center;
             gap: 14px;
             flex-shrink: 0;
+            z-index: 12;
         }
 
         .student {
@@ -253,6 +259,14 @@
             padding: 0;
         }
 
+        .questions-panel .close-ui {
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            z-index: 21;
+            font-size: 24px;
+        }
+
         .program-search-wrap {
             position: relative;
             display: inline-flex;
@@ -265,7 +279,7 @@
             right: -42px;
             width: 330px;
             padding: 12px;
-            border: 1px solid #d4dce7;
+            border: var(--hairline) solid #d4dce7;
             border-radius: 7px;
             background: #f8fafc;
             box-shadow: 0 8px 20px rgba(27, 42, 64, 0.16);
@@ -280,7 +294,7 @@
         .program-search-input {
             width: 100%;
             height: 34px;
-            border: 1px solid #b8c4d2;
+            border: var(--hairline) solid #b8c4d2;
             border-radius: 5px;
             padding: 0 10px;
             background: #ffffff;
@@ -313,7 +327,7 @@
 
         .program-result {
             min-height: 38px;
-            border: 1px solid #dce4ee;
+            border: var(--hairline) solid #dce4ee;
             border-radius: 5px;
             padding: 7px 9px;
             background: #ffffff;
@@ -369,7 +383,7 @@
             right: 0;
             width: 320px;
             padding: 14px 16px 16px;
-            border: 1px solid #d7dde6;
+            border: var(--hairline) solid #d7dde6;
             border-radius: 7px;
             background: #f5f7fb;
             box-shadow: 0 8px 18px rgba(28, 42, 65, 0.12);
@@ -495,7 +509,7 @@
             min-height: 0;
             overflow: hidden;
             background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
+            border: var(--hairline) solid var(--panel-border);
             border-radius: var(--radius);
             box-shadow: 0 1px 2px rgba(30, 45, 70, 0.04);
         }
@@ -578,7 +592,7 @@
 
         .sample-card {
             height: 78px;
-            border: 1px solid #cfd7e3;
+            border: var(--hairline) solid #cfd7e3;
             border-radius: 7px;
             background: #f8fafc;
             display: flex;
@@ -629,8 +643,8 @@
             cursor: col-resize;
             touch-action: none;
             background: #e4ebf3;
-            border-top: 1px solid var(--panel-border);
-            border-bottom: 1px solid var(--panel-border);
+            border-top: var(--hairline) solid var(--panel-border);
+            border-bottom: var(--hairline) solid var(--panel-border);
         }
 
         .splitter::before {
@@ -674,7 +688,7 @@
             justify-content: space-between;
             padding-right: 9px;
             background: var(--editor-top);
-            border-bottom: 1px solid #d6deea;
+            border-bottom: var(--hairline) solid #d6deea;
         }
 
         .editor-tab {
@@ -686,7 +700,7 @@
             align-items: center;
             gap: 8px;
             background: #edf2f7;
-            border: 1px solid #d2dbe8;
+            border: var(--hairline) solid #d2dbe8;
             border-bottom: 2px solid #235993;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
@@ -759,7 +773,7 @@
 
         .explorer-strip {
             background: #f3f6fb;
-            border-right: 1px solid #d8e0eb;
+            border-right: var(--hairline) solid #d8e0eb;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -800,7 +814,7 @@
             flex: 1;
             min-height: 0;
             overflow: auto;
-            background: linear-gradient(90deg, var(--editor-gutter) 0 78px, #f5f7fa 78px 100%);
+            background: linear-gradient(90deg, var(--editor-gutter) 0 78px, #ffffff 78px 100%);
             color: #161c24;
             font-family: var(--code-font);
             font-size: 16px;
@@ -819,7 +833,7 @@
             align-items: center;
             justify-content: flex-end;
             padding: 0 14px 0 4px;
-            border-right: 1px solid #d8e0eb;
+            border-right: var(--hairline) solid #d8e0eb;
             color: #151b24;
             user-select: none;
         }
@@ -837,6 +851,7 @@
         }
 
         .kw { color: #7e158e; }
+        .type { color: #008b3a; }
         .id { color: #001f98; }
         .str { color: #9f180d; }
         .comment { color: #4a4a4a; }
@@ -962,7 +977,7 @@
         .runtime-card,
         .passed-card {
             min-width: 0;
-            border: 1px solid #d8e0eb;
+            border: var(--hairline) solid #d8e0eb;
             border-radius: 8px;
             background: #ffffff;
             box-shadow: 0 1px 3px rgba(35, 50, 72, 0.12);
@@ -992,7 +1007,7 @@
         }
 
         .runtime-cell + .runtime-cell {
-            border-left: 1px solid #e2e8f0;
+            border-left: var(--hairline) solid #e2e8f0;
         }
 
         .runtime-label {
@@ -1079,7 +1094,7 @@
 
         @keyframes draw-pass-line {
             to {
-                background-size: 100% 3px;
+                background-size: 100% 2px;
             }
         }
 
@@ -1090,8 +1105,8 @@
         }
 
         .passed-dot {
-            width: 22px;
-            height: 22px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
@@ -1102,6 +1117,11 @@
             line-height: 1;
             font-weight: 900;
             flex-shrink: 0;
+        }
+
+        .passed-dot svg {
+            width: 9px !important;
+            height: 9px !important;
         }
 
         .result-close {
@@ -1131,7 +1151,7 @@
             gap: 10px;
             padding-left: 49px;
             background: var(--editor-top);
-            border-top: 1px solid #d6deea;
+            border-top: var(--hairline) solid #d6deea;
             color: #172231;
             font-size: 14px;
         }
@@ -1173,7 +1193,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            border: 1px solid var(--button-border);
+            border: var(--hairline) solid var(--button-border);
             background: #f4f6fa;
             color: #18375b;
             font-size: 14px;
@@ -1192,6 +1212,12 @@
             background: var(--finish);
             color: #ffffff;
             box-shadow: none;
+        }
+
+        .clear-btn {
+            border-color: #8da3bd;
+            background: #e8f0f8;
+            color: #173767;
         }
 
         .chev {
@@ -1242,7 +1268,7 @@
         .login-input {
             width: 100%;
             height: 41px;
-            border: 1px solid #b9c2cc;
+            border: var(--hairline) solid #b9c2cc;
             border-radius: 6px;
             padding: 0 9px;
             color: #1f2937;
@@ -1344,7 +1370,7 @@
 
         .course-card {
             height: 214px;
-            border: 1px solid #ccd6e2;
+            border: var(--hairline) solid #ccd6e2;
             border-radius: 8px;
             background: #f8fbff;
             display: flex;
@@ -1398,10 +1424,14 @@
         }
 
         .questions-panel {
+            position: relative;
+            z-index: 8;
             display: flex;
             flex-direction: column;
+            height: calc(100% + var(--topbar-height) - 7px);
+            transform: translateY(calc(-1 * var(--topbar-height) + 7px));
             background: #ffffff;
-            border: 1px solid #d8e1ec;
+            border: var(--hairline) solid #d8e1ec;
             border-radius: 6px;
             box-shadow: 0 1px 2px rgba(30, 45, 70, 0.04);
             overflow: hidden;
@@ -1412,7 +1442,8 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            border-bottom: 1px solid #e8edf4;
+            background: #f7f9fc;
+            border-bottom: var(--hairline) solid #e8edf4;
         }
 
         .qp-time-title {
@@ -1424,6 +1455,10 @@
             font-weight: 700;
             color: #111827;
             line-height: 1.2;
+        }
+
+        .qp-time-title svg {
+            color: #1d4ed8;
         }
 
         .qp-time-row {
@@ -1455,14 +1490,62 @@
             font-weight: 700;
             color: #111827;
             letter-spacing: 0;
+            cursor: default;
+            user-select: none;
+        }
+
+        .qp-time-picker-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qp-time-presets {
+            position: absolute;
+            top: 34px;
+            right: 36px;
+            z-index: 20;
+            width: 198px;
+            padding: 7px;
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            border: var(--hairline) solid #cbd5e1;
+            border-radius: 6px;
+            background: #ffffff;
+            box-shadow: 0 8px 18px rgba(20, 35, 58, 0.16);
+        }
+
+        .qp-time-presets.is-open {
+            display: grid;
+        }
+
+        .qp-time-option {
+            height: 28px;
+            border: var(--hairline) solid #d5dde8;
+            border-radius: 4px;
+            background: #f7faff;
+            color: #173767;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: Arial, Helvetica, sans-serif;
+            cursor: pointer;
+        }
+
+        .qp-time-option:hover,
+        .qp-time-option:focus-visible {
+            border-color: #5a8fc7;
+            background: #eaf3ff;
+            outline: none;
         }
 
         .qp-pause-btn {
             width: 28px;
             height: 28px;
             border: 0;
-            border-radius: 5px 0 0 5px;
-            background: #1357a7;
+            border-radius: 6px;
+            background: transparent;
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -1471,6 +1554,21 @@
             overflow: hidden;
             padding: 0;
             flex-shrink: 0;
+        }
+
+        .qp-pause-btn svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+        }
+
+        .qp-pause-btn img {
+            width: 28px;
+            height: 28px;
+            display: block;
+            object-fit: contain;
+            transform: scale(2.35);
+            transform-origin: center;
         }
 
         .qp-sections {
@@ -1483,7 +1581,7 @@
         .qp-section {
             display: flex;
             flex-direction: column;
-            border-bottom: 1px solid #e8edf4;
+            border-bottom: var(--hairline) solid #e8edf4;
         }
         
         .qp-section:last-child {
@@ -1518,7 +1616,7 @@
             border-radius: 12px;
             font-size: 12px;
             font-weight: 700;
-            border: 1px solid #cbd5e1;
+            border: var(--hairline) solid #cbd5e1;
             background: #ffffff;
             color: #475569;
         }
@@ -1561,7 +1659,7 @@
             width: 40px;
             height: 40px;
             border-radius: 5px;
-            border: 1px solid #d8e0eb;
+            border: var(--hairline) solid #d8e0eb;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1574,12 +1672,12 @@
         }
         
         .qp-box.not-answered {
-            border: 1px solid #ff4d4f;
+            border: var(--hairline) solid #ff4d4f;
             color: #111827;
         }
         
         .qp-box.answered {
-            border: 1px solid #cbd5e1;
+            border: var(--hairline) solid #cbd5e1;
             color: #1e2936;
         }
         
@@ -1621,7 +1719,7 @@
             font-size: 15px;
             font-weight: 700;
             color: #111827;
-            border-top: 1px solid #e8edf4;
+            border-top: var(--hairline) solid #e8edf4;
             background: #ffffff;
             display: flex;
             align-items: center;
@@ -1639,7 +1737,7 @@
             overflow: hidden;
             border-radius: 6px;
             background: rgba(250, 250, 250, 0.96);
-            border: 1px solid #edf0f3;
+            border: var(--hairline) solid #edf0f3;
             box-shadow: 0 2px 8px rgba(20, 31, 46, 0.12);
         }
 
@@ -1652,7 +1750,7 @@
             align-items: center;
             justify-content: center;
             padding: 0;
-            border-left: 1px solid #f0f2f5;
+            border-left: var(--hairline) solid #f0f2f5;
             cursor: default;
         }
 
@@ -1807,7 +1905,6 @@
                         </div>
                     </div>
                 </div>
-                <button class="close-ui" type="button" aria-label="Close">&times;</button>
             </div>
         </header>
 
@@ -2050,23 +2147,37 @@
             <div aria-hidden="true"></div>
 
             <section class="panel questions-panel">
+                <button class="close-ui" type="button" aria-label="Close">&times;</button>
                 <div class="qp-header-area">
                     <div class="qp-time-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; display: block;">
+                            <circle cx="12" cy="12" r="10" fill="#1f2d59"></circle>
+                            <path d="M12 6.2v6.2l4 4" fill="none" stroke="#ffffff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
                         Time Remaining
                     </div>
                     <div class="qp-time-row">
                         <div class="qp-test-label">
                             <span class="qp-dot"></span> Test
                         </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span class="qp-time-value">00:42:09</span>
+                        <div class="qp-time-picker-wrap">
+                            <span class="qp-time-value" id="timeRemaining">03:00:00</span>
+                            <div class="qp-time-presets" id="timePresetMenu" aria-hidden="true">
+                                <button class="qp-time-option" type="button" data-minutes="180">3</button>
+                                <button class="qp-time-option" type="button" data-minutes="165">2.45</button>
+                                <button class="qp-time-option" type="button" data-minutes="150">2.30</button>
+                                <button class="qp-time-option" type="button" data-minutes="135">2.15</button>
+                                <button class="qp-time-option" type="button" data-minutes="120">2</button>
+                                <button class="qp-time-option" type="button" data-minutes="105">1.45</button>
+                                <button class="qp-time-option" type="button" data-minutes="90">1.30</button>
+                                <button class="qp-time-option" type="button" data-minutes="75">1.15</button>
+                                <button class="qp-time-option" type="button" data-minutes="60">1</button>
+                                <button class="qp-time-option" type="button" data-minutes="45">0.45</button>
+                                <button class="qp-time-option" type="button" data-minutes="30">0.30</button>
+                                <button class="qp-time-option" type="button" data-minutes="15">0.15</button>
+                            </div>
                             <button class="qp-pause-btn" type="button" aria-label="Toggle panel">
-                                <svg viewBox="0 0 28 28" fill="none" style="width:28px;height:28px;display:block;">
-                                    <path d="M13 5H6C4.9 5 4 5.9 4 7V21C4 22.1 4.9 23 6 23H13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M10 14H18M14 11L18 14L14 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <rect x="20" y="0" width="8" height="28" fill="white"/>
-                                </svg>
+                                <img src="./exit.png" alt="">
                             </button>
 
                         </div>
@@ -2140,14 +2251,14 @@
         <footer class="footer">
             <div class="footer-left">
                 <button class="footer-btn finish" type="button">
-                    <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                         <path d="m16 17 5-5-5-5"></path>
                         <path d="M21 12H9"></path>
                     </svg>
                     Finish
                 </button>
-                <button class="footer-btn" type="button">
+                <button class="footer-btn clear-btn" type="button">
                     <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M3 6h18"></path>
                         <path d="M8 6V4h8v2"></path>
@@ -2184,6 +2295,8 @@
         const resultClose = document.getElementById("resultClose");
         const loginScreen = document.getElementById("loginScreen");
         const courseScreen = document.getElementById("courseScreen");
+        const timeRemaining = document.getElementById("timeRemaining");
+        const timePresetMenu = document.getElementById("timePresetMenu");
         const loginForm = document.getElementById("loginForm");
         const loginName = document.getElementById("loginName");
         const loginRoll = document.getElementById("loginRoll");
@@ -2621,6 +2734,8 @@
         let supabaseClient = null;
         let searchTimer = null;
         let submitTimer = null;
+        let countdownTimer = null;
+        let countdownEndsAt = 0;
         let currentProgramSlug = "generate-electricity-bill";
 
         settingsToggle.addEventListener("click", () => {
@@ -2897,6 +3012,59 @@
             });
         });
 
+        function formatCountdown(ms) {
+            const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":");
+        }
+
+        function closeTimePresetMenu() {
+            timePresetMenu.classList.remove("is-open");
+            timePresetMenu.setAttribute("aria-hidden", "true");
+        }
+
+        function startCountdown(minutes = 180) {
+            window.clearInterval(countdownTimer);
+            countdownEndsAt = Date.now() + minutes * 60 * 1000;
+
+            const tick = () => {
+                const remaining = countdownEndsAt - Date.now();
+                timeRemaining.textContent = formatCountdown(remaining);
+
+                if (remaining <= 0) {
+                    window.clearInterval(countdownTimer);
+                }
+            };
+
+            tick();
+            countdownTimer = window.setInterval(tick, 1000);
+        }
+
+        timeRemaining.addEventListener("click", (event) => {
+            if (event.detail === 3) {
+                timePresetMenu.classList.toggle("is-open");
+                timePresetMenu.setAttribute("aria-hidden", String(!timePresetMenu.classList.contains("is-open")));
+            }
+        });
+
+        timePresetMenu.addEventListener("click", (event) => {
+            const option = event.target.closest(".qp-time-option");
+            if (!option) return;
+
+            startCountdown(Number(option.dataset.minutes) || 180);
+            closeTimePresetMenu();
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".qp-time-picker-wrap")) {
+                closeTimePresetMenu();
+            }
+        });
+
+        startCountdown(180);
         loadSavedLogin();
 
         function escapeHtml(value) {
@@ -2911,36 +3079,55 @@
 
         function highlightCodeLine(source) {
             const keywords = new Set([
-                "abstract", "and", "as", "assert", "async", "await", "boolean", "break", "byte", "case", "catch",
-                "char", "class", "const", "continue", "def", "default", "delete", "do", "double", "elif", "else",
-                "enum", "except", "extends", "false", "final", "finally", "float", "for", "from", "function", "if",
-                "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "new", "null", "or",
-                "package", "private", "protected", "public", "return", "short", "static", "string", "String",
-                "struct", "super", "switch", "this", "throw", "throws", "true", "try", "var", "void", "while"
+                "abstract", "and", "as", "assert", "async", "await", "break", "case", "catch", "class", "const",
+                "continue", "def", "default", "delete", "do", "elif", "else", "enum", "except", "extends", "false",
+                "final", "finally", "for", "from", "function", "if", "implements", "import", "in", "instanceof",
+                "interface", "let", "new", "null", "or", "package", "private", "protected", "public", "return",
+                "static", "struct", "super", "switch", "this", "throw", "throws", "true", "try", "var", "while"
+            ]);
+            const types = new Set([
+                "boolean", "byte", "char", "double", "float", "int", "long", "short", "string", "String", "void"
             ]);
             const tokenPattern = /(\/\/.*|#.*|\/\*.*?\*\/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_][A-Za-z0-9_]*\b)/g;
+            let html = "";
+            let lastIndex = 0;
 
-            return source.replace(tokenPattern, (token) => {
+            source.replace(tokenPattern, (token, _match, index) => {
+                html += escapeHtml(source.slice(lastIndex, index));
                 const escaped = escapeHtml(token);
+                lastIndex = index + token.length;
 
                 if (token.startsWith("//") || token.startsWith("#") || token.startsWith("/*")) {
-                    return `<span class="comment">${escaped}</span>`;
+                    html += `<span class="comment">${escaped}</span>`;
+                    return token;
                 }
 
                 if (token.startsWith("\"") || token.startsWith("'")) {
-                    return `<span class="str">${escaped}</span>`;
+                    html += `<span class="str">${escaped}</span>`;
+                    return token;
                 }
 
                 if (/^\d/.test(token)) {
-                    return `<span class="num">${escaped}</span>`;
+                    html += `<span class="num">${escaped}</span>`;
+                    return token;
                 }
 
                 if (keywords.has(token)) {
-                    return `<span class="kw">${escaped}</span>`;
+                    html += `<span class="kw">${escaped}</span>`;
+                    return token;
                 }
 
-                return `<span class="id">${escaped}</span>`;
+                if (types.has(token)) {
+                    html += `<span class="type">${escaped}</span>`;
+                    return token;
+                }
+
+                html += `<span class="id">${escaped}</span>`;
+                return token;
             });
+
+            html += escapeHtml(source.slice(lastIndex));
+            return html;
         }
 
         function highlightCodeEditor() {
