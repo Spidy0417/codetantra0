@@ -566,6 +566,66 @@
             font-weight: 620;
         }
 
+        .problem-body.is-dsa {
+            font-family: var(--ui-font);
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .problem-body.is-dsa p {
+            margin-bottom: 22px;
+        }
+
+        .problem-body.is-dsa ul,
+        .problem-body.is-dsa ol {
+            margin: -14px 0 23px 44px;
+            padding-left: 18px;
+        }
+
+        .problem-body.is-dsa li {
+            margin: 3px 0;
+            padding-left: 3px;
+        }
+
+        .problem-body.is-dsa code {
+            font-family: var(--code-font);
+            font-size: 0.92em;
+            color: #15599b;
+            background: rgba(255, 255, 255, 0.55);
+            border: var(--hairline) solid #d4dce8;
+            border-radius: 4px;
+            padding: 1px 4px;
+            overflow-wrap: anywhere;
+        }
+
+        .problem-body.is-dsa pre,
+        .problem-body.is-dsa .dsa-format-card {
+            width: 100%;
+            max-width: 100%;
+            min-height: 83px;
+            margin: -14px 0 25px;
+            padding: 13px 18px;
+            overflow: auto;
+            color: #0e1826;
+            font-family: var(--code-font);
+            font-size: 15px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            background: #ffffff;
+            border: var(--hairline) solid #cfd7e3;
+            border-radius: 7px;
+        }
+
+        .problem-body.is-dsa pre code {
+            display: block;
+            padding: 0;
+            color: inherit;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+        }
+
         .bullet-list {
             list-style: none;
             margin: -20px 0 25px 43px;
@@ -891,6 +951,16 @@
             padding-right: 28px;
             white-space: pre;
             min-width: max-content;
+        }
+
+        .line-code.is-band-highlight {
+            background: transparent;
+        }
+
+        .code-text-highlight {
+            background: #f0c3c3;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
         }
 
         .kw { color: #7e158e; }
@@ -3636,8 +3706,19 @@
 
         function highlightCodeEditor() {
             document.querySelectorAll(".line-code").forEach((line) => {
-                line.innerHTML = highlightCodeLine(line.textContent);
+                const highlighted = highlightCodeLine(line.textContent);
+                line.innerHTML = line.classList.contains("is-band-highlight") && line.textContent.trim()
+                    ? `<span class="code-text-highlight">${highlighted}</span>`
+                    : highlighted;
             });
+        }
+
+        function shouldBandHighlightLine(lineNumber, totalLines) {
+            const topLimit = Math.ceil(totalLines * 0.2);
+            const bottomCount = Math.ceil(totalLines * 0.4);
+            const bottomStart = Math.max(topLimit + 1, totalLines - bottomCount + 1);
+
+            return lineNumber <= topLimit || lineNumber >= bottomStart;
         }
 
         function getLineNumberMarkup(lineText, lineNumber) {
@@ -3652,7 +3733,8 @@
 
             codeScroll.innerHTML = lines.map((line, index) => {
                 const lineNumber = index + 1;
-                return `<div class="code-line"><div class="line-no">${getLineNumberMarkup(line, lineNumber)}</div><div class="line-code">${escapeHtml(line)}</div></div>`;
+                const highlightClass = shouldBandHighlightLine(lineNumber, lines.length) ? " is-band-highlight" : "";
+                return `<div class="code-line"><div class="line-no">${getLineNumberMarkup(line, lineNumber)}</div><div class="line-code${highlightClass}">${escapeHtml(line)}</div></div>`;
             }).join("");
 
             highlightCodeEditor();
@@ -3666,6 +3748,89 @@
             }
 
             return program?.image_path || "./java.jpg";
+        }
+
+        function makeDsaFormatBlock(label, lines) {
+            const fragment = document.createDocumentFragment();
+            const title = document.createElement("p");
+            const strong = document.createElement("strong");
+            const card = document.createElement("div");
+
+            strong.textContent = label;
+            title.appendChild(strong);
+            card.className = "sample-card format-card dsa-format-card";
+            card.textContent = lines.join("\n").trim();
+
+            fragment.appendChild(title);
+            fragment.appendChild(card);
+            return fragment;
+        }
+
+        function normalizeDsaProblemBody(problemBody, program) {
+            const language = String(program?.language || "").toLowerCase();
+            const isDsa = currentCourse === "dsa" || language === "dsa" || language === "cpp" || language === "c++";
+
+            problemBody.classList.toggle("is-dsa", isDsa);
+            if (!isDsa) return;
+
+            problemBody.querySelectorAll("p").forEach((paragraph) => {
+                const text = paragraph.innerText || "";
+                const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
+                const hasInput = lines.some((line) => /^input:?$/i.test(line) || /^sample input/i.test(line));
+                const hasOutput = lines.some((line) => /^output:?$/i.test(line) || /^sample output/i.test(line));
+
+                if (!hasInput && !hasOutput) return;
+
+                const groups = [];
+                let currentLabel = "";
+                let currentLines = [];
+
+                lines.forEach((line) => {
+                    const lower = line.toLowerCase();
+                    const sampleInput = lower.match(/^sample input\s*([^:]*)\s*:?$/);
+                    const sampleOutput = lower.match(/^sample output\s*([^:]*)\s*:?$/);
+                    const plainInput = /^input:?$/i.test(line);
+                    const plainOutput = /^output:?$/i.test(line);
+
+                    if (sampleInput || plainInput || sampleOutput || plainOutput) {
+                        if (currentLabel) {
+                            groups.push({ label: currentLabel, lines: currentLines });
+                        }
+
+                        if (sampleInput) {
+                            currentLabel = `Sample Input${sampleInput[1] ? ` ${sampleInput[1].trim()}` : ""}:`;
+                        } else if (sampleOutput) {
+                            currentLabel = `Sample Output${sampleOutput[1] ? ` ${sampleOutput[1].trim()}` : ""}:`;
+                        } else if (plainInput) {
+                            currentLabel = "Sample Input:";
+                        } else {
+                            currentLabel = "Sample Output:";
+                        }
+                        currentLines = [];
+                        return;
+                    }
+
+                    if (/^sample test case:?$/i.test(line) || /^sample test cases:?$/i.test(line)) return;
+
+                    if (currentLabel) {
+                        currentLines.push(line);
+                    }
+                });
+
+                if (currentLabel) {
+                    groups.push({ label: currentLabel, lines: currentLines });
+                }
+
+                const usableGroups = groups.filter((group) => group.lines.length > 0);
+                if (!usableGroups.length) return;
+
+                const fragment = document.createDocumentFragment();
+                usableGroups.forEach((group) => {
+                    fragment.appendChild(makeDsaFormatBlock(group.label, group.lines));
+                });
+
+                paragraph.replaceWith(fragment);
+            });
         }
 
         function renderProgram(program) {
@@ -3688,6 +3853,7 @@
 
             if (problemBody && program.problem_html) {
                 problemBody.innerHTML = program.problem_html;
+                normalizeDsaProblemBody(problemBody, program);
             }
 
             if (editorTabLabel && program.tab_label) {
