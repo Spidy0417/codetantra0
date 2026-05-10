@@ -116,8 +116,8 @@
         }
 
         .college-logo {
-            width: 218px;
-            height: 44px;
+            width: 230px;
+            height: 50px;
             object-fit: contain;
             display: block;
             flex-shrink: 0;
@@ -967,7 +967,7 @@
         .type { color: #008b3a; }
         .id { color: #001f98; }
         .str { color: #9f180d; }
-        .comment { color: #4a4a4a; }
+        .comment { color: #b77a18; }
         .num { color: #164a8b; }
 
         .submission-stage {
@@ -2875,6 +2875,102 @@
                 "sort_order": 26,
                 "shown_result": "2 out of 2 shown test case(s) passed",
                 "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "infinite-sequence",
+                "title": "Infinite Sequence",
+                "tab_label": "FindNthD...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Write a Java program to find the <em>n</em>th digit in the infinite sequence formed by concatenating all positive integers in ascending order. For example, the sequence starts as 12345678910111213... and so on.</p>\n\n<p><strong>Input Format:</strong></p>\n<p>The input consists of a single integer <em>n</em>, which represents the position of the digit in the infinite sequence.</p>\n\n<p><strong>Output Format:</strong></p>\n<p>The output should be a single integer which represents the <em>n</em>th digit in the sequence.</p>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q42500;\nimport java.util.Scanner;\n\npublic class FindNthDigit{\n    public static void main(String[] args){\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        String seq = \"\";\n        int num = 1;\n        while(seq.length() < n){\n            seq += num;\n            num++;\n        }\n        System.out.println(seq.charAt(n-1));\n    }\n}\n//Type your content here",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 27,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "array-accessing",
+                "title": "Array Accessing",
+                "tab_label": "ArrayInde...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Neha is developing a Java program that involves accessing elements in an array. She wants to ensure that her program handles cases where the index provided by the user is outside the valid range of the array. Can you guide Neha in designing the program and implementing error handling for the <strong>ArrayIndexOutOfBoundsException</strong>?</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The first line is an integer <em>n</em> representing the size of the array.</li>\n    <li>The second line contains <em>n</em> integers separated by space.</li>\n    <li>The third line is the integer that represents the index at which the user wants to access the array element.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>If the element is present at the given index then print \"Element at index &lt;index&gt; is: \" followed by the element.</li>\n    <li>If the index is out of bounds, the program should display \"Error: Index out of bounds\".</li>\n</ul>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q28186;\nimport java.util.Scanner;\n\npublic class ArrayIndexHandler {\n    public static void main(String[] args) {\n\n        // write the code...\n        Scanner sc = new Scanner(System.in);\n        int size = sc.nextInt();\n        int[] arr = new int[size];\n        for (int i = 0; i < size; i++) {\n            arr[i] = sc.nextInt();\n        }\n        int index = sc.nextInt();\n\n        try {\n            System.out.println(\"Element at index \" + index + \" is: \" + arr[index]);\n        } catch (ArrayIndexOutOfBoundsException e) {\n            System.out.println(\"Error: Index out of bounds\");\n        }\n    }\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 28,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "anagram-checker",
+                "title": "Anagram Checker",
+                "tab_label": "Anagram...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>You are working as a software developer for a company that specializes in developing educational tools for students. The company has received a request from a high school teacher to create a program that can help their students understand the concept of anagrams and practice identifying them.</p>\n\n<p>An anagram is a word or phrase formed by rearranging the letters of another word or phrase. For example, \"listen\" and \"silent\" are anagrams because they use the same letters, just in a different order.</p>\n\n<p>The teacher wants the program to prompt the students to enter two strings and then determine whether those strings are anagrams of each other or not. Your task is to develop a Java program that uses the HashMap to indicate whether the entered strings are anagrams or not.</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The program takes two strings as input from the user. The strings can contain any characters, including alphabets, numbers, and special characters. The input strings are case-sensitive.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The program outputs a message indicating whether the two input strings are anagrams of each other or not.</li>\n</ul>\n\n<p><strong>Note:</strong> The main method has been provided to you in the editor.</p>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q29133;\nimport java.util.HashMap;\nimport java.util.Scanner;\n\npublic class AnagramChecker {\n    public static boolean areAnagrams(String s1, String s2){\n        if(s1.length() != s2.length())\n            return false;\n        int[] count = new int[256];\n        for(int i = 0; i < s1.length(); i++){\n            count[s1.charAt(i)]++;\n            count[s2.charAt(i)]--;\n        }\n        for(int i = 0; i < 256; i++){\n            if(count[i] != 0)\n                return false;\n        }\n        return true;\n    }\n\n    // write the code..\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String str1 = scanner.nextLine();\n        String str2 = scanner.nextLine();\n\n        if (areAnagrams(str1, str2)) {\n            System.out.println(str1 + \" and \" + str2 + \" are anagrams\");\n        } else {\n            System.out.println(str1 + \" and \" + str2 + \" are not anagrams\");\n        }\n        scanner.close();\n    }\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 29,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "square-and-cube-of-a-number",
+                "title": "Square and cube of a number",
+                "tab_label": "NumberT...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>You are working on a utility to transform numbers. Create an interface named <strong>NumberTransformer</strong> with a method <strong>transform()</strong> responsible for transforming and displaying the given number.</p>\n<ul class=\"bullet-list\">\n    <li>Implement classes <strong>SquareTransformer</strong> and <strong>CubeTransformer</strong> that implement the <strong>NumberTransformer</strong> interface.</li>\n    <li><strong>SquareTransformer</strong> should transform and display the square of the input number, and <strong>CubeTransformer</strong> should transform and display the cube of the input number.</li>\n</ul>\n\n<p><strong>Note:</strong> The main class has been provided to you in the editor.</p>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q23765;\nimport java.util.Scanner;\ninterface NumberTransformer {\n\n    // write your code here..\n\n    void transform(int number);\n}\n\n// SquareTransformer class implementing the NumberTransformer interface\nclass SquareTransformer implements NumberTransformer {\n    @Override\n    public void transform(int number) {\n        int result = number * number;\n        System.out.println(\"Square: \" + result);\n    }\n}\n// CubeTransformer class implementing the NumberTransformer interface\nclass CubeTransformer implements NumberTransformer {\n    @Override\n    public void transform(int number) {\n        int result = number * number * number;\n        System.out.println(\"Cube: \" + result);\n    }\n}\n\npublic class NumberTransform {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n\n        System.out.print(\"Enter a number: \");\n        int inputNumber = scanner.nextInt();\n\n        NumberTransformer squareTransformer = new SquareTransformer();\n        squareTransformer.transform(inputNumber);\n\n        NumberTransformer cubeTransformer = new CubeTransformer();\n        cubeTransformer.transform(inputNumber);\n\n        scanner.close();\n    }\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 30,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "vehicle-fuel-efficiency",
+                "title": "Vehicle Fuel Efficiency",
+                "tab_label": "Main.java",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Create an abstract class called <strong>Vehicle</strong>.</p>\n<ul class=\"bullet-list\">\n    <li>Declare an abstract method of type double: <strong>calculateFuelEfficiency()</strong>. This method will be implemented by subclasses.</li>\n    <li>Implement a concrete method named <strong>displayDetails()</strong> that displays information about the vehicle, including its model and fuel efficiency.</li>\n</ul>\n\n<p>Next, create two subclasses called <strong>Car</strong> and <strong>Motorcycle</strong> that extend the Vehicle class:</p>\n<ul class=\"bullet-list\">\n    <li>Implement the calculateFuelEfficiency() method in the Car class. It should take input from the user for the miles driven and the gallons of fuel consumed. Calculate and display the fuel efficiency in miles per gallon (MPG).</li>\n    <li>Implement the calculateFuelEfficiency() method in the Motorcycle class. It should take input from the user for the miles driven and the liters of fuel consumed. Calculate and display the fuel efficiency in kilometers per liter (KPL).</li>\n</ul>\n\n<p><strong>Note:</strong> The main method and the code for inputs are already provided.</p>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q24918;\nimport java.util.Scanner;\nabstract class Vehicle {\n\n    // write your code here...\n\n    abstract double calculateFuelEfficiency();\n\n    void displayDetails(String model) {\n        System.out.println(\"Vehicle details:\");\n        System.out.println(\"Model: \" + model);\n        System.out.println(\"Fuel Efficiency: \" + calculateFuelEfficiency());\n    }\n}\nclass Car extends Vehicle {\n    double milesDriven;\n    double gallonsConsumed;\n\n    @Override\n    double calculateFuelEfficiency() {\n        // return miles per gallon (MPG) for a car\n        return milesDriven / gallonsConsumed;\n    }\n\n    void inputDetails(Scanner scanner) {\n        System.out.print(\"Enter the model of the car: \");\n        String carModel = scanner.nextLine();\n\n        System.out.print(\"Enter the miles driven by the car: \");\n        milesDriven = scanner.nextDouble();\n        scanner.nextLine(); // Consume the newline character\n\n        System.out.print(\"Enter the gallons of fuel consumed by the car: \");\n        gallonsConsumed = scanner.nextDouble();\n        scanner.nextLine(); // Consume the newline character\n\n        displayDetails(carModel);\n    }\n}\n\nclass Motorcycle extends Vehicle {\n    double milesDriven;\n    double litersConsumed;\n\n    @Override\n    double calculateFuelEfficiency() {\n        // return kilometers per liter (KPL) for a motorcycle\n        return milesDriven / litersConsumed;\n    }\n\n    void inputDetails(Scanner scanner) {\n        System.out.print(\"Enter the model of the motorcycle: \");\n        String motorcycleModel = scanner.nextLine();\n\n        System.out.print(\"Enter the miles driven by the motorcycle: \");\n        milesDriven = scanner.nextDouble();\n        scanner.nextLine(); // Consume the newline character\n\n        System.out.print(\"Enter the liters of fuel consumed by the motorcycle: \");\n        litersConsumed = scanner.nextDouble();\n        scanner.nextLine(); // Consume the newline character\n\n        displayDetails(motorcycleModel);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        Car car = new Car();\n        car.inputDetails(scanner);\n        Motorcycle motorcycle = new Motorcycle();\n        motorcycle.inputDetails(scanner);\n        scanner.close();\n    }\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 31,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "age-validation",
+                "title": "Age Validation",
+                "tab_label": "AgeValid...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>Rohan is working on a Java program that asks users to enter their age. He wants to ensure that the program handles cases where the user enters invalid input, such as non-numeric characters or negative numbers. Can you help Rohan by designing the program and implementing input validation?</p>\n\n<p><strong>Input Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>The input consists of a single line where the user enters their age.</li>\n</ul>\n\n<p><strong>Output Format:</strong></p>\n<ul class=\"bullet-list\">\n    <li>If the age is a valid non-negative integer, print:</li>\n</ul>\n<div class=\"sample-card format-card\">\n    <span>Your age is: &lt;age&gt;</span>\n</div>\n<ul class=\"bullet-list note-list\">\n    <li>Otherwise, print \"Error: Invalid age input\"</li>\n</ul>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q28185;\nimport java.util.Scanner;\npublic class AgeValidator {\n    public static void main(String[] args) {\n\n        // write the code...\n        Scanner sc = new Scanner(System.in);\n        try {\n            String input = sc.nextLine();\n            int age = Integer.parseInt(input);\n            if (age < 0) {\n                throw new IllegalArgumentException(\"Age cannot be negative\");\n            }\n            System.out.println(\"Your age is: \" + age); // Valid input\n\n        } catch (IllegalArgumentException e) {\n            System.out.println(\"Error: Invalid age input\");\n\n        }\n    }\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 32,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
             }
         ];
         const javaProgramSlugs = localJavaPrograms.map((program) => program.slug);
@@ -3336,6 +3432,10 @@
             return localJavaPrograms.find((program) => program.slug === slug) || localDsaPrograms.find((program) => program.slug === slug);
         }
 
+        function cleanProgramTitle(title) {
+            return String(title || "").replace(/^\s*\d+(?:\.\d+)+\.?\s*/, "");
+        }
+
         function getLocalProgramMatches(query) {
             const cleanQuery = query.trim().toLowerCase();
 
@@ -3344,6 +3444,7 @@
             const activePrograms = currentCourse === "dsa" ? localDsaPrograms : localJavaPrograms;
             return activePrograms.filter((program) => (
                 program.title.toLowerCase().includes(cleanQuery)
+                || cleanProgramTitle(program.title).toLowerCase().includes(cleanQuery)
                 || program.slug.toLowerCase().includes(cleanQuery)
             ));
         }
@@ -3383,7 +3484,7 @@
                 `<button class="program-result" type="button" data-slug="${escapeHtml(program.slug)}">
                     <img class="program-result-image" src="${escapeHtml(program.image_path || "./java.jpg")}" alt="">
                     <span class="program-result-text">
-                        <span class="program-result-title">${escapeHtml(program.title)}</span>
+                        <span class="program-result-title">${escapeHtml(cleanProgramTitle(program.title))}</span>
                         <span class="program-result-slug">${escapeHtml(program.slug)}</span>
                     </span>
                 </button>`
@@ -3848,7 +3949,7 @@
             const passedRows = document.querySelectorAll(".passed-row span:last-child");
 
             if (problemTitle && program.title) {
-                problemTitle.textContent = program.title;
+                problemTitle.textContent = cleanProgramTitle(program.title);
             }
 
             if (problemBody && program.problem_html) {
