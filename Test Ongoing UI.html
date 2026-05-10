@@ -3370,8 +3370,10 @@
         let searchTimer = null;
         let submitTimer = null;
         let countdownTimer = null;
+        let loginExpiryTimer = null;
         let countdownEndsAt = 0;
         let currentProgramSlug = "generate-electricity-bill";
+        const loginSessionMs = 5 * 60 * 60 * 1000;
 
         settingsToggle.addEventListener("click", () => {
             const isOpen = settingsWrap.classList.toggle("open");
@@ -3558,13 +3560,54 @@
             }
         }
 
+        function clearLoginSession() {
+            window.clearTimeout(loginExpiryTimer);
+            localStorage.removeItem("codetantraStudentName");
+            localStorage.removeItem("codetantraStudentRollNo");
+            localStorage.removeItem("codetantraLoginExpiresAt");
+        }
+
+        function showLoginScreen() {
+            courseScreen.classList.add("is-hidden");
+            courseScreen.setAttribute("aria-hidden", "true");
+            loginScreen.classList.remove("is-hidden");
+            loginScreen.setAttribute("aria-hidden", "false");
+            settingsWrap.classList.remove("open");
+            settingsToggle.setAttribute("aria-expanded", "false");
+        }
+
+        function scheduleLoginExpiry(expiresAt) {
+            window.clearTimeout(loginExpiryTimer);
+            const remaining = Number(expiresAt) - Date.now();
+
+            if (remaining <= 0) {
+                clearLoginSession();
+                showLoginScreen();
+                return;
+            }
+
+            loginExpiryTimer = window.setTimeout(() => {
+                clearLoginSession();
+                loginName.value = "";
+                loginRoll.value = "";
+                showLoginScreen();
+            }, remaining);
+        }
+
         function loadSavedLogin() {
             const savedName = localStorage.getItem("codetantraStudentName");
             const savedRollNo = localStorage.getItem("codetantraStudentRollNo");
+            const expiresAt = Number(localStorage.getItem("codetantraLoginExpiresAt") || 0);
 
             if (!savedName || !savedRollNo) return;
 
+            if (!expiresAt || expiresAt <= Date.now()) {
+                clearLoginSession();
+                return;
+            }
+
             applyStudentDetails(savedName, savedRollNo);
+            scheduleLoginExpiry(expiresAt);
             showCourseScreen();
         }
 
@@ -3579,20 +3622,17 @@
             applyStudentDetails(name, rollNo);
             localStorage.setItem("codetantraStudentName", name);
             localStorage.setItem("codetantraStudentRollNo", rollNo);
+            const expiresAt = Date.now() + loginSessionMs;
+            localStorage.setItem("codetantraLoginExpiresAt", String(expiresAt));
+            scheduleLoginExpiry(expiresAt);
             showCourseScreen();
         });
 
         logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("codetantraStudentName");
-            localStorage.removeItem("codetantraStudentRollNo");
+            clearLoginSession();
             loginName.value = "";
             loginRoll.value = "";
-            courseScreen.classList.add("is-hidden");
-            courseScreen.setAttribute("aria-hidden", "true");
-            loginScreen.classList.remove("is-hidden");
-            loginScreen.setAttribute("aria-hidden", "false");
-            settingsWrap.classList.remove("open");
-            settingsToggle.setAttribute("aria-expanded", "false");
+            showLoginScreen();
         });
 
         document.querySelectorAll(".course-card").forEach((card) => {
