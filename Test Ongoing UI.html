@@ -2971,6 +2971,22 @@
                 "sort_order": 32,
                 "shown_result": "2 out of 2 shown test case(s) passed",
                 "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "book-rating-calculator",
+                "title": "Book Rating Calculator",
+                "tab_label": "BookRati...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": "<p>You are developing a software application for a library. As part of the application, you need to develop a utility class called <strong>BookRatingCalculator</strong> to calculate the average rating of different books.</p>\n\n<p>Implement the <strong>BookRatingCalculator</strong> class with the following functionalities:</p>\n<ul class=\"bullet-list\">\n    <li>A constructor that takes an array of elements of type T, where T represents a book with a rating.</li>\n    <li>A method called <strong>calculateAverageRating</strong> that iterates over the books and prints the average rating.</li>\n</ul>\n\n<p><strong>Input Format:</strong></p>\n<p>The first input line reads a positive integer representing the total number of books.</p>\n<p>The second input line reads space-separated positive double values representing the book ratings.</p>\n\n<p><strong>Output Format:</strong></p>\n<p>The output is a double representing the average rating of books.</p>\n\n<div class=\"sample-card\">\n    <span>Sample Test Cases</span>\n    <button type=\"button\" aria-label=\"Expand sample test cases\">+</button>\n</div>",
+                "code_text": "package q30415;\nimport java.util.Scanner;\n\npublic class BookRatingCalculator<T extends Number> {\n    // write your code here....\n\n    private T[] bookRating;\n    public BookRatingCalculator(T[] bookRating){\n        this.bookRating = bookRating;\n    }\n\n    public void calculateAverageRating(){\n        double sum = 0;\n        for(T rating : bookRating){\n            sum += rating.doubleValue();\n        }\n        double average = sum/bookRating.length;\n        System.out.printf(\"%.2f\",average);\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n\n        // Read the total number of books\n        int n = scanner.nextInt();\n\n        // Create an array to store book ratings\n        Double[] bookRatings = new Double[n];\n        for (int i = 0; i < n; i++) {\n            bookRatings[i] = scanner.nextDouble();\n        }\n\n        BookRatingCalculator<Double> calculator = new BookRatingCalculator<>(bookRatings);\n        calculator.calculateAverageRating();\n    }\n}",
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 33,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
             }
         ];
         const javaProgramSlugs = localJavaPrograms.map((program) => program.slug);
