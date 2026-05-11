@@ -3037,6 +3037,971 @@
                 "hidden_result": "2 out of 2 hidden test case(s) passed"
             }
         ];
+        localJavaPrograms.push(
+            {
+                "slug": "number-incrementing-by-using-multi-threading",
+                "title": "Number Incrementing by using Multi threading",
+                "tab_label": "MyThrea...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Write a Java program to manage multiple threads, each incrementing a shared resource, based on user-input thread count <em>n</em> and increments <em>i</em>, handling various input scenarios and errors</p>
+
+<p><strong>Input Format:</strong></p>
+<ul class="bullet-list">
+    <li>The first line of input consists of the number of threads (Integer).</li>
+    <li>The second line of input consists of the number of increments per thread (Integer).</li>
+</ul>
+
+<p><strong>Output format:</strong></p>
+<ul class="bullet-list">
+    <li>The output represents the count after each increment operation.</li>
+</ul>
+
+<p><strong>Sample Input :</strong><br>Enter the number of threads:</p>
+<div class="sample-card format-card"><span>3</span></div>
+<p>Enter the number of increments per thread:</p>
+<div class="sample-card format-card"><span>2</span></div>
+<p><strong>Sample Output :</strong></p>
+<div class="sample-card format-card"><span>Count: 1<br>Count: 2<br>Count: 3<br>Count: 4<br>Count: 5<br>Count: 6</span></div>
+
+<p><strong>Constraint:</strong></p>
+<ul class="bullet-list">
+    <li>0 &lt; <em>n</em> &lt; 10</li>
+    <li>0 &le; <em>i</em> &le; 10</li>
+</ul>
+<p><strong>Note:</strong></p>
+<ul class="bullet-list note-list"><li>Output should strictly match with the test cases.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q19682;
+import java.util.Scanner;
+class MyThread extends Thread {
+    private SharedResource resource;
+    private int numIncrements;
+    public MyThread(SharedResource resource,int numIncrements){
+        this.resource = resource;
+        this.numIncrements = numIncrements;
+    }
+    @Override
+    public void run(){
+        for(int i=0;i<numIncrements;i++){
+            resource.increment();
+        }
+    }
+}
+// Write required code here
+// Driver code is given for your reference
+public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    int numThreads = 0;
+    int numIncrements = 0;
+    boolean validInput = false;
+    while (!validInput) {
+        try {
+            System.out.println("Enter the number of threads:");
+            numThreads = Integer.parseInt(scanner.nextLine());
+            System.out.println("Enter the number of increments per thread:");
+            numIncrements = Integer.parseInt(scanner.nextLine());
+            if (numThreads >= 1 && numIncrements >= 1) {
+                validInput = true;
+            } else {
+                System.out.println("Please enter valid numbers (1 or more) for threads and increments.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter valid numbers.");
+        }
+    }
+    SharedResource resource = new SharedResource();
+    MyThread[] threads = new MyThread[numThreads];
+    for (int i = 0; i < numThreads; i++) {
+        threads[i] = new MyThread(resource, numIncrements);
+        threads[i].start();
+    }
+    scanner.close();
+}
+class SharedResource {
+    private int count = 0;
+    public void increment() {
+        synchronized (this) {
+            count++;
+            System.out.println("Count:" + count);
+        }
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 37,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "alternating-alphabets-and-numbers-using-multi-threading",
+                "title": "Alternating alphabets and numbers using multi threading",
+                "tab_label": "PrintAlph...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Write a Java program to print alternating alphabets and numbers based on user-defined counts <em>n</em>, ensuring termination after reaching the specified count, and handling inputs greater than zero.</p>
+<p><strong>Input Format:</strong></p>
+<ul class="bullet-list"><li>The input consists of the number of characters to print (Integer).</li></ul>
+<p><strong>Output format:</strong></p>
+<ul class="bullet-list">
+    <li>The output represents characters alternating between alphabets ('A' to 'Z'), numbers (1 to <em>n</em>) and prints the name of the thread followed by the character or number being printed.</li>
+    <li>If the user enters a number less than or equal to 0, the program must display:</li>
+</ul>
+<div class="sample-card format-card"><span>Please enter a number greater than 0.</span></div>
+<p>and prompt the user again to input a valid positive integer.</p>
+<p><strong>Sample Input and Output:</strong></p>
+<div class="sample-card format-card"><span>Enter the number of characters to print:<br>5<br>Thread-0: A<br>Thread-1: 1<br>Thread-0: B<br>Thread-1: 2<br>Thread-0: C<br>Thread-1: 3<br>Thread-0: D<br>Thread-1: 4<br>Thread-0: E<br>Thread-1: 5</span></div>
+<p><strong>Constraint:</strong></p>
+<ul class="bullet-list"><li>0 &le; <em>n</em> &le; 10</li></ul>
+<p><strong>Note:</strong></p>
+<ul class="bullet-list note-list"><li>Output should strictly match with the test cases.</li><li>One thread must print alphabets and the other must print numbers. The printing must strictly alternate between the two threads.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q19685;
+import java.util.Scanner;
+class AlphabetNumberPrinter extends Thread {
+    // Write your code here..
+    private final int count;
+    private final Object lock;
+    private final boolean isAlphabet;
+    public AlphabetNumberPrinter(int count, Object lock, boolean isAlphabet) {
+        this.count = count;
+        this.lock = lock;
+        this.isAlphabet = isAlphabet;
+    }
+    @Override
+    public void run() {
+        if (isAlphabet) {
+            char alphabet = 'A';
+            for (int i = 0; i < count; i++) {
+                synchronized (lock) {
+                    System.out.println(Thread.currentThread().getName() + ": " + alphabet++);
+                    lock.notify();
+                    try {
+                        if (i < count - 1) {
+                            lock.wait();
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        } else {
+            for (int i = 1; i <= count; i++) {
+                synchronized (lock) {
+                    System.out.println(Thread.currentThread().getName() + ": " + i);
+                    lock.notify();
+                    try {
+                        if (i < count) {
+                            lock.wait();
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+    }
+}
+public class PrintAlphabets {
+    public static void main(String[] args) {
+        // Write your code here..
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        do {
+            System.out.println("Enter the number of characters to print:");
+            n = scanner.nextInt();
+            if (n <= 0) {
+                System.out.println("Please enter a number greater than 0.");
+            }
+        } while (n <= 0);
+        Object lock = new Object();
+        Thread alphabetThread = new AlphabetNumberPrinter(n, lock, true);
+        Thread numberThread = new AlphabetNumberPrinter(n, lock, false);
+        alphabetThread.setName("Thread-0");
+        numberThread.setName("Thread-1");
+        alphabetThread.start();
+        numberThread.start();
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 38,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "encrypt-the-file",
+                "title": "Encrypt the File",
+                "tab_label": "TextFileE...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>David wants to encrypt the contents of a text file using a simple encryption algorithm. He needs a Java program to read the content of the file, apply encryption to each character, and print the encrypted file contents.</p>
+<p><strong>Encryption Process:</strong></p>
+<ul class="bullet-list"><li>Reverse the characters in each word of the file separately.</li></ul>
+<p><strong>Input format:</strong></p>
+<ul class="bullet-list"><li>The input is the name of the input file.</li></ul>
+<p><strong>Output format:</strong></p>
+<ul class="bullet-list"><li>Print the encrypted content.</li><li>If the input file doesn't exist, it prints the error message "File does not exist".</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q28827;
+import java.io.*;
+import java.util.Scanner;
+public class TextFileEncryptor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String fileName = scanner.nextLine();
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File does not exist");
+            return;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(encryptLine(line));
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file.");
+        }
+    }
+    private static String encryptLine(String line) {
+        StringBuilder encryptedLine = new StringBuilder();
+        String[] words = line.split(" ");
+        for (String word : words) {
+            encryptedLine.append(new StringBuilder(word).reverse()).append(" ");
+        }
+        return encryptedLine.toString();
+    }
+    // write the code..
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 39,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "file-eligibility-for-submission",
+                "title": "File Eligibility for Submission",
+                "tab_label": "Abstract...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Rathika is preparing to submit her project abstract to the university. The university has imposed a rule stating that the abstract file must not exceed 250 characters, including spaces. Rathika has finalized her abstract but is uncertain whether it meets the university's criteria.</p>
+<p>Your task is to create a Java program that helps Rathika determine whether her abstract file is eligible for submission. The program should read the content of the abstract from a text file, count the total number of visible characters and spaces only (ignore newline characters), and then provide feedback to Rathika about the eligibility of her abstract. At the end, print the total character count.</p>
+<p>Ensure that your program handles situations where the file does not exist or if there are any issues with file reading.</p>
+<p><strong>Input Format:</strong></p>
+<ul class="bullet-list"><li>The input is the file name.</li></ul>
+<p><strong>Output Format:</strong></p>
+<ul class="bullet-list"><li>The output displays whether the abstract is eligible or not and prints the total character count. If the file doesn't exist it prints the error message as "File does not exist".</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q28244;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class AbstractChecker {
+    // write the code..
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String fileName = scanner.nextLine();
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File does not exist");
+            return;
+        }
+        int charCount = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                charCount += line.length();
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file.");
+            return;
+        }
+        if (charCount <= 250) {
+            System.out.println("Eligible");
+        } else {
+            System.out.println("Not eligible");
+        }
+        System.out.println("Character count: " + charCount);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 40,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "remove-all-special-characters",
+                "title": "Remove all Special Characters",
+                "tab_label": "RemoveS...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Noah needs a Java program to read the content of a text file, remove all special characters excluding spaces, and then print the cleaned content. If there are no special characters in the file, he should print the contents as they are. Can you implement the program to assist Noah in achieving this task?</p>
+<p><strong>Input format:</strong></p>
+<ul class="bullet-list"><li>The input is the file name.</li></ul>
+<p><strong>Output format:</strong></p>
+<ul class="bullet-list"><li>The program prints the cleaned content of the file. If the input file doesn't exist, it prints the error message "File does not exist".</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q28433;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class RemoveSpecialCharacters {
+    // write the code..
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String fileName = scanner.nextLine();
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File does not exist");
+            return;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String cleanedLine = line.replaceAll("[^a-zA-Z0-9 ]", "");
+                System.out.println(cleanedLine);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file.");
+        }
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 41,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "line-of-longest-length",
+                "title": "Line of longest length",
+                "tab_label": "LongestL...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Write a Java program that should read the contents of a text file and find the longest line in it. If there are multiple lines with the same longest length, your program should return the first occurrence of such a line. Your program should handle the case where the file does not exist. In such cases, it should print an error message.</p>
+<p><strong>Input format:</strong></p>
+<ul class="bullet-list"><li>The input is a string representing the file name.</li></ul>
+<p><strong>Output format:</strong></p>
+<ul class="bullet-list"><li>Your program should print the longest line found in the text file.</li><li>If the file does not exist, your program should print "File not found".</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q28828;
+import java.io.*;
+
+public class LongestLineFinder {
+    // write the code..
+    public static void main(String[] args) {
+        // Get the filename from user input (or command line)
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String filename = reader.readLine(); // Read filename from user
+            // Read file and find the longest line
+            BufferedReader fileReader = new BufferedReader(new FileReader(filename));
+            String longestLine = "";
+            String currentLine;
+            while ((currentLine = fileReader.readLine()) != null) {
+                if (currentLine.length() > longestLine.length()) {
+                    longestLine = currentLine; // Update longest line if current line is longer
+                }
+            }
+            fileReader.close();
+            System.out.println(longestLine); // Print the longest line
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found"); // Handle file not found
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file."); // Handle other I/O errors
+        }
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 42,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "high-risk-projects",
+                "title": "High Risk Projects",
+                "tab_label": "ProjectM...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>You are developing a project management application and need to create a generic utility class called <strong>ProjectManager</strong> to handle projects with different risk levels. Implement the <strong>ProjectManager</strong> class with the following functionalities:</p>
+<ul class="bullet-list"><li>A constructor that takes an array of elements of type T, where T represents a project with a risk level.</li><li>A method called <strong>processProjects</strong> that iterates over the projects and prints only the high-risk projects. If there are no high-risk projects, print “No high-risk projects found”.</li><li>A project is said to be high-risk if the project number is divisible by 5 or 7.</li></ul>
+<p><strong>Input Format:</strong></p>
+<ul class="bullet-list"><li>The first input line reads a positive integer representing the number of projects.</li><li>The next input line reads space-separated integers representing the project numbers.</li></ul>
+<p><strong>Output Format:</strong></p>
+<ul class="bullet-list"><li>The output lines print the project numbers that are high-risk.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q30408;
+import java.util.Scanner;
+
+public class ProjectManager<T extends Number> {
+    // write your code here...
+    private T[] projects;
+    public ProjectManager(T[] projects){
+        this.projects = projects;
+    }
+    public void processProjects(){
+        boolean found = false;
+        for(T project : projects){
+            if(project.intValue()%5 == 0 || project.intValue()%7 == 0){
+                System.out.println(project);
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("No high-risk projects found");
+        }
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Read the number of projects
+        int n = scanner.nextInt();
+        // Create an array to store project numbers
+        Integer[] projects = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            projects[i] = scanner.nextInt();
+        }
+        ProjectManager<Integer> projectManager = new ProjectManager<>(projects);
+        projectManager.processProjects();
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 43,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "product-processor",
+                "title": "Product Processor",
+                "tab_label": "ProductP...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>You are developing a system for a grocery store and need to create a generic utility class called <strong>ProductProcessor</strong> to handle products with different weights.</p>
+<p>Implement the <strong>ProductProcessor</strong> class with the following functionalities:</p>
+<ul class="bullet-list"><li>A constructor that takes an array of elements of type T, where T represents a product with a weight.</li><li>A method called <strong>processProducts</strong> that iterates over the products and prints only the products with light weights. If there are no products with light weights, print “No lightweight products found”.</li><li>A product is said to be lightweight if the weight is less than 1 kg.</li></ul>
+<p><strong>Input Format:</strong></p>
+<p>The first input line reads a positive integer representing the number of products.</p><p>The second input line reads space-separated positive integers representing the weights of products in grams.</p>
+<p><strong>Output Format:</strong></p><p>The output lines print the product weights which are light.</p>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q30409;
+import java.util.Scanner;
+
+public class ProductProcessor<T extends Number> {
+    // write your code here...
+    private T[] products;
+    public ProductProcessor(T[] products) {
+        this.products = products;
+    }
+    public void processProducts() {
+        boolean found = false;
+        for (T product : products) {
+            if (product.intValue() < 1000) {
+                System.out.println(product);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No lightweight products found");
+        }
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Read the number of products
+        int n = scanner.nextInt();
+        // Create an array to store product weights
+        Integer[] products = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            products[i] = scanner.nextInt();
+        }
+        ProductProcessor<Integer> productProcessor = new ProductProcessor<>(products);
+        productProcessor.processProducts();
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 44,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "student-grade-checker",
+                "title": "Student Grade Checker",
+                "tab_label": "StudentG...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>You are developing a software application for a school. As part of the application, you need to develop a utility class called <strong>StudentGradeChecker</strong> to handle students with different grades.</p>
+<p>Implement the <strong>StudentGradeChecker</strong> class with the following functionalities:</p>
+<ul class="bullet-list"><li>A constructor that takes an array of elements of type T, where T represents a student with a grade.</li><li>A method called <strong>checkGrades</strong> that iterates over the students and prints only the students with grades above a specified threshold. If there are no students with grades above the threshold, print “No students found”.</li></ul>
+<p><strong>Input Format:</strong></p><p>The first input line reads a positive integer representing the total number of students.</p><p>The second input line reads space-separated positive integers representing the grades of students.</p><p>The third input line reads a positive integer value representing the threshold grade.</p>
+<p><strong>Output Format:</strong></p><p>The output lines print the grades of students who are above the threshold grade.</p>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q30417;
+import java.util.Scanner;
+
+public class StudentGradeChecker<T extends Number> {
+    // write your code here...
+    private T[] students;
+    private int threshold;
+    public StudentGradeChecker(T[] students, int threshold) {
+        this.students = students;
+        this.threshold = threshold;
+    }
+    public void checkGrades() {
+        boolean found = false;
+        for (T grade : students) {
+            if (grade.intValue() > threshold) {
+                System.out.println(grade);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No students found");
+        }
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Read the total number of students
+        int n = scanner.nextInt();
+        // Create an array to store student grades
+        Integer[] students = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            students[i] = scanner.nextInt();
+        }
+        // Read the threshold grade
+        int threshold = scanner.nextInt();
+        StudentGradeChecker<Integer> checker = new StudentGradeChecker<>(students, threshold);
+        checker.checkGrades();
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 45,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "uppercase-to-lowercase",
+                "title": "Uppercase to Lowercase",
+                "tab_label": "UpperToL...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Write a Java program that interacts with the user by prompting them to enter a string composed of different characters. The program should then convert each uppercase letter in the entered string to its lowercase counterpart and display the modified string.</p>
+<p><strong>Input format:</strong></p><ul class="bullet-list"><li>The first line is a string of multiple characters (alphabets, digits, special characters).</li></ul>
+<p><strong>Output format:</strong></p><ul class="bullet-list"><li>The output is the string after converting all uppercase letters to lowercase letters</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q22806;
+import java.util.Scanner;
+public class UpperToLowercase {
+    // write your code here..
+    public static void main(String args[]){
+        Scanner scanner=new Scanner(System.in);
+        String input=scanner.nextLine();
+        String result=input.toLowerCase();
+        System.out.println(result);
+        scanner.close();
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 46,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "reversal-of-a-string",
+                "title": "Reversal of a String",
+                "tab_label": "ReverseS...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Write a Java program that takes a string as input and outputs the reverse of that string.</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>A single line of input contains a string. The string may contain alphabets, digits, and special characters.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>The output is the reversed string.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q22817;
+import java.util.Scanner;
+public class ReverseString {
+    // write your code here..
+    public static void main(String args[]){
+        Scanner scanner=new Scanner(System.in);
+        String input=scanner.nextLine();
+        String reversed=new StringBuilder(input).reverse().toString();
+        System.out.println(reversed);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 47,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "eliminate-the-vowels",
+                "title": "Eliminate the Vowels",
+                "tab_label": "RemoveV...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Alex has a word and has given it to his friend Allen. Alex asked Allen to return the same word but without any vowels. Can you help Allen remove the vowels from the word and hand it over to Alex by writing a Java program?</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The input is a string.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>The output is the string without vowels.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q22831;
+import java.util.Scanner;
+
+public class RemoveVowels {
+    // write your code here..
+    public static void main(String[] args){
+        Scanner s=new Scanner(System.in);
+        String input=s.nextLine();
+        String result=input.replaceAll("[aeiouAEIOU]", "");
+        System.out.println(result);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 48,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "eliminate-the-letter-e",
+                "title": "Eliminate the letter 'E' or 'e'",
+                "tab_label": "RemoveE...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Elena received a message from her friend Eric. Eric requested Elena to return the same message but with all occurrences of the letter 'e' removed. Can you assist Elena in removing the letter 'e' and sending back the modified message by writing a Java program?</p>
+<p><strong>Input format:</strong></p><ul class="bullet-list"><li>A single line containing a string.</li></ul>
+<p><strong>Output format:</strong></p><ul class="bullet-list"><li>A single line containing a string without the letter 'e' or 'E'.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q22839;
+import java.util.Scanner;
+
+public class RemoveE {
+    // write your code here..
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        String result = input.replaceAll("[eE]", "");
+        System.out.println(result);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 49,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "encrypted-message",
+                "title": "Encrypted Message",
+                "tab_label": "Encryptj...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Rohan wants to send an encrypted message to his friend. To make it fun and secure, he decided to use a simple encryption algorithm.</p>
+<p>The encryption rule is as follows:</p>
+<ul class="bullet-list"><li>The 1st character of the string is repeated once,</li><li>The 2nd character is repeated twice,</li><li>The 3rd character is repeated three times,</li><li>... and so on.</li></ul>
+<p>Your task is to write a Java program that applies this encryption algorithm to a given string and displays the encrypted message.</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>A single line of input containing a string.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>A single string where each character is repeated based on its position in the original string.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q22890;
+import java.util.Scanner;
+public class Encrypt {
+    // write your code here..
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        String result = "";
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = 0; j <= i; j++) {
+                result += str.charAt(i);
+            }
+        }
+        System.out.println(result);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 50,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "total-bill-amount",
+                "title": "Total Bill Amount",
+                "tab_label": "GroceryS...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Radha is employed at a local grocery store and is responsible for managing the checkout counter. She wants to develop a simple program to assist cashiers in calculating the total bill amount for customers. The program should allow cashiers to input the prices of items purchased by a customer and then compute and display the total bill amount.</p>
+<p>Your task is to aid Radha in writing the Java code for this program using an ArrayList. The program should prompt the cashier to enter the prices of items one by one until they finish. When the cashier enters a negative integer, the program should stop accepting input prices and calculate the total bill amount.</p>
+<p><strong>Input format:</strong></p><ul class="bullet-list"><li>The cashier will input the integers that represent the prices of items purchased by the customer, one per line.</li><li>To indicate the end of the input, the cashier will enter a negative integer.</li></ul>
+<p><strong>Output format:</strong></p><ul class="bullet-list"><li>The total bill amount will be displayed as a single integer value representing the sum of all the prices entered by the cashier.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q29079;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class GroceryStoreCheckout {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Integer> prices = new ArrayList<>();
+        // write the code..
+        while(true){
+            int price = scanner.nextInt();
+            if(price<0){
+                break;
+            }
+            prices.add(price);
+        }
+        int total = 0;
+        for(int price : prices){
+            total += price;
+        }
+        System.out.println(total);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 51,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "missing-numbers",
+                "title": "Missing Numbers",
+                "tab_label": "MissingN...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Chloe wants to find missing numbers within a specific range. She inputs the lower and upper bounds of the range, along with a list of numbers within that range (with some missing), and the application outputs the set of missing numbers using a TreeSet.</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>Chloe inputs the lower and upper bounds of the range separated by space.</li><li>In the next line, Chloe inputs elements in a single line, separated by spaces. To indicate that she has finished entering elements, she will press Enter.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>The application prints the set of missing numbers within the specified range.</li></ul>
+<p><strong>Note:</strong></p><ul class="bullet-list note-list"><li>Refer to the displayed test cases for better understanding.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q29345;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+public class MissingNumbersFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int lowerBound = scanner.nextInt();
+        int upperBound = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        String[] elements = scanner.nextLine().split("\\s+");
+        TreeSet<Integer> numbers = new TreeSet<>();
+        // write the code..
+        for(String element : elements){
+            numbers.add(Integer.parseInt(element));
+        }
+        TreeSet<Integer> missingNum = new TreeSet<>();
+        for(int i = lowerBound ; i<=upperBound;i++){
+            if(!numbers.contains(i)){
+                missingNum.add(i);
+            }
+        }
+        for(int missing : missingNum){
+            System.out.println(missing);
+        }
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 52,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "swap-two-elements",
+                "title": "Swap two elements",
+                "tab_label": "ElementS...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Neha wants to develop a program to swap two elements in a list of strings based on their indices. Write a Java program using ArrayList to assist Neha in implementing this functionality.</p>
+<p><strong>Input Format:</strong></p><p>The user will input a list of strings separated by space. The user will enter any non-alphabetic character to indicate the end of the input.<br>The second line is the integers separated by space which denote the indices of the two elements to swap.</p>
+<p><strong>Output Format:</strong></p><p>The program should display the list after swapping the two elements.<br>Print "Invalid indices" if the indices are out of bounds or invalid.</p>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q29127;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class ElementSwapper {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Input the list of strings
+        ArrayList<String> strings = new ArrayList<>();
+        while(scanner.hasNext()){
+            String input = scanner.next();
+            if(!input.matches("[a-zA-Z]+")){
+                break;
+            }
+            strings.add(input);
+        }
+        int index1 = scanner.nextInt();
+        int index2 = scanner.nextInt();
+        if(index1<0 || index2<0 || index1>=strings.size() || index2>=strings.size()){
+            System.out.println("Invalid indices");
+        }else{
+            String temp = strings.get(index1);
+            strings.set(index1, strings.get(index2));
+            strings.set(index2, temp);
+            System.out.println(strings);
+        }
+        // write the code..
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 53,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "product-of-elements-in-each-sliding-window-of-size-k",
+                "title": "Product Of Elements In Each Sliding Window Of Size K",
+                "tab_label": "SlidingWi...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Sliding Window Technique is a method used to efficiently solve problems that involve defining a window or range in the input data (arrays or strings) and then moving that window across the data to perform some operation within the window.</p>
+<p>Write a Java program to find the product of elements in each sliding window of size <em>K</em> in an array using a Deque. The program should prompt the user to enter the elements of the array and the window size <em>K</em>, and then print the product of elements in each sliding window.</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The first line should prompt the user to enter the elements of the array.</li><li>The second line should prompt the user to enter the window size <em>K</em>.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>The program should print the product of elements in each sliding window in separate lines.</li></ul>
+<p><strong>Note:</strong> <em>K</em> must be less than the number of elements of the array.</p>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q30034;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+
+public class SlidingWindowProduct {
+    public static void main(String[] args) {
+        // write the code
+        Scanner scanner = new Scanner(System.in);
+        String[] inputArray = scanner.nextLine().split(" ");
+        int[] array = new int[inputArray.length];
+        for(int i = 0; i < inputArray.length; i++){
+            array[i] = Integer.parseInt(inputArray[i]);
+        }
+        int windowSize = scanner.nextInt();
+        if(windowSize > array.length){
+            System.out.print("Window size must be less than or equal to the length of the array.");
+        }else{
+            printSlidingWindowProducts(array,windowSize);
+        }
+        scanner.close();
+    }
+    public static void printSlidingWindowProducts(int[] array, int windowSize) {
+        Deque<Integer> deque = new ArrayDeque<>();
+        // write the code
+        long product = 1;
+        for(int i = 0; i < windowSize; i++){
+            product *= array[i];
+            deque.add(array[i]);
+        }
+        System.out.println(product);
+        for(int i = windowSize;i<array.length;i++){
+            product /= deque.poll();
+            deque.add(array[i]);
+            product *= array[i];
+            System.out.println(product);
+        }
+    }
+}
+//mulitply the k number of elements if 3 then multiply first 3 and then next 3 continue`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 54,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "slug": "average-score",
+                "title": "Average score",
+                "tab_label": "AverageS...",
+                "language": "java",
+                "image_path": "./java.jpg",
+                "problem_html": `<p>Bob is a teacher who needs to calculate the average score of his students in a subject. He enters the scores of each student, and the application computes the average score for him using a TreeSet to ensure unique entries.</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>Bob enters each student's score in a single line as integers separated by space. When he finishes entering scores, he presses Enter.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>The application prints the average score(double) of Bob's students in the subject.</li></ul>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`package q29306;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+public class AverageScore {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        //Input scores
+        String input = scanner.nextLine();
+        TreeSet<Integer> scores = new TreeSet<>();
+        // write the code..
+        String[] scoreStrings = input.split(" ");
+        for (String scoreStr : scoreStrings) {
+            scores.add(Integer.parseInt(scoreStr));
+        }
+        double sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        double average = sum / scores.size();
+        System.out.println(average);
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "sort_order": 55,
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            }
+        );
         const javaProgramSlugs = localJavaPrograms.map((program) => program.slug);
         const localDsaPrograms = [
     {
