@@ -912,7 +912,7 @@
             overflow: auto;
             background: linear-gradient(90deg, var(--editor-gutter) 0 78px, #ffffff 78px 100%);
             color: #161c24;
-            font-family: var(--code-font);
+            font-family: Consolas, "Courier New", monospace;
             font-size: 16px;
             line-height: 1.48;
         }
@@ -4365,6 +4365,1653 @@ public class AverageScore {
         "hidden_result": "2 out of 2 hidden test case(s) passed"
     }
 ];
+        localDsaPrograms.push(
+            {
+                "title": "Check if a Binary Tree is Heap",
+                "slug": "check-if-a-binary-tree-is-heap",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC308...",
+                "problem_html": `<p>Given a binary tree. The task is to check whether the given tree follows the <strong>max heap</strong> property or not.</p>
+<p><strong>Note:</strong> Properties of a tree to be a max heap - Completeness and value of node greater than or equal to its child.</p>
+<p><strong>Example 1:</strong></p><p><strong>Input:</strong></p>
+<div class="sample-card format-card"><span>5<br>/ \\<br>2 3</span></div>
+<p><strong>Output:</strong></p><div class="sample-card format-card"><span>1</span></div>
+<p><strong>Explanation:</strong> The given tree follows the max-heap property since 5 is the root and is greater than its children.</p>
+<p><strong>Example 2:</strong></p><p><strong>Input:</strong></p>
+<div class="sample-card format-card"><span>10<br>/ \\<br>20 30<br>/ \\<br>40 60</span></div>
+<p><strong>Output:</strong></p><div class="sample-card format-card"><span>0</span></div>
+<p><strong>Input Format:</strong></p><p>The tree in the input is given in the form of a string as described below.</p>
+<ul class="bullet-list"><li>The values in the string are in the order of level order traversal of the tree where numbers denote node values, and a character “N” denotes NULL child.</li><li>For example: For the above tree, the string will be: 1 2 3 N N 4 6 N 5 N N 7 N</li></ul>
+<p><strong>Output format:</strong></p><ul class="bullet-list"><li>If the given binary tree is a max-heap, it prints 1; otherwise, it prints 0.</li></ul>
+<p><strong>Constraints:</strong></p><ul class="bullet-list"><li>1 &le; Number of nodes &le; 100</li><li>1 &le; Data of a node &le; 1000</li></ul>
+<p><strong>Note:</strong> This question doesn't contain partial weightages, all test cases must be passed.</p>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <sstream>
+#include <vector>
+#include <queue>
+using namespace std;
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val){
+        data = val;
+        left = right = nullptr;
+    }
+};
+bool isComplete(Node* root){
+    if(!root) return true;
+    queue<Node*> q;
+    q.push(root);
+    bool foundNull = false;
+    while(!q.empty()){
+        Node* node = q.front();
+        q.pop();
+        if(!node){
+            foundNull = true;
+        }else{
+            if(foundNull) return false;
+            q.push(node->left);
+            q.push(node->right);
+        }
+    }
+    return true;
+}
+bool isMaxHeap(Node* root){
+    if(!root) return true;
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty()){
+        Node* node = q.front();
+        q.pop();
+        if(node->left){
+            if(node->data < node->left->data) return false;
+            q.push(node->left);
+        }
+        if(node->right){
+            if(node->data < node->right->data) return false;
+            q.push(node->right);
+        }
+    }
+    return true;
+}
+bool isHeap(Node* root){
+    return isComplete(root) && isMaxHeap(root);
+}
+Node* buildTreeFromLevelOrder(string input) {
+    if(input.empty() || input[0] == 'N') return nullptr;
+    stringstream ss(input);
+    string val;
+    vector<Node*> nodes;
+    while(ss >> val){
+        if(val == "N")
+            nodes.push_back(nullptr);
+        else
+            nodes.push_back(new Node(stoi(val)));
+    }
+    queue<Node*> q;
+    Node* root = nodes[0];
+    q.push(root);
+    int i = 1;
+    while(!q.empty() && i < nodes.size()){
+        Node* node = q.front();
+        q.pop();
+        if(i < nodes.size() && nodes[i]){
+            node->left = nodes[i];
+            q.push(nodes[i]);
+        }
+        i++;
+        if(i < nodes.size() && nodes[i]){
+            node->right = nodes[i];
+            q.push(nodes[i]);
+        }
+        i++;
+    }
+    return root;
+}
+int main(){
+    string input;
+    getline(cin, input);
+    Node* root = buildTreeFromLevelOrder(input);
+    cout << (isHeap(root) ? "1" : "0") << endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Heap Sort",
+                "slug": "heap-sort",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC3119...",
+                "problem_html": `<p>Write a program to sort a given array using heap sort technique.</p>
+<p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The first line contains an integer <em>N</em> representing the number of elements in the array.</li><li>The second line contains <em>N</em> space-separated integers representing the elements of the array.</li></ul>
+<p><strong>Output Format:</strong></p><ul class="bullet-list"><li>The output should display the sorted array as space-separated integers.</li></ul>
+<p><strong>Constraints:</strong></p><ul class="bullet-list"><li>-10<sup>5</sup> &le; <em>N</em> &le; 10<sup>5</sup></li></ul>
+<p><strong>Example:</strong></p><p><strong>Input:</strong></p><div class="sample-card format-card"><span>6<br>1 5 6 3 4 8</span></div>
+<p><strong>Output:</strong></p><div class="sample-card format-card"><span>Sorted array is<br>1 3 4 5 6 8</span></div>
+<div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include<iostream>
+#include<vector>
+using namespace std;
+void heapify(vector<int> &arr, int i, int n){
+    int largest = i;
+    int left = 2*i+1;
+    int right = 2*i+2;
+    if(left<n && arr[left] > arr[largest])
+        largest = left;
+    if(right <n && arr[right]>arr[largest])
+        largest = right;
+    if(largest != i){
+        swap(arr[i], arr[largest]);
+        heapify(arr, largest, n);
+    }
+}
+void heapSort(vector<int> &arr, int n){
+    for(int i = n/2-1;i>=0;i--)
+        heapify(arr, i, n);
+    for(int i = n-1; i>=0;i--){
+        swap(arr[0],arr[i]);
+        heapify(arr, 0, i);
+    }
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<int> arr(n);
+    for(int i = 0;i<n;i++){
+        cin>>arr[i];
+    }
+    heapSort(arr, n);
+    cout<<"Sorted array is \n";
+    for(int i = 0;i<n;i++){
+        cout<<arr[i]<<" ";
+    }
+}`,
+                "average_time_label": "0.134 s",
+                "average_time_ms": "134.30 ms",
+                "maximum_time_label": "0.142 s",
+                "maximum_time_ms": "142.00 ms",
+                "shown_result": "2 out of 2 shown test case(s) passed",
+                "hidden_result": "2 out of 2 hidden test case(s) passed"
+            }
+        );
+        localDsaPrograms.push(
+            {
+                "title": "Hash Table",
+                "slug": "hash-table-basic",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC1710...",
+                "problem_html": `<p>Write a Program to implement the Hash Table. The operations to be performed on the hash tables are</p><ol><li>Insert</li><li>Delete</li><li>Search</li></ol><p><strong>Input format:</strong></p><ul class="bullet-list"><li>The first line of input contains an integer representing the number of operations to be performed on the hash table.</li><li>The next lines contain the integers separated by space in which the first integer indicates the operation to be performed and the second integer contains the element to be inserted, deleted, or to be searched.</li><li>1 indicates insertion</li><li>2 indicates deletion</li><li>3 indicates searching operation.</li></ul><p><strong>Output format:</strong></p><ul class="bullet-list"><li>Display the output found or not found if a search operation is performed.</li><li>Display the Hash table after performing all the operations as shown in the test cases.</li></ul><p><strong>Sample Test Case:</strong></p><p><strong>Input:</strong></p><div class="sample-card format-card"><span>5<br>1 23<br>1 24<br>1 25<br>3 24<br>2 11</span></div><p><strong>Output:</strong></p><div class="sample-card format-card"><span>found<br>[3]=23 [4]=24 [5]=25</span></div><p><strong>Note:</strong></p><ol><li>If the element to be deleted is not there, Proceed to the next step without modifying anything in the Hash table.</li><li>Refer to the displayed test cases for better understanding.</li></ol><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+class HashTable {
+private:
+    std::vector<int> table;
+    int size;
+public:
+    HashTable(int s) : size(s) {
+        table.resize(size, -1); // Using -1 to represent an empty slot
+    }
+    int hashFunction(int key) {
+        return key % size;
+    }
+    void insert(int key) {
+        int index = hashFunction(key);
+        while (table[index] != -1) {
+            index = (index + 1) % size;
+        }
+        table[index] = key;
+    }
+    void deleteElement(int key) {
+        int index = hashFunction(key);
+        while (table[index] != -1) {
+            if (table[index] == key) {
+                table[index] = -1;
+                return;
+            }
+            index = (index + 1) % size;
+        }
+    }
+    std::string search(int key) {
+        int index = hashFunction(key);
+        while (table[index] != -1) {
+            if (table[index] == key) {
+                return "found";
+            }
+            index = (index + 1) % size;
+        }
+        return "not found";
+    }
+    void display() {
+        for (int i = 0; i < size; ++i) {
+            if (table[i] != -1) {
+                std::cout << "[" << i << "]=>" << table[i] << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
+};
+int main() {
+    int operationsCount;
+    std::cin >> operationsCount;
+    std::vector<std::pair<int, int>> operations(operationsCount);
+    for (int i = 0; i < operationsCount; ++i) {
+        std::cin >> operations[i].first >> operations[i].second;
+    }
+    HashTable hashTable(10);
+    for (const auto& op : operations) {
+        if (op.first == 1) {
+            hashTable.insert(op.second);
+        } else if (op.first == 2) {
+            hashTable.deleteElement(op.second);
+        } else if (op.first == 3) {
+            std::cout << hashTable.search(op.second) << std::endl;
+        }
+    }
+    hashTable.display();
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Hash Table",
+                "slug": "employee-records-hash-table",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC3086...",
+                "problem_html": `<p>You are entrusted with the task of developing a program to manage employee records efficiently. The program operates on a set of <em>N</em> employee records, each uniquely identified by a four-digit key.</p><p>The program relies on a Hash Table (HT) that is responsible for maintaining these employee records in memory. The Hash Table comprises <em>m</em> memory locations, and the set <em>L</em> represents the memory addresses, each a two-digit value. Each of these addresses corresponds to one of the four locations within the Hash Table.</p><p>Resolve the collision using linear probing.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The first line of input contains two space-separated integers <em>N</em>, <em>m</em> respectively</li><li>The second line of input contains <em>N</em> space-separated integers representing the four-digit key values</li></ul><p><strong>Output Format:</strong></p><p>Display the contents of the hash table after inserting the keys using linear probing. If the hash table becomes full and cannot accommodate any more keys, display the message:</p><div class="sample-card format-card"><span>Hash table is full. Cannot insert records from key &lt;key&gt;</span></div><p>Here, &lt;key&gt; should be replaced with the actual key. If the hash table remains empty, print "Hash Table is empty".</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+using namespace std;
+void insertKey(vector<int>& hashTable, int m, int key, bool& tableFull, int& failedKey) {
+    int index = key % m;
+    int originalIndex = index;
+    while (hashTable[index] != -1) {
+        index = (index + 1) % m;
+        if (index == originalIndex) {
+            tableFull = true;
+            failedKey = key;
+            return;
+        }
+    }
+    hashTable[index] = key;
+}
+int main() {
+    int N, m;
+    cin >> N >> m;
+    if (N == 0) {
+        cout << "Hash Table is empty" << endl;
+        return 0;
+    }
+    vector<int> hashTable(m, -1);
+    vector<int> keys(N);
+    for (int i = 0; i < N; i++) cin >> keys[i];
+    bool tableFull = false;
+    int failedKey = -1;
+    for (int i = 0; i < N; i++) {
+        if (tableFull) break;
+        insertKey(hashTable, m, keys[i], tableFull, failedKey);
+    }
+    if (tableFull) cout << "Hash table is full. Cannot insert records from key " << failedKey << endl;
+    for (int i = 0; i < m; i++) {
+        cout << "T[" << i << "] -> ";
+        if (hashTable[i] == -1) cout << "-1";
+        else cout << hashTable[i];
+        cout << endl;
+    }
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Quadratic Probing Technique",
+                "slug": "quadratic-probing-technique",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "probing.c...",
+                "problem_html": `<p>Smith is enhancing the record management system to use quadratic probing for handling collisions while hashing with a fixed-size hash table. The records are identified by four-digit keys, and Smith wants to efficiently insert these records into the hash table. Your task is to help Smith to write a C++ program which creates a hash table, inserts records using quadratic probing, and displays the contents.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>First line: Contains two space-separated integers <strong>N</strong> and <strong>m</strong>, where <strong>N</strong> represents the number of keys and <strong>m</strong> represents the size of the hash table.</li><li>Second line: Contains <strong>N</strong> space-separated four-digit integers representing the keys.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>If full, print: "Hash table is full. Cannot insert records from key &lt;key&gt;" where &lt;key&gt; is the key number starting from 1.</li><li>If not full, print contents in format: T[i] -> key.</li><li>If empty, print: "Hash Table is empty".</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> keys;
+int n, m;
+vector<int> hashTable;
+int index1;
+int insertCount = 0;
+void insert(int key) {
+    int i = 1;
+    index1 = key % m;
+    while (hashTable[index1] != -1) {
+        index1 = (index1 + i * i) % m;
+        i++;
+    }
+    hashTable[index1] = key;
+    insertCount++;
+}
+void display() {
+    if (insertCount == 0) {
+        cout << "Hash Table is empty" << endl;
+        return;
+    }
+    for (int i = 0; i < m; i++) {
+        cout << "T[" << i << "] -> " << hashTable[i] << endl;
+    }
+}
+int main() {
+    cin >> n >> m;
+    hashTable.resize(m, -1);
+    keys.resize(n);
+    for (int i = 0; i < n; i++) cin >> keys[i];
+    for (int i = 0; i < n; i++) {
+        if (insertCount == m) {
+            cout << "Hash table is full. Cannot insert records from key " << i + 1 << endl;
+            break;
+        }
+        insert(keys[i]);
+    }
+    display();
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            }
+        );
+        localDsaPrograms.push(
+            {
+                "title": "T-Shirt Size Hash Table",
+                "slug": "t-shirt-size-hash-table",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "HashingC...",
+                "problem_html": `<p>Write a C++ program to create a hash table for seven T-shirt size values. Insert each value into the hash table using chaining and display the buckets in order.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The input contains 7 integers representing T-shirt sizes.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Print <strong>Hash table created:</strong> followed by each bucket and the values chained to it.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+using namespace std;
+struct Node {
+    int data;
+    Node* next;
+};
+struct Hashing {
+    int hash_bucket;
+    vector<Node*> hashtable;
+};
+int hashFunction(int key, int bucketSize) {
+    return key % bucketSize;
+}
+void insertKey(Hashing* hashTable, int key) {
+    int index = hashFunction(key, hashTable->hash_bucket);
+    Node* newNode = new Node{key, nullptr};
+    if (!hashTable->hashtable[index]) {
+        hashTable->hashtable[index] = newNode;
+    } else {
+        Node* temp = hashTable->hashtable[index];
+        while (temp->next) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+void displayHash(Hashing* hashTable) {
+    for (int i = 0; i < hashTable->hash_bucket; i++) {
+        cout << i;
+        Node* temp = hashTable->hashtable[i];
+        while (temp) {
+            cout << " --> " << temp->data;
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+}
+Hashing* createHashing(int size) {
+    Hashing* hashTable = new Hashing;
+    hashTable->hash_bucket = size;
+    hashTable->hashtable.resize(size, nullptr);
+    return hashTable;
+}
+int main() {
+    vector<int> hash_array(7);
+    for (int i = 0; i < 7; i++) {
+        cin >> hash_array[i];
+    }
+    int n = hash_array.size();
+    Hashing* hashTable = createHashing(7);
+    for (int i = 0; i < n; i++) {
+        insertKey(hashTable, hash_array[i]);
+    }
+    cout << "Hash table created:" << endl;
+    displayHash(hashTable);
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Path Existence in an Undirected Graph",
+                "slug": "path-existence-in-an-undirected-graph",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "GraphsP...",
+                "problem_html": `<p>Write a C++ program to check whether a path exists between two vertices in an undirected graph using BFS traversal.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The first line contains <strong>V</strong> and <strong>E</strong>.</li><li>The next <strong>E</strong> lines contain edges <strong>u v</strong>.</li><li>The last line contains source and destination vertices.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Print <strong>Path exists</strong> if reachable; otherwise print <strong>No path exists</strong>.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`//Type Content here...
+#include<iostream>
+#include<queue>
+using namespace std;
+#define MAX 1001
+int deg[MAX];
+int adjList[MAX][MAX];
+bool visited[MAX];
+void bfs(int start){
+    queue<int> q;
+    q.push(start);
+    visited[start]=true;
+    while(!q.empty()){
+        int curr = q.front();
+        q.pop();
+        for(int i = 0; i < deg[curr]; i++) {
+            int neighbor = adjList[curr][i];
+            if(!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+}
+int main() {
+    int V, E;
+    cin >> V >> E;
+    for(int i = 0; i < E; i++) {
+        int u, v;
+        cin >> u >> v;
+        adjList[u][deg[u]++] = v;
+        adjList[v][deg[v]++] = u;
+    }
+    int src, dest;
+    cin >> src >> dest;
+    bfs(src);
+    if (visited[dest])
+        cout << "Path exists\n";
+    else
+        cout << "No path exists\n";
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Shortest Path in an Unweighted Graph Using BFS",
+                "slug": "shortest-path-in-an-unweighted-graph-using-bfs",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "GraphsS...",
+                "problem_html": `<p>Write a C++ program to find shortest distances from a source node in an unweighted undirected graph using BFS.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>First line contains <strong>V</strong> and <strong>E</strong>.</li><li>The next <strong>E</strong> lines contain edges.</li><li>The final line contains the source node.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Print the shortest distance from the source to each node. Print <strong>Unreachable</strong> when a node cannot be reached.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
+using namespace std;
+class Graph {
+public:
+    int V;
+    vector<vector<int>> adj;
+    Graph(int V) {
+        this->V = V;
+        adj.resize(V);
+    }
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    void BFS(int source) {
+        vector<int> dist(V, INT_MAX);
+        queue<int> q;
+        dist[source] = 0;
+        q.push(source);
+        while (!q.empty()) {
+            int current = q.front();
+            q.pop();
+            for (int neighbor : adj[current]) {
+                if (dist[neighbor] == INT_MAX) {
+                    dist[neighbor] = dist[current] + 1;
+                    q.push(neighbor);
+                }
+            }
+        }
+        cout << "Shortest distances from node " << source << " are:\n";
+        for (int i = 0; i < V; i++) {
+            if (dist[i] == INT_MAX)
+                cout << "Node " << i << ": Unreachable\n";
+            else
+                cout << "Node " << i << ": " << dist[i] << "\n";
+        }
+    }
+};
+int main() {
+    int V, E;
+    cin >> V >> E;
+    Graph g(V);
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        g.addEdge(u, v);
+    }
+    int source;
+    cin >> source;
+    g.BFS(source);
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Depth First Search (DFS)",
+                "slug": "depth-first-search-dfs",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "GraphsD...",
+                "problem_html": `<p>Your task is to write a program to implement Depth First Search (DFS) graph traversal methods.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>Enter the number of vertices and edges.</li><li>Enter each source and destination edge.</li><li>Enter the start vertex for DFS.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Print <strong>DFS of graph:</strong> followed by the visited vertices.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+using namespace std;
+struct Node {
+    Node* next;
+    int vertex;
+};
+typedef Node* GNODE;
+GNODE graph[20];
+int visited[20];
+int n;
+void DFS(int i) {
+    int stack[20];
+    int top=-1;
+    stack[++top]=i;
+    while(top!=-1){
+        int v=stack[top--];
+        if(visited[v]==0){
+            visited[v]=1;
+            cout<<"\n"<<v;
+            int tempArr[20];
+            int count=0;
+            GNODE temp=graph[v];
+            while(temp!=NULL){
+                if(visited[temp->vertex]==0){
+                    tempArr[count++]=temp->vertex;
+                }
+                temp=temp->next;
+            }
+            for(int i=count-1;i>=0;i--){
+                stack[++top]=tempArr[i];
+            }
+        }
+    }
+}
+int main() {
+    int N, E, i, s, d, v;
+    GNODE q, p;
+    cout << "Enter the number of vertices: ";
+    cin >> N;
+    cout << "Enter the number of edges: ";
+    cin >> E;
+    for (i = 1; i <= E; i++) {
+        cout << "Enter source: ";
+        cin >> s;
+        cout << "Enter destination: ";
+        cin >> d;
+        q = new Node;
+        q->vertex = d;
+        q->next = nullptr;
+        if (graph[s] == nullptr)
+            graph[s] = q;
+        else {
+            p = graph[s];
+            while (p->next != nullptr)
+                p = p->next;
+            p->next = q;
+        }
+    }
+    for (i = 0; i < n; i++)
+        visited[i] = 0;
+    cout << "Enter Start Vertex for DFS: ";
+    cin >> v;
+    cout << "DFS of graph: ";
+    DFS(v);
+    cout << endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Breadth First Search (BFS)",
+                "slug": "breadth-first-search-bfs",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "GraphsB...",
+                "problem_html": `<p>Your task is to write a program to implement Breadth First Search (BFS) graph traversal methods.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>Enter vertices and edges, then each source and destination.</li><li>Enter the start vertex for BFS.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Print <strong>BFS of graph:</strong> followed by the visited vertices.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <cstdlib>
+#define MAX 99
+using namespace std;
+struct Node {
+    Node* next;
+    int vertex;
+};
+typedef Node* GNODE;
+GNODE graph[20];
+int visited[20];
+int queue[MAX], front = -1, rear = -1;
+int n;
+void insertQueue(int vertex) {
+    if (rear == MAX - 1)
+        std::cout << "Queue Overflow.\n";
+    else {
+        if (front == -1)
+            front = 0;
+        rear = rear + 1;
+        queue[rear] = vertex;
+    }
+}
+bool isEmptyQueue() {
+    return (front == -1 || front > rear);
+}
+int deleteQueue() {
+    if (front == -1 || front > rear) {
+        std::cout << "Queue Underflow\n";
+        exit(1);
+    }
+    int deleteItem = queue[front];
+    front = front + 1;
+    return deleteItem;
+}
+void BFS(int v) {
+    GNODE temp;
+    visited[v] = 1;
+    insertQueue(v);
+    while (!isEmptyQueue()) {
+        int current = deleteQueue();
+        std::cout << "\n" << current;
+        temp = graph[current];
+        while (temp != NULL) {
+            if (visited[temp->vertex] == 0) {
+                visited[temp->vertex] = 1;
+                insertQueue(temp->vertex);
+            }
+            temp = temp->next;
+        }
+    }
+}
+int main() {
+    int N, E, s, d, i, j, v;
+    GNODE p, q;
+    std::cout << "Enter the number of vertices: ";
+    std::cin >> N;
+    std::cout << "Enter the number of edges: ";
+    std::cin >> E;
+    for (i = 1; i <= E; i++) {
+        std::cout << "Enter source: ";
+        std::cin >> s;
+        std::cout << "Enter destination: ";
+        std::cin >> d;
+        q = new Node;
+        q->vertex = d;
+        q->next = nullptr;
+        if (graph[s] == nullptr) graph[s] = q;
+        else {
+            p = graph[s];
+            while (p->next != nullptr) p = p->next;
+            p->next = q;
+        }
+    }
+    for (i = 1; i <= N; i++)
+        visited[i] = 0;
+    std::cout << "Enter Start Vertex for BFS: ";
+    std::cin >> v;
+    std::cout << "BFS of graph: ";
+    BFS(v);
+    std::cout << std::endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Binary Tree Operations (Using Recursive functions)",
+                "slug": "binary-tree-operations-using-recursive-functions",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "treeTrave...",
+                "problem_html": `<p>Write a menu driven C++ program to implement binary search tree operations using recursive functions: inserting a node, in-order traversal, pre-order traversal, post-order traversal, and exit.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div><div class="sample-card"><span>Question Hints</span><button type="button" aria-label="Expand question hints">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+Node* createNode(int data) {
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+Node* insertNode(Node* root, int data) {
+    if(root == NULL) {
+        return createNode(data);
+    }
+    else if(data<root->data){
+        root->left = insertNode(root->left, data);
+    }else{
+        root->right = insertNode(root->right, data );
+    }
+    return root;
+}
+void inOrderTraversal(Node* root) {
+    if(root != NULL){
+        inOrderTraversal(root->left);
+        cout<<root->data<<" ";
+        inOrderTraversal(root->right);
+    }
+}
+void preOrderTraversal(Node* root) {
+    if(root != NULL){
+        cout<<root->data<<" ";
+        preOrderTraversal(root->left);
+        preOrderTraversal(root->right);
+    }
+}
+void postOrderTraversal(Node* root) {
+    if(root != NULL){
+        postOrderTraversal(root->left);
+        postOrderTraversal(root->right);
+        cout<<root->data<<" ";
+    }
+}
+int main() {
+    Node* root = NULL;
+    int choice, data;
+    while (true) {
+        cout << "1.Insert Node" << endl;
+        cout << "2.In-Order Traversal" << endl;
+        cout << "3.Pre-Order Traversal" << endl;
+        cout << "4.Post-Order Traversal" << endl;
+        cout << "5.Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Insert data: ";
+                cin >> data;
+                root = insertNode(root, data);
+                break;
+            case 2:
+                cout << "In-Order Traversal: ";
+                inOrderTraversal(root);
+                cout<<"\n";
+                break;
+            case 3:
+                cout << "Pre-Order Traversal: ";
+                preOrderTraversal(root);
+                cout<<"\n";
+                break;
+            case 4:
+                cout << "Post-Order Traversal: ";
+                postOrderTraversal(root);
+                cout<<"\n";
+                break;
+            case 5:
+                exit(0);
+            default:
+                cout << "Invalid choice" << endl;
+        }
+    }
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Binary Tree Operations (Non-Recursive Implementation)",
+                "slug": "binary-tree-operations-non-recursive-implementation",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "treeTrave...",
+                "problem_html": `<p>Write a menu driven C++ program to implement binary tree operations with non-recursive traversal: insert, in-order, pre-order, post-order, and exit.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <stack>
+#include <queue>
+using namespace std;
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int value) : data(value), left(nullptr), right(nullptr) {}
+};
+class BinaryTree {
+private:
+    Node* root;
+public:
+    BinaryTree() : root(NULL) {}
+    void insert(int value) {
+        Node* newNode = new Node(value);
+        if (!root) {
+            root = newNode;
+            return;
+        }
+        Node* current = root;
+        Node* parent = NULL;
+        while (current) {
+            parent = current;
+            if (value < current->data) current = current->left;
+            else current = current->right;
+        }
+        if (value < parent->data) parent->left = newNode;
+        else parent->right = newNode;
+    }
+    void inOrderTraversal() {
+        if (!root) return;
+        stack<Node*> s;
+        Node* current = root;
+        while (current || !s.empty()) {
+            while (current) {
+                s.push(current);
+                current = current->left;
+            }
+            current = s.top(); s.pop();
+            cout << current->data << " ";
+            current = current->right;
+        }
+        cout << endl;
+    }
+    void preOrderTraversal() {
+        if (!root) return;
+        stack<Node*> s;
+        s.push(root);
+        while (!s.empty()) {
+            Node* current = s.top(); s.pop();
+            cout << current->data << " ";
+            if (current->right) s.push(current->right);
+            if (current->left) s.push(current->left);
+        }
+        cout << endl;
+    }
+    void postOrderTraversal() {
+        if (!root) return;
+        stack<Node*> s1, s2;
+        s1.push(root);
+        while (!s1.empty()) {
+            Node* current = s1.top(); s1.pop();
+            s2.push(current);
+            if (current->left) s1.push(current->left);
+            if (current->right) s1.push(current->right);
+        }
+        while (!s2.empty()) {
+            cout << s2.top()->data << " ";
+            s2.pop();
+        }
+        cout << endl;
+    }
+};
+int main() {
+    BinaryTree tree;
+    int choice, value;
+    while (true) {
+        cout << "1.Insert Node\n";
+        cout << "2.In-Order Traversal\n";
+        cout << "3.Pre-Order Traversal\n";
+        cout << "4.Post-Order Traversal\n";
+        cout << "5.Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Insert data: ";
+                cin >> value;
+                tree.insert(value);
+                break;
+            case 2:
+                cout << "In-Order Traversal: ";
+                tree.inOrderTraversal();
+                break;
+            case 3:
+                cout << "Pre-Order Traversal: ";
+                tree.preOrderTraversal();
+                break;
+            case 4:
+                cout << "Post-Order Traversal: ";
+                tree.postOrderTraversal();
+                break;
+            case 5:
+                return 0;
+            default:
+                cout << "Invalid choice\n";
+        }
+    }
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Reverse Level Order Traversal of a Binary Tree",
+                "slug": "reverse-level-order-traversal-of-a-binary-tree",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "reverseL...",
+                "problem_html": `<p>Write a C++ program to perform reverse level order traversal of a binary tree. Create the tree from input values and print the nodes from the last level to the root.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The first line contains the number of nodes.</li><li>The second line contains node values in level order.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Print the reverse level order traversal separated by spaces.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`//write your code here.....
+#include<iostream>
+#include<queue>
+#include<stack>
+using namespace std;
+class Node{
+public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int x){
+        data = x;
+        left = right = nullptr;
+    }
+};
+Node* insertLevelOrder(int arr[], Node* root, int i, int n) {
+    if (i < n) {
+        Node* temp = new Node(arr[i]);
+        root = temp;
+        root->left = insertLevelOrder(arr, root->left, 2 * i + 1, n);
+        root->right = insertLevelOrder(arr, root->right, 2 * i + 2, n);
+    }
+    return root;
+}
+void reverseLevelOrder(Node* root) {
+    queue<Node*>q;
+    stack<Node*>s;
+    q.push(root);
+    while(!q.empty()){
+        Node*curr=q.front();
+        q.pop();
+        s.push(curr);
+        if(curr->right)
+            q.push(curr->right);
+        if(curr->left)
+            q.push(curr->left);
+    }
+    while(!s.empty()){
+        cout<<s.top()->data<<" ";
+        s.pop();
+    }
+}
+int main(){
+    int n;
+    cin>>n;
+    int* arr = new int[n];
+    for(int i = 0; i<n;++i){
+        cin>>arr[i];
+    }
+    Node* root = insertLevelOrder(arr, root, 0, n);
+    reverseLevelOrder(root);
+    cout<<endl;
+    delete[] arr;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "BST Operations - Creating node, insertion and in-order traversal",
+                "slug": "bst-operations-creating-node-insertion-and-in-order-traversal",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "BSTInser...",
+                "problem_html": `<p>Implementing Binary Search Tree operations using linked list representation.</p><p>Fill the missing code for creating a new node, inserting an element, and performing in-order traversal.</p><p><strong>Refer to visible test cases to strictly match with input/output layout.</strong></p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`class BSTNODE{
+public:
+    int data;
+    BSTNODE *left, *right;
+};
+BSTNODE *root = NULL;
+class BST {
+public:
+    BSTNODE* newNode(int ele);
+    BSTNODE* insertNode(BSTNODE * root , int ele);
+    void inorder(BSTNODE * root);
+};
+BSTNODE* BST::newNode(int ele) {
+    BSTNODE *temp = new BSTNODE;
+    temp->data = ele;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+BSTNODE* BST::insertNode(BSTNODE* root, int ele) {
+    if(root == nullptr){
+        cout<<"Successfully inserted.\n";
+        return newNode(ele);
+    }if(ele<root->data){
+        root->left= insertNode(root->left, ele);
+    }else if(ele>root->data){
+        root->right = insertNode(root->right, ele);
+    }else{
+        cout<<"Element already exists in BST.\n";
+    }
+    return root;
+}
+void BST::inorder(BSTNODE *root) {
+    if(root != nullptr){
+        inorder(root->left);
+        cout<<root->data<<" ";
+        inorder(root->right);
+    }
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Implementation of BST Operations - Search and post order traversal",
+                "slug": "implementation-of-bst-operations-search-and-post-order-traversal",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "BSTSear...",
+                "problem_html": `<p>Fill in the missing code in the BST search and post-order functions. The search function returns NULL if the element is not found, and postorder performs post-order traversal on the tree.</p><p><strong>Refer to visible test cases to strictly match with input/output layout.</strong></p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`class BSTNODE{
+public:
+    int data;
+    BSTNODE *left, *right;
+};
+BSTNODE *root;
+class BST {
+public:
+    BST () {
+        root = NULL;
+    }
+    BSTNODE* newNode(int ele);
+    BSTNODE* insertNode(BSTNODE * root , int ele);
+    BSTNODE* searchNode(BSTNODE * root, int ele);
+    void postorder(BSTNODE * root);
+};
+BSTNODE* BST::newNode(int ele) {
+    BSTNODE *temp = new BSTNODE;
+    temp->data = ele;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+BSTNODE* BST::insertNode(BSTNODE* node, int ele) {
+    if (node == NULL) {
+        cout << "Successfully inserted.\n";
+        return newNode(ele);
+    }
+    if (ele < node->data) {
+        node->left = insertNode(node->left, ele);
+    } else if (ele > node->data) {
+        node->right = insertNode(node->right, ele);
+    }
+    return node;
+}
+void BST::postorder(BSTNODE * root) {
+    if (root != NULL) {
+        postorder(root->left);
+        postorder(root->right);
+        cout << root->data << " ";
+    }
+}
+BSTNODE* BST::searchNode(BSTNODE* root, int ele) {
+    if(root == NULL || root->data == ele) {
+        return root;
+    }
+    if (ele < root->data) {
+        return searchNode(root->left, ele);
+    }
+    return searchNode(root->right, ele);
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Binary Search Tree Operations",
+                "slug": "binary-search-tree-operations",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "BSTOper...",
+                "problem_html": `<p>Write a menu-driven C++ program to implement inserting a node, deleting a node, searching a node, in-order traversal, and exit in a Binary Search Tree.</p><p><strong>Refer to visible test cases to strictly match with input/output layout.</strong></p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`class BSTNODE{
+public:
+    int data;
+    BSTNODE *left, *right;
+};
+BSTNODE *root;
+class BST {
+public:
+    BST () {
+        root = NULL;
+    }
+    BSTNODE* newNode(int ele);
+    BSTNODE* insertNode(BSTNODE * root , int ele);
+    BSTNODE* deleteNode(BSTNODE * root, int ele);
+    BSTNODE* searchNode(BSTNODE * root, int ele);
+    void inorder(BSTNODE * root);
+};
+BSTNODE* BST::newNode(int ele) {
+    BSTNODE *temp = new BSTNODE;
+    temp->data = ele;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+BSTNODE* BST::insertNode(BSTNODE* node, int ele) {
+    if(node == NULL) {
+        cout << "Successfully inserted.\n";
+        return newNode(ele);
+    }
+    if (ele < node->data) node->left = insertNode(node->left, ele);
+    else if (ele > node->data) node->right = insertNode(node->right, ele);
+    else cout << "Element already exists in BST.\n";
+    return node;
+}
+void BST::inorder(BSTNODE *root) {
+    if(root != NULL) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+BSTNODE* BST::deleteNode(BSTNODE* root, int ele) {
+    if(root == NULL) {
+        cout << "Not found\n";
+        return root;
+    }
+    if (ele < root->data) root->left = deleteNode(root->left, ele);
+    else if (ele > root->data) root->right = deleteNode(root->right, ele);
+    else {
+        if (root->left == NULL) {
+            BSTNODE *temp = root->right;
+            delete root;
+            cout << "Deleted\n";
+            return temp;
+        } else if (root->right == NULL) {
+            BSTNODE *temp = root->left;
+            delete root;
+            cout << "Deleted\n";
+            return temp;
+        }
+        BSTNODE *temp = root->right;
+        while (temp->left != NULL) temp = temp->left;
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+BSTNODE* BST::searchNode(BSTNODE* root, int ele) {
+    if(root == NULL || root->data == ele) return root;
+    if (ele < root->data) return searchNode(root->left, ele);
+    return searchNode(root->right, ele);
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Dictionary using a Binary Search Tree",
+                "slug": "dictionary-using-a-binary-search-tree",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "Dictionar...",
+                "problem_html": `<p>Implement a dictionary using a binary search tree where keywords and meanings are stored. Insert keywords, delete a keyword, create a mirror image and display it level-wise, and copy the BST and display it.</p><p><strong>Refer to visible test cases to understand how the output is being printed.</strong></p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <queue>
+#include <stack>
+using namespace std;
+class DictionaryNode{
+public:
+    string keyword;
+    string meaning;
+    DictionaryNode* left;
+    DictionaryNode* right;
+    DictionaryNode(string key, string value){
+        keyword=key;
+        meaning=value;
+        left=right=NULL;
+    }
+};
+class Dictionary {
+private:
+    DictionaryNode* root;
+    DictionaryNode* insert(DictionaryNode* node, string key, string meaning) {
+        if (node == NULL) return new DictionaryNode(key, meaning);
+        if (key < node->keyword) node->left = insert(node->left, key, meaning);
+        else if (key > node->keyword) node->right = insert(node->right, key, meaning);
+        return node;
+    }
+    DictionaryNode* findMin(DictionaryNode* node) {
+        while (node->left != NULL) node = node->left;
+        return node;
+    }
+    DictionaryNode* remove(DictionaryNode* node, string key) {
+        if (node == NULL) return NULL;
+        if (key < node->keyword) node->left = remove(node->left, key);
+        else if (key > node->keyword) node->right = remove(node->right, key);
+        else {
+            if (node->left == NULL) {
+                DictionaryNode* temp = node->right;
+                delete node;
+                return temp;
+            } else if (node->right == NULL) {
+                DictionaryNode* temp = node->left;
+                delete node;
+                return temp;
+            }
+            DictionaryNode* temp = findMin(node->right);
+            node->keyword = temp->keyword;
+            node->meaning = temp->meaning;
+            node->right = remove(node->right, temp->keyword);
+        }
+        return node;
+    }
+    void displayLevelWise(DictionaryNode* root) {
+        queue<DictionaryNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int size = q.size();
+            while (size--) {
+                DictionaryNode* temp = q.front();
+                q.pop();
+                cout << "(" << temp->keyword << ": " << temp->meaning << ") ";
+                if (temp->left) q.push(temp->left);
+                if (temp->right) q.push(temp->right);
+            }
+            cout << endl;
+        }
+    }
+    DictionaryNode* mirror(DictionaryNode* node) {
+        if (node == NULL) return NULL;
+        DictionaryNode* mirrored = new DictionaryNode(node->keyword, node->meaning);
+        mirrored->left = mirror(node->right);
+        mirrored->right = mirror(node->left);
+        return mirrored;
+    }
+    DictionaryNode* copy(DictionaryNode* node) {
+        if (node == NULL) return NULL;
+        DictionaryNode* copied = new DictionaryNode(node->keyword, node->meaning);
+        copied->left = copy(node->left);
+        copied->right = copy(node->right);
+        return copied;
+    }
+public:
+    Dictionary() { root = NULL; }
+    void insert(string key, string meaning) { root = insert(root, key, meaning); }
+    void remove(string key) { root = remove(root, key); }
+    void displayLevelWise() { displayLevelWise(root); }
+    void createMirrorAndDisplay() {
+        DictionaryNode* mirroredRoot = mirror(root);
+        cout << "Mirror Image Level-wise: " << endl;
+        displayLevelWise(mirroredRoot);
+    }
+    Dictionary copy() {
+        Dictionary copiedDict;
+        copiedDict.root = copy(root);
+        return copiedDict;
+    }
+};
+int main() {
+    Dictionary dict;
+    int numKeywords;
+    cout << "No of keywords: ";
+    cin >> numKeywords;
+    cout << "Enter keywords and their meanings:" << endl;
+    for (int i = 0; i < numKeywords; ++i) {
+        string key, meaning;
+        cin >> key >> meaning;
+        dict.insert(key, meaning);
+    }
+    cout << "Original Tree Level-wise: " << endl;
+    dict.displayLevelWise();
+    string keyToDelete;
+    cout << "Keyword to delete: ";
+    cin >> keyToDelete;
+    dict.remove(keyToDelete);
+    cout << "Tree after deletion:" << endl;
+    dict.displayLevelWise();
+    dict.createMirrorAndDisplay();
+    Dictionary copiedDict = dict.copy();
+    cout << "Copied tree level-wise:" << endl;
+    copiedDict.displayLevelWise();
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Index of an element",
+                "slug": "index-of-an-element",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC2645...",
+                "problem_html": `<p>You are given a sorted list of numbers and a target value. Write code to find the index of the first element in the list that is greater than or equal to the target value. If there is no such element, return -1.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include<iostream>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i = 0; i<n ;i++){
+        cin>>arr[i];
+    }
+    int k;
+    cin>>k;
+    bool found = false;
+    for(int i = 0; i<n ;i++){
+        if(arr[i]>=k){
+            cout<<i;
+            found = true;
+            break;
+        }
+    }
+    if(!found){
+        cout<<"-1";
+    }
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Best Fit Box",
+                "slug": "best-fit-box",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC2645...",
+                "problem_html": `<p>You are given an array/list of box sizes sorted in ascending order and an integer representing the size of an item. Find the best-fit box size for the given item.</p><p><strong>Output Format:</strong> Print the size of the best-fit box. If no suitable box is found, return -1.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include<iostream>
+using namespace std;
+int main(){
+    int k,n,arr[n];
+    cin>>n;
+    for (int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    cin>>k;
+    int left=0;
+    int right=n-1;
+    int result=-1;
+    while(left<=right){
+        int mid=(left + right) / 2;
+        if(k<=arr[mid]){
+            result = arr[mid];
+            right = mid - 1;
+        }
+        else{
+            left = mid + 1;
+        }
+    }
+    cout<<result<<endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Liam's Gemstone Collection Counter",
+                "slug": "liams-gemstone-collection-counter",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC5824...",
+                "problem_html": `<p>Liam has a collection of gemstones represented as an array of integers. Count how many times a specific gemstone appears in the collection using linear search.</p><p><strong>Input Format:</strong></p><ul class="bullet-list"><li>The first line contains N.</li><li>The second line contains N integers.</li><li>The last line contains the key element to be searched.</li></ul><p><strong>Output Format:</strong></p><ul class="bullet-list"><li>Return the count of occurrences of the key element in the array.</li></ul><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include<iostream>
+using namespace std;
+int countOf(int arr[], int n, int key){
+    int count = 0;
+    for(int i = 0; i<n; i++){
+        if(arr[i]== key){
+            count++;
+        }
+    }
+    return count;
+}
+int main(){
+    int n ;
+    cin>>n;
+    int arr[n];
+    for (int i = 0; i<n; i++){
+        cin>>arr[i];
+    }
+    int key;
+    cin>>key;
+    int result = countOf(arr, n, key);
+    cout<<result<<endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Find the maximum possible value X from an N x M matrix",
+                "slug": "find-the-maximum-possible-value-x-from-an-n-x-m-matrix",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC1735...",
+                "problem_html": `<p>Find the maximum possible value X from an N x M matrix such that there exists at least one row and one column where all elements are greater than or equal to X.</p><p><strong>Input format:</strong> First line contains N and M. Next N lines contain M integers.</p><p><strong>Output format:</strong> Print the value of X.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int find_max_x(const vector<vector<int>>& matrix, int N, int M) {
+    int max_x = 0;
+    for (int X = 1; X <= 1000000000; ++X) {
+        bool row_found = false;
+        bool col_found = false;
+        for (int i = 0; i < N; ++i) {
+            bool all_gte_x = true;
+            for (int j = 0; j < M; ++j) {
+                if (matrix[i][j] < X) {
+                    all_gte_x = false;
+                    break;
+                }
+            }
+            if (all_gte_x) {
+                row_found = true;
+                break;
+            }
+        }
+        for (int j = 0; j < M; ++j) {
+            bool all_gte_x = true;
+            for (int i = 0; i < N; ++i) {
+                if (matrix[i][j] < X) {
+                    all_gte_x = false;
+                    break;
+                }
+            }
+            if (all_gte_x) {
+                col_found = true;
+                break;
+            }
+        }
+        if (row_found && col_found) {
+            max_x = X;
+        } else {
+            break;
+        }
+    }
+    return max_x;
+}
+int main() {
+    int N, M;
+    cin >> N >> M;
+    vector<vector<int>> matrix(N, vector<int>(M));
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < M; ++j) {
+            cin >> matrix[i][j];
+        }
+    }
+    int result = find_max_x(matrix, N, M);
+    cout << result << endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Sorting Elements by their Frequency and Index",
+                "slug": "sorting-elements-by-their-frequency-and-index",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC2634...",
+                "problem_html": `<p>Arrange array elements based on frequency and index. Higher frequency comes first; when frequencies are equal, the element with the lower first index appears first.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+bool compare(const pair<int, pair<int, int>>& a, const pair<int, pair<int, int>>& b) {
+    if (a.second.second != b.second.second) {
+        return a.second.second > b.second.second;
+    } else {
+        return a.second.first < b.second.first;
+    }
+}
+void frequencySort(vector<int>& arr) {
+    unordered_map<int, pair<int, int>> freqMap;
+    for (int i = 0; i < arr.size(); ++i) {
+        if (freqMap.find(arr[i]) == freqMap.end()) {
+            freqMap[arr[i]] = make_pair(i, 1);
+        } else {
+            freqMap[arr[i]].second++;
+        }
+    }
+    vector<pair<int, pair<int, int>>> freqVec;
+    for (const auto& item : freqMap) {
+        freqVec.emplace_back(item.first, item.second);
+    }
+    sort(freqVec.begin(), freqVec.end(), compare);
+    vector<int> sortedArr;
+    for (const auto& item : freqVec) {
+        sortedArr.insert(sortedArr.end(), item.second.second, item.first);
+    }
+    cout << "[";
+    for (int i = 0; i < sortedArr.size(); ++i) {
+        cout << sortedArr[i] << (i == sortedArr.size() - 1 ? "]" : ", ");
+    }
+    cout << endl;
+}
+int main() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    frequencySort(arr);
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Largest Number Possible",
+                "slug": "largest-number-possible",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "CTC2643...",
+                "problem_html": `<p>Given an array or list of numbers, find the largest number possible by concatenating them together in any order.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+bool compare(string &a, string &b) {
+    return a + b > b + a;
+}
+void findLargestNumber(int N, vector<int>& arr) {
+    vector<string> strArr;
+    for (int i = 0; i < N; i++) {
+        strArr.push_back(to_string(arr[i]));
+    }
+    sort(strArr.begin(), strArr.end(), compare);
+    for (const string &s : strArr) {
+        cout << s;
+    }
+    cout << endl;
+}
+int main() {
+    int N;
+    cin >> N;
+    vector<int> arr(N);
+    for (int i = 0; i < N; i++) {
+        cin >> arr[i];
+    }
+    findLargestNumber(N, arr);
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Sorting Positive Integers using Selection Sort",
+                "slug": "sorting-positive-integers-using-selection-sort",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "selection...",
+                "problem_html": `<p>Sajid needs to sort the given set of positive integers using Selection Sort. Given a list A with N positive integers, print the sorted list.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`//Type Content here...
+#include <iostream>
+#include <vector>
+using namespace std;
+void selectionSort(vector<int>& arr, int N) {
+    for (int i = 0; i < N - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < N; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        swap(arr[i], arr[minIndex]);
+    }
+}
+int main() {
+    int N;
+    cin >> N;
+    vector<int> arr(N);
+    for (int i = 0; i < N; i++) {
+        cin >> arr[i];
+    }
+    selectionSort(arr, N);
+    for (int i = 0; i < N; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            },
+            {
+                "title": "Print the array's state at the third iteration and the final sorted array in the supplied format in the output",
+                "slug": "print-array-state-third-iteration-and-final-sorted-array",
+                "language": "cpp",
+                "image_path": "./c++.png",
+                "tab_label": "arraySort...",
+                "problem_html": `<p>Use insertion sort to sort the supplied set of numbers. Print the array state at the third iteration and the final sorted array in the supplied format.</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                "code_text": String.raw`//Type Content here...
+#include <iostream>
+#include <vector>
+using namespace std;
+void insertionSort(vector<int>& arr, int num_elements) {
+    int key, j;
+    for (int i = 1; i < num_elements; ++i) {
+        key = arr[i];
+        j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+        if (i == 2) {
+            for (int k = 0; k < num_elements; ++k) {
+                cout << arr[k];
+                if (k != num_elements - 1) cout << " ";
+            }
+            cout << " " << endl;
+        }
+    }
+    for (int k = 0; k < num_elements; ++k) {
+        cout << arr[k];
+        if (k != num_elements - 1) cout << " ";
+    }
+    cout << " " << endl;
+}
+int main() {
+    int num_elements;
+    cin >> num_elements;
+    vector<int> arr(num_elements);
+    for (int i = 0; i < num_elements; ++i) {
+        cin >> arr[i];
+    }
+    insertionSort(arr, num_elements);
+    return 0;
+}`,
+                "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
+            }
+        );
         const dsaProgramSlugs = localDsaPrograms.map((program) => program.slug);
         let currentCourse = "java";
         let gridRenderedFor = null;
