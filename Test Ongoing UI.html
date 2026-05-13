@@ -6012,6 +6012,1228 @@ int main() {
                 "average_time_label": "0.134 s","average_time_ms": "134.30 ms","maximum_time_label": "0.142 s","maximum_time_ms": "142.00 ms","shown_result": "2 out of 2 shown test case(s) passed","hidden_result": "2 out of 2 hidden test case(s) passed"
             }
         );
+        const addDsaScreenshotProgram = (title, slug, tabLabel, problemText, codeText) => {
+            localDsaPrograms.push({
+                title,
+                slug,
+                language: "cpp",
+                image_path: "./c++.png",
+                tab_label: tabLabel,
+                problem_html: `<p>${problemText}</p><div class="sample-card"><span>Sample Test Cases</span><button type="button" aria-label="Expand sample test cases">+</button></div>`,
+                code_text: codeText,
+                average_time_label: "0.134 s",
+                average_time_ms: "134.30 ms",
+                maximum_time_label: "0.142 s",
+                maximum_time_ms: "142.00 ms",
+                shown_result: "2 out of 2 shown test case(s) passed",
+                hidden_result: "2 out of 2 hidden test case(s) passed"
+            });
+        };
+        [
+            {
+                title: "Implementation of hash table using linear probing",
+                slug: "implementation-of-hash-table-using-linear-probing",
+                tab: "HashingL...",
+                problem: "Fill the missing code for insertEle, deleteEle, searchEle and print using linear probing.",
+                code: String.raw`int HashTable[SIZE];
+int hash_function(int x) {
+    return x % SIZE;
+}
+void insertEle(int x) {
+    int index = hash_function(x);
+    int start = index;
+    while (HashTable[index] != -1) {
+        index = (index + 1) % SIZE;
+        if (index == start) {
+            cout << "Hash table is full." << endl;
+            return;
+        }
+    }
+    HashTable[index] = x;
+    cout << "Successfully inserted." << endl;
+}
+void deleteEle(int x) {
+    int index = hash_function(x);
+    int start = index;
+    while (HashTable[index] != -1) {
+        if (HashTable[index] == x) {
+            HashTable[index] = -1;
+            cout << "Successfully deleted." << endl;
+            return;
+        }
+        index = (index + 1) % SIZE;
+        if (index == start) break;
+    }
+    cout << "Element not found. So cannot delete the element." << endl;
+}
+void searchEle(int x) {
+    int index = hash_function(x);
+    int start = index;
+    while (HashTable[index] != -1) {
+        if (HashTable[index] == x) {
+            cout << "Element found." << endl;
+            return;
+        }
+        index = (index + 1) % SIZE;
+        if (index == start) break;
+    }
+    cout << "Element not found." << endl;
+}
+void print() {
+    for (int i = 0; i < SIZE; i++)
+        cout << "[" << i << "]=>" << HashTable[i] << endl;
+}`
+            },
+            {
+                title: "Double hashing",
+                slug: "double-hashing",
+                tab: "HashingD...",
+                problem: "Implement hash table operations using double hashing with insert, delete, search and print.",
+                code: String.raw`int HashTable[SIZE];
+int hash1(int x) {
+    return x % SIZE;
+}
+int hash2(int x) {
+    return PRIME - x % PRIME;
+}
+void insertEle(int x) {
+    int index = hash1(x);
+    int step = hash2(x);
+    int start = index;
+    while (HashTable[index] != -1) {
+        if (HashTable[index] == x) {
+            cout << x << " already exists in the hash table." << endl;
+            return;
+        }
+        index = (index + step) % SIZE;
+        if (index == start) {
+            cout << "Hash table is full." << endl;
+            return;
+        }
+    }
+    HashTable[index] = x;
+    cout << "Successfully inserted." << endl;
+}
+void deleteEle(int x) {
+    int index = hash1(x);
+    int step = hash2(x);
+    int start = index;
+    while (HashTable[index] != -1) {
+        if (HashTable[index] == x) {
+            HashTable[index] = -1;
+            cout << "Successfully deleted." << endl;
+            return;
+        }
+        index = (index + step) % SIZE;
+        if (index == start) break;
+    }
+    cout << "Element not found. So cannot delete the element." << endl;
+}
+void searchEle(int x) {
+    int index = hash1(x);
+    int step = hash2(x);
+    int start = index;
+    while (HashTable[index] != -1) {
+        if (HashTable[index] == x) {
+            cout << "Element found." << endl;
+            return;
+        }
+        index = (index + step) % SIZE;
+        if (index == start) break;
+    }
+    cout << "Element not found." << endl;
+}
+void print() {
+    for (int i = 0; i < SIZE; i++)
+        if (HashTable[i] != -1)
+            cout << "[" << i << "]=>" << HashTable[i] << endl;
+}`
+            },
+            {
+                title: "Find Kth smallest element in BST",
+                slug: "find-kth-smallest-element-in-bst",
+                tab: "CTC3109...",
+                problem: "Given a Binary Search Tree, find the Kth smallest element without modifying the BST.",
+                code: String.raw`#include<iostream>
+using namespace std;
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+};
+Node* createNode(int value){
+    Node* newNode = new Node;
+    newNode->right = NULL;
+    newNode->left = NULL;
+    newNode->data = value;
+    return newNode;
+}
+Node* insert(Node* root, int value){
+    if(root == NULL) return createNode(value);
+    if(value<root->data) root->left = insert(root->left, value);
+    else root->right = insert(root->right, value);
+    return root;
+}
+int c = 0;
+int Kthsmallest(Node* root, int k){
+    if(root == NULL) return -1;
+    int left = Kthsmallest(root->left, k);
+    if(left != -1) return left;
+    c++;
+    if(c == k) return root->data;
+    return Kthsmallest(root->right, k);
+}
+int main(){
+    int n,value;
+    Node* root = NULL;
+    cin>>n;
+    for(int i = 0;i<n;i++){
+        cin>>value;
+        root = insert(root, value);
+    }
+    int k;
+    cin>>k;
+    cout<<Kthsmallest(root,k);
+}`
+            },
+            {
+                title: "Find Minimum and Maximum in a BST",
+                slug: "find-minimum-and-maximum-in-a-bst",
+                tab: "minAndM...",
+                problem: "Construct a Binary Search Tree from input and print the minimum and maximum values.",
+                code: String.raw`#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int value) : data(value), left(nullptr), right(nullptr) {}
+};
+Node* insert(Node* root, int value) {
+    if (root == nullptr) return new Node(value);
+    if (value < root->data) root->left = insert(root->left, value);
+    else root->right = insert(root->right, value);
+    return root;
+}
+int findMin(Node* root) {
+    if(root == NULL) return -1;
+    Node* current = root;
+    while(current->left != nullptr) current = current->left;
+    return current->data;
+}
+int findMax(Node* root) {
+    if(root == NULL) return -1;
+    Node* current = root;
+    while(current->right != nullptr) current = current->right;
+    return current->data;
+}
+int main() {
+    Node* root = nullptr;
+    int N, value;
+    cin >> N;
+    for (int i = 0; i < N; i++) {
+        cin >> value;
+        root = insert(root, value);
+    }
+    cout << findMin(root) << endl;
+    cout << findMax(root) << endl;
+    return 0;
+}`
+            },
+            {
+                title: "Binary Search Tree (BST) - All operations",
+                slug: "binary-search-tree-bst-all-operations",
+                tab: "BSTOper...",
+                problem: "Implement all BST operations: insert, delete, search, inorder, preorder and postorder traversal.",
+                code: String.raw`class BSTNODE {
+public:
+    int data;
+    BSTNODE *left, *right;
+};
+BSTNODE *root;
+class BST {
+public:
+    BST() { root = NULL; }
+    BSTNODE* newNode(int ele);
+    BSTNODE* insertNode(BSTNODE* node, int ele);
+    BSTNODE* deleteNode(BSTNODE* root, int ele);
+    BSTNODE* searchNode(BSTNODE* root, int ele);
+    void inorder(BSTNODE* root);
+    void preorder(BSTNODE* root);
+    void postorder(BSTNODE* root);
+    BSTNODE* minValueNode(BSTNODE* node);
+};
+BSTNODE* BST::newNode(int ele) {
+    BSTNODE* temp = new BSTNODE;
+    temp->data = ele;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+BSTNODE* BST::insertNode(BSTNODE* node, int ele) {
+    if (node == NULL) {
+        cout<<"Successfully inserted.\n";
+        return newNode(ele);
+    }
+    if (ele < node->data) node->left = insertNode(node->left, ele);
+    else if (ele > node->data) node->right = insertNode(node->right, ele);
+    return node;
+}
+BSTNODE* BST::minValueNode(BSTNODE* node) {
+    BSTNODE* current = node;
+    while (current && current->left != NULL) current = current->left;
+    return current;
+}
+BSTNODE* BST::deleteNode(BSTNODE* root, int ele) {
+    if(root == NULL) {
+        cout<<"Cannot find "<<ele<<" in the binary search tree.\n";
+        return root;
+    }
+    if(ele<root->data) root->left = deleteNode(root->left, ele);
+    else if(ele>root->data) root->right = deleteNode(root->right, ele);
+    else {
+        if(root->left == NULL) {
+            BSTNODE* temp = root->right;
+            delete root;
+            cout<<"Deleted "<<ele<<" from binary search tree."<<endl;
+            return temp;
+        }
+        if(root->right == NULL) {
+            BSTNODE* temp = root->left;
+            delete root;
+            cout<<"Deleted "<<ele<<" from binary search tree."<<endl;
+            return temp;
+        }
+        BSTNODE* temp = minValueNode(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+BSTNODE* BST::searchNode(BSTNODE* root, int ele) {
+    if(root == NULL || root->data == ele) return root;
+    if(ele<root->data) return searchNode(root->left, ele);
+    return searchNode(root->right, ele);
+}
+void BST::inorder(BSTNODE* root) {
+    if(root != NULL) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+void BST::preorder(BSTNODE* root) {
+    if(root != NULL) {
+        cout << root->data << " ";
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+void BST::postorder(BSTNODE* root) {
+    if(root != NULL) {
+        postorder(root->left);
+        postorder(root->right);
+        cout << root->data << " ";
+    }
+}`
+            },
+            {
+                title: "Implementation of Stack using Arrays - push() and display() operations",
+                slug: "implementation-of-stack-using-arrays-push-and-display-operations",
+                tab: "StackArr...",
+                problem: "Fill push and display operations for stack implementation using arrays.",
+                code: String.raw`class StackArray {
+    int arr[STACK_MAX_SIZE];
+    int top;
+public:
+    StackArray() {
+        top = -1;
+    }
+    void push(int element);
+    void display();
+};
+void StackArray::push(int element) {
+    if(top == STACK_MAX_SIZE -1){
+        cout<<"Stack is overflow.\n";
+    }else{
+        top++;
+        arr[top] = element;
+        cout<<"Successfully pushed.\n";
+    }
+}
+void StackArray::display() {
+    if(top == -1){
+        cout<<"Stack is empty.\n";
+    } else {
+        cout<<"Elements of the stack are : ";
+        for(int i = 0; i<=top; i++){
+            cout<<arr[top-i]<<" ";
+        }
+        cout<<"\n";
+    }
+}`
+            },
+            {
+                title: "Implementation of Stack using Arrays - pop(), peek() and isEmpty() operations",
+                slug: "implementation-of-stack-using-arrays-pop-peek-and-isempty-operations",
+                tab: "StackArr...",
+                problem: "Fill pop, peek and isEmpty operations for stack implementation using arrays.",
+                code: String.raw`class StackArray {
+    int arr[STACK_MAX_SIZE];
+    int top;
+public:
+    StackArray() { top = -1; }
+    void push(int element);
+    void pop();
+    void peek();
+    void isEmpty();
+    void display();
+};
+void StackArray::pop() {
+    if(top == -1){
+        cout<<"Stack is underflow.\n";
+    }else{
+        cout<<"Popped value = "<<arr[top]<<endl;
+        top--;
+    }
+}
+void StackArray::peek() {
+    if(top == -1){
+        cout<<"Stack is underflow.\n";
+    }else{
+        cout<<"Peek value = "<<arr[top]<<endl;
+    }
+}
+void StackArray::isEmpty() {
+    if(top == -1) cout<<"Stack is empty.\n";
+    else cout<<"Stack is not empty.\n";
+}`
+            },
+            {
+                title: "Implementation of Stack using Linked List - push() and display() operations",
+                slug: "implementation-of-stack-using-linked-list-push-and-display-operations",
+                tab: "StackList...",
+                problem: "Fill push and display operations for stack implementation using linked list.",
+                code: String.raw`class StackNode {
+public:
+    int data;
+    StackNode *next;
+};
+class StackList {
+    StackNode *top;
+public:
+    StackList() { top = NULL; }
+    void push(int);
+    void display();
+};
+void StackList::push(int x) {
+    StackNode* newNode = new StackNode();
+    newNode->data=x;
+    newNode->next=top;
+    top = newNode;
+    cout<<"Successfully pushed.\n";
+}
+void StackList::display() {
+    if(top==NULL){
+        cout<<"Stack is empty.\n";
+        return;
+    }
+    StackNode* temp=top;
+    cout<<"Elements of the stack are : ";
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+    cout<<endl;
+}`
+            },
+            {
+                title: "Implementation of Stack using Linked List - pop(), peek() and isEmpty() operations",
+                slug: "implementation-of-stack-using-linked-list-pop-peek-and-isempty-operations",
+                tab: "StackList...",
+                problem: "Fill pop, peek and isEmpty operations for stack implementation using linked list.",
+                code: String.raw`class StackNode {
+public:
+    int data;
+    StackNode *next;
+};
+class StackList {
+    StackNode *top;
+public:
+    StackList() { top = NULL; }
+    void push(int);
+    void pop();
+    void peek();
+    void display();
+    void isEmpty();
+};
+void StackList::pop() {
+    if(top==NULL){
+        cout<<"Stack is underflow."<<endl;
+    }else{
+        StackNode* temp=top;
+        top=top->next;
+        cout<<"Popped value = "<<temp->data<<endl;
+        delete temp;
+    }
+}
+void StackList::peek() {
+    if(top==NULL){
+        cout<<"Stack is underflow."<<endl;
+    }else{
+        cout<<"Peek value = "<<top->data<<endl;
+    }
+}
+void StackList::isEmpty() {
+    if(top==NULL) cout<<"Stack is empty."<<endl;
+    else cout<<"Stack is not empty."<<endl;
+}`
+            },
+            {
+                title: "Implementation of Stack using Arrays",
+                slug: "implementation-of-stack-using-arrays-full",
+                tab: "StackOpe...",
+                problem: "Write a program to implement stack using arrays with push, pop, display, isEmpty and peek.",
+                code: String.raw`class StackArray {
+    int arr[STACK_MAX_SIZE];
+    int top;
+public:
+    StackArray() { top = -1; }
+    void push(int element);
+    void pop();
+    void peek();
+    void isEmpty();
+    void display();
+};
+void StackArray::push(int element) {
+    if(top == STACK_MAX_SIZE - 1){ cout << "Stack is overflow."<<endl; return; }
+    arr[++top] = element;
+    cout<<"Successfully pushed."<<endl;
+}
+void StackArray::display() {
+    if(top==-1){ cout<<"Stack is empty."<<endl; return; }
+    cout << "Elements of the stack are : ";
+    for(int i=top;i>=0;i--) cout<<arr[i]<<" ";
+    cout<<endl;
+}
+void StackArray::pop() {
+    if(top==-1){ cout << "Stack is underflow."<<endl; return; }
+    cout << "Popped value = "<<arr[top--]<<endl;
+}
+void StackArray::peek() {
+    if(top==-1){ cout << "Stack is underflow."<<endl; return; }
+    cout << "Peek value = "<<arr[top]<<endl;
+}
+void StackArray::isEmpty() {
+    if(top==-1) cout<<"Stack is empty."<<endl;
+    else cout<<"Stack is not empty."<<endl;
+}`
+            },
+            {
+                title: "Implementation of Stack using Linked Lists",
+                slug: "implementation-of-stack-using-linked-lists-full",
+                tab: "StackOpe...",
+                problem: "Write a program to implement stack using linked lists with push, pop, display, isEmpty and peek.",
+                code: String.raw`class StackNode {
+public:
+    int data;
+    StackNode *next;
+};
+class StackList {
+    StackNode *top;
+public:
+    StackList() { top = NULL; }
+    void push(int);
+    void pop();
+    void peek();
+    void display();
+    void isEmpty();
+};
+void StackList::push(int x) {
+    StackNode* temp = new StackNode();
+    if(temp == NULL) cout<<"Stack is overflow."<<endl;
+    else{
+        temp->data = x;
+        temp->next = top;
+        top = temp;
+        cout<<"Successfully pushed."<<endl;
+    }
+}
+void StackList::display() {
+    StackNode* temp=top;
+    if(top==NULL) cout<<"Stack is empty."<<endl;
+    else{
+        cout<<"Elements of the stack are : ";
+        while(temp!=NULL){ cout<<temp->data<<" "; temp=temp->next; }
+        cout<<endl;
+    }
+}
+void StackList::pop() {
+    if(top==NULL) cout<<"Stack is underflow."<<endl;
+    else{
+        StackNode* temp=top;
+        top = top->next;
+        cout<<"Popped value = "<<temp->data<<endl;
+        delete temp;
+    }
+}
+void StackList::peek() {
+    if(top==NULL) cout<<"Stack is underflow."<<endl;
+    else cout<<"Peek value = "<<top->data<<endl;
+}
+void StackList::isEmpty() {
+    if(top==NULL) cout<<"Stack is empty."<<endl;
+    else cout<<"Stack is not empty."<<endl;
+}`
+            },
+            {
+                title: "Implementation of Queue using Arrays - enqueue() and display()",
+                slug: "implementation-of-queue-using-arrays-enqueue-and-display",
+                tab: "QueueArr...",
+                problem: "Fill enqueue and display operations for queue implementation using arrays.",
+                code: String.raw`#define MAX 10
+class QueueArray {
+public:
+    int queue[MAX];
+    int front,rear;
+    QueueArray() {
+        front = rear = -1;
+    }
+    void enqueue(int x);
+    void display();
+};
+void QueueArray::enqueue(int x) {
+    if(rear==MAX-1){
+        cout<<"Queue is overflow.\n";
+    }else{
+        if(front==-1) front=0;
+        rear++;
+        queue[rear]=x;
+        cout<<"Successfully inserted.\n";
+    }
+}
+void QueueArray::display() {
+    if(front==-1){
+        cout<<"Queue is empty.\n";
+    }else{
+        cout<<"Elements in the queue : ";
+        for(int i=front;i<=rear;i++) cout<<queue[i]<<" ";
+        cout<<"\n";
+    }
+}`
+            },
+            {
+                title: "Implementation of Queue using Arrays - dequeue(), size() and isEmpty()",
+                slug: "implementation-of-queue-using-arrays-dequeue-size-and-isempty",
+                tab: "QueueArr...",
+                problem: "Fill dequeue, size and isEmpty operations for queue implementation using arrays.",
+                code: String.raw`#define MAX 10
+class QueueArray {
+public:
+    int queue[MAX];
+    int front, rear;
+    QueueArray() { front = rear = -1; }
+    void enqueue(int x);
+    void dequeue();
+    void display();
+    void size();
+    void isEmpty();
+};
+void QueueArray::dequeue() {
+    if(front == -1){
+        cout<<"Queue is underflow.\n";
+    }else{
+        cout<<"Deleted element = "<<queue[front]<<endl;
+        front++;
+        if(front>rear) front = rear = -1;
+    }
+}
+void QueueArray::size() {
+    if(front == -1 && rear == -1) cout<<"Queue size : 0\n";
+    else cout<<"Queue size : "<<rear-front+1<<endl;
+}
+void QueueArray::isEmpty() {
+    if(front == -1) cout<<"Queue is empty.\n";
+    else cout<<"Queue is not empty.\n";
+}`
+            },
+            {
+                title: "Implementation of Queue using Linked List - enqueue() and display()",
+                slug: "implementation-of-queue-using-linked-list-enqueue-and-display",
+                tab: "QueueLis...",
+                problem: "Fill enqueue and display operations for queue implementation using linked list.",
+                code: String.raw`class QueueNode {
+public:
+    int data;
+    QueueNode *next;
+};
+class QueueList {
+    QueueNode *front , *rear;
+public:
+    QueueList() {
+        front = NULL;
+        rear = NULL;
+    }
+    void enqueue(int element);
+    void display();
+};
+void QueueList::enqueue(int element) {
+    QueueNode *newNode=new QueueNode();
+    newNode->data=element;
+    cout<<"Successfully inserted.\n";
+    if(rear==NULL){
+        front=rear=newNode;
+    } else {
+        rear->next=newNode;
+        rear=newNode;
+    }
+}
+void QueueList::display() {
+    if(front==NULL){
+        cout<<"Queue is empty.\n";
+    } else {
+        cout<<"Elements in the queue : ";
+        QueueNode *temp=front;
+        while(temp!=NULL){
+            cout<<temp->data<<" ";
+            temp=temp->next;
+        }
+        cout<<"\n";
+    }
+}`
+            },
+            {
+                title: "Implementation of Queue using Linked List - dequeue(), size() and isEmpty()",
+                slug: "implementation-of-queue-using-linked-list-dequeue-size-and-isempty",
+                tab: "QueueLis...",
+                problem: "Fill dequeue, size and isEmpty operations for queue implementation using linked list.",
+                code: String.raw`class QueueNode {
+public:
+    int data;
+    QueueNode *next;
+};
+class QueueList {
+    QueueNode *front , *rear;
+public:
+    QueueList() { front = NULL; rear = NULL; }
+    void enqueue(int element);
+    void dequeue();
+    void display();
+    void isEmpty();
+    void size();
+};
+void QueueList::dequeue() {
+    if(front == NULL){
+        cout<<"Queue is underflow.\n";
+    }else{
+        QueueNode* temp = front;
+        cout<<"Deleted value = "<<front->data<<endl;
+        front = front->next;
+        if(front == NULL) rear = NULL;
+        delete temp;
+    }
+}
+void QueueList::size() {
+    if(front==NULL){
+        cout<<"Queue size : 0\n";
+    }else{
+        int count=0;
+        QueueNode *temp=front;
+        while(temp!=NULL){ count++; temp=temp->next; }
+        cout<<"Queue size : "<<count<<endl;
+    }
+}
+void QueueList::isEmpty() {
+    if(front==NULL) cout<<"Queue is empty.\n";
+    else cout<<"Queue is not empty.\n";
+}`
+            },
+            {
+                title: "Event Registration System",
+                slug: "event-registration-system",
+                tab: "eventMan...",
+                problem: "Create a C++ queue using linked list to add registrations, process the next registration, display attendees and exit.",
+                code: String.raw`#include <iostream>
+#include <string>
+using namespace std;
+struct Node {
+    string data;
+    Node* next;
+};
+class Queue {
+    Node* front;
+    Node* rear;
+public:
+    Queue() { front = nullptr; rear = nullptr; }
+    void enqueue(string attendee) {
+        Node* newNode = new Node();
+        newNode->data = attendee;
+        newNode->next = nullptr;
+        if (rear == nullptr) front = rear = newNode;
+        else { rear->next = newNode; rear = newNode; }
+        cout << attendee << " has been added to the queue" << endl;
+    }
+    void dequeue() {
+        if (front == nullptr) cout << "No registrations" << endl;
+        else {
+            Node* temp = front;
+            cout << "Processing attendee: " << front->data << endl;
+            front = front->next;
+            if (front == nullptr) rear = nullptr;
+            delete temp;
+        }
+    }
+    void display() {
+        if (front == nullptr) cout << "No registrations" << endl;
+        else {
+            Node* temp = front;
+            while (temp != nullptr) { cout << temp->data << " "; temp = temp->next; }
+            cout << endl;
+        }
+    }
+};
+int main() {
+    Queue queue;
+    int choice;
+    string attendee;
+    while (true) {
+        cout << "1. Add a new registration" << endl;
+        cout << "2. Process the next registration" << endl;
+        cout << "3. Display the list of registered attendees" << endl;
+        cout << "4. Exit" << endl;
+        cin >> choice;
+        switch (choice) {
+            case 1: cin >> attendee; queue.enqueue(attendee); break;
+            case 2: queue.dequeue(); break;
+            case 3: queue.display(); break;
+            case 4: cout << "Exiting" << endl; return 0;
+            default: cout << "Invalid choice" << endl;
+        }
+    }
+    return 0;
+}`
+            },
+            {
+                title: "Music playlist",
+                slug: "music-playlist",
+                tab: "Playlist.cpp",
+                problem: "Implement a music playlist using a double-ended queue through a linked list.",
+                code: String.raw`#include <iostream>
+struct Node {
+    std::string song;
+    Node* next;
+    Node* prev;
+};
+Node *front= NULL;
+Node *rear = NULL;
+class Playlist {
+public:
+    void inject(std::string song) {
+        Node *t = new Node;
+        t->song = song;
+        t->next = t->prev = NULL;
+        if(front == NULL){ front = rear = t; }
+        else{ rear->next = t; t->prev = rear; rear=t; }
+        std::cout<<"Song '"<<song<<"' added\n";
+    }
+    void eject() {
+        if(front==NULL){ std::cout<<"Playlist is empty\n"; }
+        else{
+            if(front == rear){ std::cout<<"Song '"<<rear->song<<"' removed\n"; front=rear=NULL; }
+            else{ std::cout<<"Song '"<<rear->song<<"' removed\n"; rear=rear->prev; rear->next = NULL; }
+        }
+    }
+    void display() {
+        if(front==NULL){ std::cout<<"Playlist is empty\n"; }
+        else{
+            std::cout<<"Playlist:\n";
+            Node *t=front;
+            while(t != NULL){ std::cout<<t->song<<std::endl; t=t->next; }
+        }
+    }
+};
+int main() {
+    Playlist myPlaylist;
+    int choice;
+    std::string songName;
+    do {
+        std::cout << "1. Add song to playlist" << std::endl;
+        std::cout << "2. Remove song from playlist" << std::endl;
+        std::cout << "3. View playlist" << std::endl;
+        std::cout << "4. Exit" << std::endl;
+        std::cout << "Enter choice: ";
+        std::cin >> choice;
+        switch (choice) {
+            case 1: std::cout << "Enter song name: "; std::cin >> songName; myPlaylist.inject(songName); break;
+            case 2: myPlaylist.eject(); break;
+            case 3: myPlaylist.display(); break;
+            case 4: break;
+            default: std::cout << "Invalid choice" << std::endl;
+        }
+    } while (choice != 4);
+    return 0;
+}`
+            },
+            {
+                title: "Floyd - Warshall's All pairs shortest path algorithm",
+                slug: "floyd-warshalls-all-pairs-shortest-path-algorithm",
+                tab: "floyd_war...",
+                problem: "Implement Floyd-Warshall's all pairs shortest path algorithm.",
+                code: String.raw`#include<iostream>
+#include<iomanip>
+using namespace std;
+#define INF 99999
+int graph[20][20];
+int N = 20,E;
+void printSolution(int dist[10][10]);
+void floydWarshall() {
+    int dist[10][10];
+    for(int i=1;i<=N;i++)
+        for(int j=1;j<=N;j++){
+            dist[i][j]=graph[i][j];
+            if(i==j) dist[i][j]=0;
+        }
+    for(int k=1;k<=N;k++)
+        for(int i=1;i<=N;i++)
+            for(int j=1;j<=N;j++)
+                if(dist[i][k]!=INF && dist[k][j]!=INF && dist[i][j]>dist[i][k]+dist[k][j])
+                    dist[i][j]=dist[i][k]+dist[k][j];
+    printSolution(dist);
+}
+void printSolution(int dist[10][10]) {
+    cout<<"The following matrix shows the shortest distances between all pairs of the vertices.\n";
+    for(int i=1;i<=N;i++){
+        for(int j=1;j<=N;j++){
+            if(dist[i][j]==INF) cout<<setw(5)<<"INF";
+            else cout<<setw(5)<<dist[i][j];
+        }
+        cout<<endl;
+    }
+}`
+            },
+            {
+                title: "Graph traversals implementation - Breadth First Search",
+                slug: "graph-traversals-implementation-breadth-first-search",
+                tab: "GraphsB...",
+                problem: "Implement Breadth First Search graph traversal using adjacency list and queue.",
+                code: String.raw`#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+#define MAX 99
+class GNODE {
+public:
+    GNODE *next;
+    int vertex;
+};
+class Queue {
+public:
+    int queue[MAX], front,rear;
+    Queue() { front = -1; rear = -1; }
+    void enqueue(int vertex) {
+        if(rear==MAX-1) cout<<"Queue is full\n";
+        else{
+            if(front==-1) front=0;
+            rear++;
+            queue[rear]=vertex;
+        }
+    }
+    int dequeue() {
+        if(front==-1 || front>rear){ cout<<"Queue is empty\n"; return -1; }
+        int vertex=queue[front];
+        front++;
+        return vertex;
+    }
+    int isEmpty() { return (front==-1 || front>rear); }
+};
+class Graph {
+public:
+    GNODE *graph[20];
+    int visited[20];
+    int N,E;
+    void BFS(int start_vertex) {
+        for(int i=1;i<=N;i++) visited[i]=0;
+        Queue q;
+        visited[start_vertex]=1;
+        q.enqueue(start_vertex);
+        while(!q.isEmpty()) {
+            int current=q.dequeue();
+            cout<<current<<"\n";
+            GNODE *temp=graph[current];
+            while(temp!=NULL){
+                if(visited[temp->vertex]==0){
+                    visited[temp->vertex]=1;
+                    q.enqueue(temp->vertex);
+                }
+                temp=temp->next;
+            }
+        }
+    }
+}`
+            },
+            {
+                title: "Non Recursive Implementation of BFS on graph (Matrix Representation)",
+                slug: "non-recursive-implementation-of-bfs-on-graph-matrix-representation",
+                tab: "graph_bf...",
+                problem: "Write a C++ program to implement Breadth First Search for a directed graph non-recursively.",
+                code: String.raw`#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+int main() {
+    int vertices, edges;
+    cout << "Enter the number of vertices: ";
+    cin >> vertices;
+    cout << "Enter the number of edges: ";
+    cin >> edges;
+    vector<vector<int>> adj(vertices + 1);
+    int src, dest;
+    for (int i = 0; i < edges; i++) {
+        cout << "Enter source: ";
+        cin >> src;
+        cout << "Enter destination: ";
+        cin >> dest;
+        adj[src].push_back(dest);
+    }
+    int start;
+    cout << "Enter start vertex for BFS: ";
+    cin >> start;
+    vector<bool> visited(vertices + 1, false);
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+    cout << "BFS of graph: ";
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        cout << node << "\t";
+        for (int neighbor : adj[node]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+    cout<<endl;
+    return 0;
+}`
+            },
+            {
+                title: "Graph traversals implementation - Depth First Search",
+                slug: "graph-traversals-implementation-depth-first-search",
+                tab: "GraphsD...",
+                problem: "Implement Depth First Search graph traversal using adjacency list and stack.",
+                code: String.raw`#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+using namespace std;
+class GNODE {
+public:
+    GNODE *next;
+    int vertex;
+};
+class Graph {
+public:
+    GNODE *graph[20];
+    int N, E;
+    int visited[20];
+    void DFS(int start_vertex) {
+        int stack[20];
+        int top=-1;
+        stack[++top]=start_vertex;
+        while(top!=-1){
+            int v=stack[top--];
+            if(visited[v]==0){
+                visited[v]=1;
+                cout<<"\n"<<v;
+                int tempArr[20];
+                int count=0;
+                GNODE *temp=graph[v];
+                while(temp!=NULL){
+                    if(visited[temp->vertex]==0) tempArr[count++]=temp->vertex;
+                    temp=temp->next;
+                }
+                for(int i=count-1;i>=0;i--) stack[++top]=tempArr[i];
+            }
+        }
+    }
+}`
+            },
+            {
+                title: "Non Recursive Implementation of DFS on graph (Matrix Representation)",
+                slug: "non-recursive-implementation-of-dfs-on-graph-matrix-representation",
+                tab: "graph_df...",
+                problem: "Write a C++ program to implement Depth First Search for a directed graph non-recursively.",
+                code: String.raw`#include <iostream>
+#include <stack>
+using namespace std;
+int main() {
+    int vertices, edges;
+    cout << "Enter the number of vertices: ";
+    cin >> vertices;
+    cout << "Enter the number of edges: ";
+    cin >> edges;
+    int adj[100][100] = {0};
+    int src, dest;
+    for (int i = 0; i < edges; i++) {
+        cout << "Enter source: ";
+        cin >> src;
+        cout << "Enter destination: ";
+        cin >> dest;
+        adj[src][dest] = 1;
+    }
+    int start;
+    cout << "Enter start vertex for DFS: ";
+    cin >> start;
+    bool visited[100] = {false};
+    stack<int> st;
+    st.push(start);
+    cout << "DFS of graph: ";
+    while (!st.empty()) {
+        int node = st.top();
+        st.pop();
+        if (!visited[node]) {
+            cout << node << "\t";
+            visited[node] = true;
+        }
+        for (int i = vertices; i >= 1; i--) {
+            if (adj[node][i] == 1 && !visited[i]) st.push(i);
+        }
+    }
+    cout<<endl;
+    return 0;
+}`
+            },
+            {
+                title: "Minimum spanning tree - Kruskal's Algorithm",
+                slug: "minimum-spanning-tree-kruskals-algorithm",
+                tab: "Kruskal...",
+                problem: "Implement Kruskal's algorithm to find the minimum spanning tree.",
+                code: String.raw`#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+int i,j,k,a,b,u,v,n,ne=1,e,s,d,w;
+int minimum, mincost = 0, cost[9][9], parent[9];
+int find(int i) {
+    while(parent[i]) i=parent[i];
+    return i;
+}
+int uni(int i,int j) {
+    if(i!=j){ parent[j]=i; return 1; }
+    return 0;
+}
+void kruskal() {
+    while(ne<n) {
+        minimum=999;
+        for(i=1;i<=n;i++)
+            for(j=1;j<=n;j++)
+                if(cost[i][j]<minimum) {
+                    minimum=cost[i][j];
+                    a=u=i;
+                    b=v=j;
+                }
+        u=find(u);
+        v=find(v);
+        if(uni(u,v)) {
+            cout<<"Edge cost from "<<a<<" to "<<b<<" : "<<minimum<<endl;
+            mincost += minimum;
+            ne++;
+        }
+        cost[a][b]=cost[b][a]=999;
+    }
+    cout<<"Minimum cost of spanning tree = "<<mincost<<endl;
+}`
+            },
+            {
+                title: "Minimum spanning tree - Prim's Algorithm",
+                slug: "minimum-spanning-tree-prims-algorithm",
+                tab: "PrimMin...",
+                problem: "Implement Prim's algorithm to find the minimum spanning tree.",
+                code: String.raw`#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+int a,b,u,v,n,i,j,ne=1,e,s,d,w;
+int visited[10] = {0}, minimum, mincost = 0, cost[10][10];
+void prims() {
+    visited[1] = 1;
+    while(ne<n) {
+        minimum = 999;
+        for(i=1;i<=n;i++)
+            if(visited[i] == 1)
+                for(j=1;j<=n;j++)
+                    if(visited[j] == 0 && cost[i][j] < minimum) {
+                        minimum = cost[i][j];
+                        u = i;
+                        v = j;
+                    }
+        if(minimum != 999) {
+            cout<<"Edge cost from "<<u<<" to "<<v<<" : "<<minimum<<endl;
+            mincost += minimum;
+            visited[v] = 1;
+            ne++;
+        }
+    }
+    cout<<"Minimum cost of spanning tree = "<<mincost<<endl;
+}`
+            },
+            {
+                title: "Dijkstra Shortest path algorithm",
+                slug: "dijkstra-shortest-path-algorithm",
+                tab: "Dijkstra...",
+                problem: "Implement Dijkstra's shortest path first algorithm.",
+                code: String.raw`#include <iostream>
+#include <iomanip>
+using namespace std;
+#define MAX 20
+int V, E;
+int graph[MAX][MAX];
+#define INFINITY 9999
+void dijkstra(int graph[MAX][MAX], int n, int startnode) {
+    int cost[MAX][MAX], distance[MAX], pred[MAX];
+    int visited[MAX], count, mindistance, nextnode, i, j;
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+            cost[i][j] = graph[i][j] == 0 ? INFINITY : graph[i][j];
+    for(i=1;i<=n;i++) {
+        distance[i]=cost[startnode][i];
+        pred[i]=startnode;
+        visited[i]=0;
+    }
+    distance[startnode]=0;
+    visited[startnode]=1;
+    count=1;
+    while(count<n-1) {
+        mindistance=INFINITY;
+        for(i=1;i<=n;i++)
+            if(distance[i]<mindistance && !visited[i]) {
+                mindistance=distance[i];
+                nextnode=i;
+            }
+        visited[nextnode]=1;
+        for(i=1;i<=n;i++)
+            if(!visited[i])
+                if(mindistance+cost[nextnode][i]<distance[i]) {
+                    distance[i]=mindistance+cost[nextnode][i];
+                    pred[i]=nextnode;
+                }
+        count++;
+    }
+    cout << "Node\tDistance\tPath\n";
+    for(i=1;i<=n;i++) {
+        if(i!=startnode) {
+            if(distance[i] == INFINITY) cout << i << "\tINF\tNO PATH\n";
+            else {
+                cout << i << "\t" << setw(4) << distance[i] << "\t" << i;
+                j=i;
+                do { j=pred[j]; cout << "<-" << j; } while(j!=startnode);
+                cout << endl;
+            }
+        }
+    }
+}`
+            }
+        ].forEach((program) => addDsaScreenshotProgram(program.title, program.slug, program.tab, program.problem, program.code));
         const dsaProgramSlugs = localDsaPrograms.map((program) => program.slug);
         let currentCourse = "java";
         let gridRenderedFor = null;
