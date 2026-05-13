@@ -580,12 +580,17 @@
         .problem-body.is-dsa ul,
         .problem-body.is-dsa ol {
             margin: 6px 0 18px 44px;
-            padding-left: 18px;
+            padding-left: 24px;
+            list-style-position: outside;
         }
 
         .problem-body.is-dsa li {
             margin: 6px 0;
-            padding-left: 3px;
+            padding-left: 8px;
+        }
+
+        .problem-body.is-dsa .bullet-list li {
+            padding-left: 22px;
         }
 
         .problem-body.is-dsa code {
@@ -634,16 +639,17 @@
         .bullet-list li {
             position: relative;
             margin: 6px 0;
-            padding-left: 14px;
+            padding-left: 22px;
         }
 
         .bullet-list li::before {
             content: "\2022";
             position: absolute;
-            left: 0;
+            left: 4px;
             top: 0;
             color: #111820;
             font-size: 16px;
+            line-height: inherit;
         }
 
         .note-list {
